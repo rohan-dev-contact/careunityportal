@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+{% block title %}Home - CareUnity Portal{% endblock %}
+
+{% block content %}
+<div class="jumbotron">
+  <h1 class="display-4">Welcome to CareUnity Portal</h1>
+  <p class="lead">Your all-in-one solution for managing patient records, appointments, prescriptions, and more.</p>
+  <hr class="my-4">
+  <p>Sign up now to start managing your practice efficiently.</p>
+  <a class="btn btn-primary btn-lg" href="{% url 'signup' %}" role="button">Sign Up</a>
+</div>
+
+<div class="row mt-5 align-items-center">
+  <div class="col-md-6">
+    <img src="https://via.placeholder.com/400x250?text=Patient+Management+Image" alt="Patient Management" class="img-fluid">
+  </div>
+  <div class="col-md-6">
+    <h2>Manage Patients</h2>
+    <p>Effortlessly manage patient information, medical history, and appointments in one place.</p>
+    <p>Service Matrix: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed at eros libero. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi.</p>
+    <p>Number of Patients: 1000+</p>
+  </div>
+</div>
+
+<div class="row mt-5 align-items-center flex-md-row-reverse">
+  <div class="col-md-6">
+    <img src="https://via.placeholder.com/400x250?text=Appointments" alt="Appointments" class="img-fluid">
+  </div>
+  <div class="col-md-6">
+    <h2>Schedule Appointments</h2>
+    <p>Schedule and manage appointments with patients, set reminders, and reduce no-shows.</p>
+    <p>Advanced Features: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed at eros libero. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi.</p>
+  </div>
+</div>
+
+<div class="row mt-5 align-items-center">
+  <div class="col-md-6">
+    <img src="https://via.placeholder.com/400x250?text=Prescription+Management" alt="Prescription Management" class="img-fluid">
+  </div>
+  <div class="col-md-6">
+    <h2>Prescription Management</h2>
+    <p>Efficiently manage and track prescriptions, drug interactions, and dosage information.</p>
+    <p>Smart Alerts: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed at eros libero. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi.</p>
+  </div>
+</div>
+
+<div class="row mt-5 align-items-center flex-md-row-reverse">
+  <div class="col-md-6">
+    <img src="https://via.placeholder.com/400x250?text=Advanced+Reporting" alt="Advanced Reporting" class="img-fluid">
+  </div>
+  <div class="col-md-6">
+    <h2>Advanced Reporting</h2>
+    <p>Generate insightful reports on patient data, appointments, and practice performance.</p>
+    <p>Customizable Reports: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed at eros libero. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi.</p>
+  </div>
+</div>
+
+<div class="row mt-5 align-items-center">
+  <div class="col-md-6">
+    <img src="https://via.placeholder.com/400x250?text=Security+and+Compliance" alt="Security and Compliance" class="img-fluid">
+  </div>
+  <div class="col-md-6">
+    <h2>Security and Compliance</h2>
+    <p>Ensure patient data security and compliance with privacy regulations.</p>
+    <p>Secure Infrastructure: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed at eros libero. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi.</p>
+  </div>
+</div>
+{% endblock %}

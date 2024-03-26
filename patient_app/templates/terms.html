@@ -1,0 +1,45 @@
+<!-- terms.html -->
+{% extends 'base.html' %}
+
+{% block title %}Terms and Conditions - CareUnity Portal{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+  <h2>Terms and Conditions</h2>
+  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce vehicula quam eu eros tempus, sed malesuada massa accumsan. Integer malesuada eros ut dui elementum, ac tempor odio laoreet. Proin in velit sed felis congue tincidunt et at ligula. Suspendisse ac lacinia ex. Donec interdum lorem nec nisi lacinia, vel fermentum purus egestas.</p>
+  <p>By signing up, you agree to the Terms and Conditions outlined above.</p>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="termsModal" tabindex="-1" aria-labelledby="termsModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="termsModalLabel">Terms and Conditions</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <!-- Add your terms and conditions content here -->
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. ...</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var termsModal = new bootstrap.Modal(document.getElementById('termsModal'), {
+            keyboard: false
+        });
+        var termsModalToggle = document.getElementById('termsModalToggle');
+        termsModalToggle.addEventListener('click', function () {
+            termsModal.show();
+        });
+    });
+</script>
+{% endblock %}
