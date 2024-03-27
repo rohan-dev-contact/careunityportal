@@ -1,6 +1,7 @@
 from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import render, redirect
-from .forms import CustomUserCreationForm
+from django.contrib import messages
+from .forms import UserRegistrationForm
 
 # Create your views here.
 def home_view(request):
@@ -20,11 +21,18 @@ def terms(request):
 
 def signup(request):
     if request.method == 'POST':
-        form = CustomUserCreationForm(request.POST)
+        form = UserRegistrationForm(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect('login')  # Redirect to the login page after successful signup
+            try:
+                form.save()
+                messages.success(request, 'Registration is successfull')
+            except:
+                messages.error(request, 'Registration is unsuccessfull')
+            return redirect('login') 
+        else:
+            print("Form is not valid")
     else:
-        form = CustomUserCreationForm()
-    return render(request, 'registration/signup.html', {'form': form})
+        form = UserRegistrationForm()
+    return render(request, 'registration/signup.html', {'forms': form})
+
 
