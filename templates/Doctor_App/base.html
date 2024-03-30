@@ -14,6 +14,7 @@
             crossorigin="anonymous"
         />
         <link rel="stylesheet" href="{% static "Doctor_App/style.css" %}">
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     </head>
     <body>
         <div class="loader" id="loader"></div>
@@ -25,22 +26,20 @@
             crossorigin="anonymous"
         ></script>
         <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                var loader = document.getElementById('loader');
-                loader.style.display = 'block'; 
+            document.addEventListener("DOMContentLoaded", function () {
+                var loader = document.getElementById("loader");
+                loader.style.display = "block";
             });
-            window.addEventListener('beforeunload', function() {
-                var loader = document.getElementById('loader');
-                loader.style.display = 'block'; 
+            window.addEventListener("beforeunload", function () {
+                var loader = document.getElementById("loader");
+                loader.style.display = "block";
             });
-            
-    
-            window.addEventListener('load', function() {
-                var loader = document.getElementById('loader');
-                loader.style.display = 'none'; 
+
+            window.addEventListener("load", function () {
+                var loader = document.getElementById("loader");
+                loader.style.display = "none";
             });
         </script>
-
         {% block script %}{% endblock script %}
     </body>
 </html>

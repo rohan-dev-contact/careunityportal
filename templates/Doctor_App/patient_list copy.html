@@ -1,0 +1,66 @@
+<!-- patient_list.html -->
+
+{% extends './base.html' %}
+{% block title %}Patient List - CareUnity Portal{% endblock %}
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center mb-4">All Patients</h1>
+    <table id="patient-table" class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr data-id="1" data-name="John Doe" data-email="john@example.com">
+                <td>John Doe</td>
+                <td>john@example.com</td>
+                <td><button class="btn btn-primary view-patient">View</button></td>
+            </tr>
+            <!-- Add more rows for other patients -->
+        </tbody>
+    </table>
+</div>
+
+<!-- Patient Details Modal -->
+<div class="modal" id="patient-modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Patient Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p><strong>Name:</strong> <span id="modal-name"></span></p>
+                <p><strong>Email:</strong> <span id="modal-email"></span></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const table = document.getElementById('patient-table');
+        const modal = new bootstrap.Modal(document.getElementById('patient-modal'));
+        const modalName = document.getElementById('modal-name');
+        const modalEmail = document.getElementById('modal-email');
+
+        table.addEventListener('click', function(e) {
+            if (e.target.classList.contains('view-patient')) {
+                const row = e.target.closest('tr');
+                const name = row.getAttribute('data-name');
+                const email = row.getAttribute('data-email');
+                modalName.textContent = name;
+                modalEmail.textContent = email;
+                modal.show();
+            }
+        });
+    });
+</script>
+
+{% endblock %}

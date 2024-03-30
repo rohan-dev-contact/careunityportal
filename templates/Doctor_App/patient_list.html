@@ -1,0 +1,76 @@
+{% extends './base.html' %} {% block title %}Patient List - CareUnity Portal{% endblock %} {% block content %}
+<div class="container">
+    <h1>All Patients</h1>
+    <table id="patientsTable" class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Mobile</th>
+                <th>Address</th>
+                <th>Health Condition</th>
+                <th>Assigned Doctor</th>
+                <th>Health Insourence</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for patient in patients %}
+            <tr data-patient-id="{{ patient.user.id }}">
+                <td>{{ patient.user.id }}</td>
+                <td>{{ patient.user.first_name }} {{ patient.user.last_name }}</td>
+                <td>{{ patient.user.email }}</td>
+                <td>{{ patient.user.mobile }}</td>
+                <td>{{ patient.user.address }}</td>
+                <td>{{ patient.health_condition }}</td>
+                <td>{{ patient.assigned_doctor}}</td>
+                <td>{{ patient.health_insurance }}</td>
+                <td>
+                    {% comment %} <button class="btn btn-primary view-btn" data-bs-toggle="modal" data-bs-target="#viewPatientModal">View</button> {% endcomment %}
+                    <button class="btn btn-danger delete-btn">Delete</button>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% comment %} 
+<div class="modal fade" id="viewPatientModal" tabindex="-1" aria-labelledby="viewPatientModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="viewPatientModalLabel">Patient Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <h4 id="patientName"></h4>
+                <p id="patientEmail"></p>
+                <p id="patientMobile"></p>
+                <p id="patientAddress"></p>
+                <p id="patientAddress"></p>
+                <p id="patientAddress"></p>
+                <p id="patientAddress"></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $(".view-btn").click(function () {
+            var patientId = $(this).closest("tr").data("patient-id");
+            var patientName = $(this).closest("tr").find("td:nth-child(2)").text();
+            var patientEmail = $(this).closest("tr").find("td:nth-child(3)").text();
+            var patientMobile = $(this).closest("tr").find("td:nth-child(4)").text();
+            var patientAddress = $(this).closest("tr").find("td:nth-child(5)").text();
+
+            $("#viewPatientModal #patientName").text(patientName);
+            $("#viewPatientModal #patientEmail").text("Email: " + patientEmail);
+            $("#viewPatientModal #patientMobile").text("Mobile: " + patientMobile);
+            $("#viewPatientModal #patientAddress").text("Address: " + patientAddress);
+        });
+    });
+</script> {% endcomment %}
+
+{% endblock %}
