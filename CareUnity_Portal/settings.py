@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
-
+import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'patient_app'
+    'patient_app',
+    'Doctor_App'
 ]
 
 MIDDLEWARE = [
@@ -56,7 +57,10 @@ ROOT_URLCONF = 'CareUnity_Portal.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            os.path.join(BASE_DIR, 'templates'),  # For global templates
+            os.path.join(BASE_DIR, '..', 'templates'),  # For app-independent templates at the same level as manage.py
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -76,27 +80,27 @@ WSGI_APPLICATION = 'CareUnity_Portal.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'careuniportal',
-        'USER': 'careunityportal',      
-        'PASSWORD': 'careunityportal',  
-        'HOST': 'db4free.net',          
-        'PORT': '3306',               
-    }
-}
-# Database set up for local using xampp
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.mysql',
 #         'NAME': 'careuniportal',
-#         'USER': 'root',      
-#         'PASSWORD': '',  
-#         'HOST': 'localhost',          
+#         'USER': 'careunityportal',      
+#         'PASSWORD': 'careunityportal',  
+#         'HOST': 'db4free.net',          
 #         'PORT': '3306',               
 #     }
 # }
+# Database set up for local using xampp
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'careuniportal',
+        'USER': 'root',      
+        'PASSWORD': '',  
+        'HOST': 'localhost',          
+        'PORT': '3306',               
+    }
+}
 
 
 
@@ -136,20 +140,15 @@ USE_TZ = True
 # settings.py
 
 STATIC_URL = '/static/'
-
-# Additional locations of static files
-# settings.py
-
-# STATICFILES_DIRS = [
-#     BASE_DIR / "static",
-# ]
-
-# settings.py
-
-STATIC_ROOT = BASE_DIR / "staticfiles"
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'patient_app.User'
+SITE_NAME = 'CareUnity Portal'
+LOGIN_URL = '/login/'
+

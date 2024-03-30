@@ -1,0 +1,40 @@
+.clickable-card {
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.clickable-card:hover {
+    transform: scale(1.02);
+}
+
+.loader {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+    border: 10px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 10px solid #3498db;
+    width: 80px;
+    height: 80px;
+    animation: spin 4s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: translate(-50%, -50%) rotate(0deg);
+    }
+    25% {
+        transform: translate(-50%, -50%) rotate(360deg);
+    }
+    50% {
+        transform: translate(-50%, -50%) rotate(720deg);
+    }
+    75% {
+        transform: translate(-50%, -50%) rotate(1080deg);
+    }
+    100% {
+        transform: translate(-50%, -50%) rotate(1440deg);
+    }
+}

@@ -3,22 +3,23 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from .forms import UserRegistrationForm,LoginForm
 from django.contrib.auth import authenticate,login,logout
+from .models import Doctor,Patient,User
 
 # Create your views here.
 def home_view(request):
-    return render(request, 'home.html')
+    return render(request, 'patient_app/home.html')
 
 def about_view(request):
-    return render(request, 'about.html')
+    return render(request, 'patient_app/about.html')
 
 def services_view(request):
-    return render(request, 'services.html')
+    return render(request, 'patient_app/services.html')
 
 def contact_view(request):
-    return render(request, 'contact.html')
+    return render(request, 'patient_app/contact.html')
 
 def terms(request):
-    return render(request, 'terms.html')
+    return render(request, 'patient_app/terms.html')
 
 def signup(request):
     if request.method == 'POST':
@@ -34,10 +35,11 @@ def signup(request):
             print("Form is not valid")
     else:
         form = UserRegistrationForm()
-    return render(request, 'registration/signup.html', {'forms': form})
+    return render(request, 'patient_app/registration/signup.html', {'forms': form})
 
 
 def userLogin(request):
+    print(request)
     if request.POST:
         form=LoginForm(request=request, data=request.POST)
         if form.is_valid():
@@ -46,14 +48,30 @@ def userLogin(request):
             user=authenticate(username=username, password=password)
             if user is not None:
                 login(request, user)
-                return redirect('home')
+                is_doctor = Doctor.objects.filter(user=user).exists()
+                is_patient = Patient.objects.filter(user=user).exists()
+                if is_doctor:
+                    return redirect('doctor_dashboard')  # Redirect to doctor dashboard
+                elif is_patient:
+                    return redirect('patient_dashboard')  # Redirect to patient dashboard
+                else:
+                    return redirect('home')  # Redirect to a general home page
+        else: 
+            username=form.cleaned_data['username']
+            if User.objects.filter(username=username).exists():
+                form.add_error('password', 'Invalid password.')
+            else:
+                form.add_error('username', 'Username does not exist.')
     else:
         form=LoginForm()
-    return render(request, 'registration/login.html', {'forms':form})
+    return render(request, 'patient_app/registration/login.html', {'forms':form})
 
 def userLogout(request):
     logout(request)
     return redirect('/login')
+
+
+
 
 
 
