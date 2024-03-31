@@ -20,6 +20,7 @@ class PatientRegistrationForm(UserCreationForm):
         label=("Enter email-id"),
         widget=forms.EmailInput(attrs={"class": "form-control mt-1 border-primary", "placeholder":"Enter email-id"}),
     )
+
     mobile = forms.CharField(
         label=("Enter contact number"),
         widget=forms.NumberInput(attrs={"class": "form-control mt-1 border-primary", "placeholder":"Enter Contact number"}),
@@ -27,6 +28,18 @@ class PatientRegistrationForm(UserCreationForm):
     address = forms.CharField(
         label=("Enter Address"),
         widget=forms.Textarea(attrs={"class": "form-control mt-1 border-primary", "placeholder":"Enter Address"}),
+    )
+
+    gender_choices = [
+        ('M', 'Male'),
+        ('F', 'Female'),
+        ('NB', 'Non-Binary'),
+        ('O', 'Other'),
+    ]
+    gender = forms.ChoiceField(
+        label=("Select Gender"),
+        choices=gender_choices,
+        widget=forms.Select(attrs={"class": "form-control mt-1 border-primary"}),
     )
     
     health_condition = forms.CharField(

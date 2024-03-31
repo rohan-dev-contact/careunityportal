@@ -59,6 +59,7 @@ def add_patient(request):
                 date_of_birth=form.cleaned_data['date_of_birth'],
                 health_condition=form.cleaned_data['health_condition'],
                 health_insurance=form.cleaned_data['health_insurance'],
+                gender=form.cleaned_data['gender']
             )
             patient.save()
             print(username)
