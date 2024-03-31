@@ -8,7 +8,8 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav me-auto">
                 <li class="nav-item">
-                    <a class="nav-link {% if url_name == 'patient_list' %}active{% endif %}" aria-current="page" href="{% url 'patient_list' %}">Patients</a>
+                    {% comment %} <a class="nav-link {% if url_name == 'patient_list' %}active{% endif %}" aria-current="page" href="{% url 'patient_list' %}"></a> {% endcomment %}
+                    <a class="nav-link {% if url_name == 'patient_list' %}active{% endif %}" aria-current="page" href="#">Book Appointment</a>
                 </li>
             </ul>
             <ul class="navbar-nav">
