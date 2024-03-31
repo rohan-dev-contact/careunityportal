@@ -10,11 +10,11 @@ from django.core.mail import send_mail
 # Create your views here.
 @login_required
 def doctorDash(request):
-    return render(request, 'Doctor_App/home.html')
+    return render(request, 'Doctor_App/doctor/home.html')
 
 @login_required
 def patientDash(request):
-    return render(request,'Doctor_App/patient_home.html')
+    return render(request,'Doctor_App/patient/patient_home.html')
 
 
 @login_required
@@ -35,13 +35,13 @@ def patient_list(request):
     else:
         patients = Patient.objects.none()
     # print(patients)
-    return render(request, 'Doctor_App/patient_list.html', {'patients': patients, 'search_query': search_query, 'search_criteria': search_criteria})
+    return render(request, 'Doctor_App/doctor/patient_list.html', {'patients': patients, 'search_query': search_query, 'search_criteria': search_criteria})
 
 
 @login_required
 def patient_detail(request, patient_id):
     patient = get_object_or_404(Patient, pk=patient_id)
-    return render(request, 'Doctor_App/patient_details.html', {'patient': patient})
+    return render(request, 'Doctor_App/doctor/patient_details.html', {'patient': patient})
 
 
 def add_patient(request):
