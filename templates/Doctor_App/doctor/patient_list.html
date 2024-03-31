@@ -5,10 +5,9 @@
             <div class="col">
                 <a href="{% url 'doctor_dashboard' %}" class="btn btn-secondary">Back to Dashboard</a>
             </div>
-            <div class="col text-end">
+            {% comment %} <div class="col text-end">
                 <a href="{% url 'add_patient' %}" class="btn btn-primary">Add New Patient</a>
-                {% comment %} <a href="" class="btn btn-primary">Add New Patient</a> {% endcomment %}
-            </div>
+            </div> {% endcomment %}
         </div>
         <h1>Patient List</h1>
         <form method="GET" class="d-flex">
@@ -28,7 +27,10 @@
             <table class="table">
                 <thead>
                     <tr>
+                        <th>Patient Id</th>
                         <th>Name</th>
+                        <th>Age</th>
+                        <th>Gender</th>
                         
                         <!-- Add other columns as needed -->
                     </tr>
@@ -36,7 +38,10 @@
                 <tbody>
                     {% for patient in patients %}
                         <tr onclick="window.location.href='{% url 'patient_detail' patient.user.id %}'" style="cursor: pointer;">
-                            <td>{{ patient.user.first_name }}</td>
+                            <td>{{ patient.user.username }}  </td>
+                            <td>{{ patient.user.first_name }} {{ patient.user.last_name }} </td>
+                            <td>{{ patient.age }}  </td>
+                            <td>{{ patient.gender }}  </td>
                             <!-- Add other columns as needed -->
                         </tr>
                     {% endfor %}
