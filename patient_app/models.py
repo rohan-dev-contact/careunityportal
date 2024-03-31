@@ -30,5 +30,5 @@ class Patient(models.Model):
     health_condition = models.TextField()
     assigned_doctor = models.ForeignKey(Doctor, on_delete=models.SET_NULL, null=True, blank=True)
     health_insurance = models.CharField(max_length=255)    
-    date_of_birth = models.DateField(default=datetime.date(2000, 1, 1))
+    age = models.IntegerField(default=0)
     gender=models.CharField(max_length=255)
