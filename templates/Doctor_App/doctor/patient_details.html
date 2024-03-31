@@ -1,17 +1,27 @@
-{% extends 'Doctor_App/base.html' %} {% block content %}
+{% extends 'Doctor_App/base.html' %}
+{% block nav %}
+{% include "./navbar.html" %}
+{% endblock nav %} 
+{% block content %}
 <div class="container">
     <div class="row mb-4">
         <div class="col">
             <a href="{% url 'patient_list' %}" class="btn btn-secondary">Back to Patient List</a>
         </div>
         <div class="col text-end">
-            <form action="{% url 'edit_patient' patient_id=patient.user.id %}" method="post" style="display: inline-block;">
+            <form action="{% url 'edit_patient' patient_id=patient.user.id %}" method="post" style="display: inline-block">
                 {% csrf_token %}
                 <button type="submit" class="btn btn-primary">Edit</button>
             </form>
-            <form action="{% url 'delete_patient' patient_id=patient.user.id %}" method="post" style="display: inline-block;">
+            <form action="{% url 'delete_patient' patient_id=patient.user.id %}" method="post" style="display: inline-block">
                 {% csrf_token %}
-                <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this patient from the patient list? This action will not delete the user, but the patient record will be removed from the patient list.')">Delete</button>
+                <button
+                    type="submit"
+                    class="btn btn-danger"
+                    onclick="return confirm('Are you sure you want to delete this patient from the patient list? This action will not delete the user, but the patient record will be removed from the patient list.')"
+                >
+                    Delete
+                </button>
             </form>
         </div>
     </div>
