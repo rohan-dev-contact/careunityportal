@@ -13,6 +13,11 @@ def doctorDash(request):
     return render(request, 'Doctor_App/home.html')
 
 @login_required
+def patientDash(request):
+    return render(request,'Doctor_App/patient_home.html')
+
+
+@login_required
 def patient_list(request):
     search_query = request.GET.get('search', '')
     search_criteria = request.GET.get('search_criteria', 'name')
@@ -56,10 +61,10 @@ def add_patient(request):
             )
             patient = Patient(
                 user=user,
-                date_of_birth=form.cleaned_data['date_of_birth'],
                 health_condition=form.cleaned_data['health_condition'],
                 health_insurance=form.cleaned_data['health_insurance'],
-                gender=form.cleaned_data['gender']
+                gender=form.cleaned_data['gender'],
+                age=form.cleaned_data['age']
             )
             patient.save()
             print(username)

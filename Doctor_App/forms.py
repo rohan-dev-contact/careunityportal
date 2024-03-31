@@ -12,8 +12,8 @@ class PatientRegistrationForm(UserCreationForm):
         widget=forms.TextInput(attrs={"class": "form-control mt-1 border-primary", "placeholder":"Enter last name"}),
     )
 
-    date_of_birth = forms.DateField(
-        widget=forms.DateInput(attrs={"class": "form-control mt-1 border-primary", "type": "date"})
+    age = forms.IntegerField(
+        widget=forms.TextInput(attrs={"class": "form-control mt-1 border-primary", "type": "number"})
     )
 
     email = forms.CharField(

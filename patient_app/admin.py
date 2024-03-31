@@ -15,8 +15,8 @@ class UserAdmin(admin.ModelAdmin):
 
 @admin.register(Patient)
 class PatientAdmin(admin.ModelAdmin):
-    list_display=('username','email','health_condition','assigned_doctor','health_insurance')
-    list_filter = ('health_condition','assigned_doctor','health_insurance')
+    list_display=('username','email','health_condition','assigned_doctor','health_insurance','age')
+    list_filter = ('health_condition','assigned_doctor','health_insurance','age')
     search_fields = ('user__username', 'health_condition','assigned_doctor','health_insurance')
     def username(self, obj):
         return obj.user.username
