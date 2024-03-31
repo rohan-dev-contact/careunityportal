@@ -38,3 +38,15 @@
         transform: translate(-50%, -50%) rotate(1440deg);
     }
 }
+
+.waterMark {
+    color: #dddddd !important;
+    font-size: 4rem !important;
+    position: absolute !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    pointer-events: none !important;
+    z-index: -1 !important;
+    opacity: 0.3 !important;
+}

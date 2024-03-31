@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+import datetime
 
 class User(AbstractUser):
     mobile=models.CharField(max_length=15)
@@ -26,6 +27,7 @@ class Doctor(models.Model):
 
 class Patient(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
-    health_condition = models.CharField(max_length=255)
+    health_condition = models.TextField()
     assigned_doctor = models.ForeignKey(Doctor, on_delete=models.SET_NULL, null=True, blank=True)
     health_insurance = models.CharField(max_length=255)    
+    date_of_birth = models.DateField(default=datetime.date(2000, 1, 1))

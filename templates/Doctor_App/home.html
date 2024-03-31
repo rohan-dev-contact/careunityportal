@@ -1,6 +1,65 @@
 {% extends './base.html' %} {% block title %}Doctor Dashboard - CareUnity Portal{% endblock %} {% block content %}
-
-<div class="container mt-4" id="content">
-    <h1 class="text-center big-name" style="color: #dddddd; font-size: 6rem; padding: auto; margin-top: 25%;">CareUnity Portal</h1>
+<div class="row">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card h-100 clickable-card" onclick="location.href='{% url 'patient_list' %}'">
+                <div class="card-body">
+                    <h5 class="card-title">Patient List</h5>
+                    <p class="card-text">View and manage your patient list.</p>
+                    <a href="{% url 'patient_list' %}" class="card-link">View Patients</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card h-100 clickable-card" onclick="location.href='#'">
+                <div class="card-body">
+                    <h5 class="card-title">Schedules</h5>
+                    <p class="card-text">Manage your schedules and appointments.</p>
+                    <a href="#" class="card-link">Manage Schedules</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Medical Records</h5>
+                <p class="card-text">Access and manage patient medical records.</p>
+                <a href="#" class="card-link">Access Records</a>
+            </div>
+        </div>
+    </div>
 </div>
+<div class="row mt-4">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Billing and Payments</h5>
+                <p class="card-text">Manage patient invoices and payments.</p>
+                <a href="#" class="card-link">Manage Billing</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Notifications</h5>
+                <p class="card-text">Stay updated with notifications.</p>
+                <a href="#" class="card-link">View Notifications</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Prescription Management</h5>
+                <p class="card-text">Create and manage prescriptions.</p>
+                <a href="#" class="card-link">Manage Prescriptions</a>
+            </div>
+        </div>
+    </div>
+</div>
+
 {% endblock %}

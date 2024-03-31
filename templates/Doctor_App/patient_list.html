@@ -1,76 +1,47 @@
-{% extends './base.html' %} {% block title %}Patient List - CareUnity Portal{% endblock %} {% block content %}
-<div class="container">
-    <h1>All Patients</h1>
-    <table id="patientsTable" class="table">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Mobile</th>
-                <th>Address</th>
-                <th>Health Condition</th>
-                <th>Assigned Doctor</th>
-                <th>Health Insourence</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for patient in patients %}
-            <tr data-patient-id="{{ patient.user.id }}">
-                <td>{{ patient.user.id }}</td>
-                <td>{{ patient.user.first_name }} {{ patient.user.last_name }}</td>
-                <td>{{ patient.user.email }}</td>
-                <td>{{ patient.user.mobile }}</td>
-                <td>{{ patient.user.address }}</td>
-                <td>{{ patient.health_condition }}</td>
-                <td>{{ patient.assigned_doctor}}</td>
-                <td>{{ patient.health_insurance }}</td>
-                <td>
-                    {% comment %} <button class="btn btn-primary view-btn" data-bs-toggle="modal" data-bs-target="#viewPatientModal">View</button> {% endcomment %}
-                    <button class="btn btn-danger delete-btn">Delete</button>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</div>
-{% comment %} 
-<div class="modal fade" id="viewPatientModal" tabindex="-1" aria-labelledby="viewPatientModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="viewPatientModalLabel">Patient Details</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+{% extends 'Doctor_App/base.html' %}
+
+{% block content %}
+        <div class="row mb-4">
+            <div class="col">
+                <a href="{% url 'doctor_dashboard' %}" class="btn btn-secondary">Back to Dashboard</a>
             </div>
-            <div class="modal-body">
-                <h4 id="patientName"></h4>
-                <p id="patientEmail"></p>
-                <p id="patientMobile"></p>
-                <p id="patientAddress"></p>
-                <p id="patientAddress"></p>
-                <p id="patientAddress"></p>
-                <p id="patientAddress"></p>
+            <div class="col text-end">
+                <a href="{% url 'add_patient' %}" class="btn btn-primary">Add New Patient</a>
+                {% comment %} <a href="" class="btn btn-primary">Add New Patient</a> {% endcomment %}
             </div>
         </div>
-    </div>
-</div>
-
-<script>
-    $(document).ready(function () {
-        $(".view-btn").click(function () {
-            var patientId = $(this).closest("tr").data("patient-id");
-            var patientName = $(this).closest("tr").find("td:nth-child(2)").text();
-            var patientEmail = $(this).closest("tr").find("td:nth-child(3)").text();
-            var patientMobile = $(this).closest("tr").find("td:nth-child(4)").text();
-            var patientAddress = $(this).closest("tr").find("td:nth-child(5)").text();
-
-            $("#viewPatientModal #patientName").text(patientName);
-            $("#viewPatientModal #patientEmail").text("Email: " + patientEmail);
-            $("#viewPatientModal #patientMobile").text("Mobile: " + patientMobile);
-            $("#viewPatientModal #patientAddress").text("Address: " + patientAddress);
-        });
-    });
-</script> {% endcomment %}
-
+        <h1>Patient List</h1>
+        <form method="GET" class="d-flex">
+            <div class="input-group me-2">
+                <select name="search_criteria" class="form-select">
+                    <option value="name" {% if search_criteria == 'name' %}selected{% endif %}>Name</option>
+                    <option value="username" {% if search_criteria == 'username' %}selected{% endif %}>Patient Id</option>
+                </select>
+                <input type="text" name="search" class="form-control" placeholder="Search" value="{{ search_query }}">
+                <button type="submit" class="btn btn-primary">Search</button>
+            </div>
+            {% if search_query %}
+                <a href="{% url 'patient_list' %}" class="btn btn-secondary">Clear</a>
+            {% endif %}
+        </form>
+        {% if patients %}
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <!-- Add other columns as needed -->
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for patient in patients %}
+                        <tr onclick="window.location.href='{% url 'patient_detail' patient.user.id %}'" style="cursor: pointer;">
+                            <td>{{ patient.user.first_name }}</td>
+                            <!-- Add other columns as needed -->
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>No patients found.</p>
+        {% endif %}
 {% endblock %}
