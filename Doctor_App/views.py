@@ -2,7 +2,7 @@
 from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth.decorators import login_required
 from patient_app.models import Patient,User
-from .forms import PatientRegistrationForm
+from .forms import PatientRegistrationForm ,PatientPatientUpdateForm,PatientUserUpdateForm
 import random
 import string
 from django.core.mail import send_mail
@@ -48,8 +48,9 @@ def add_patient(request):
     if request.method == 'POST':
         form = PatientRegistrationForm(request.POST)
         if form.is_valid():
-            username = 'PT_' + ''.join(random.choices(string.ascii_lowercase + string.digits, k=8))  # Generate random username prefixed with "PT_"
-            password = ''.join(random.choices(string.ascii_uppercase + string.digits, k=8))  # Generate random password
+            username = 'PT' + ''.join(random.choices(string.ascii_letters + string.digits, k=6))  
+            password = ''.join(random.choices(string.digits, k=8))
+
             user = User.objects.create_user(
                 username=username,
                 password=password,
@@ -86,9 +87,18 @@ def add_patient(request):
 def delete_patient(request, patient_id):
     patient = get_object_or_404(Patient, user__username=patient_id)
     patient.delete()
-    # You may also want to add a success message here using Django's messages framework
     return redirect('patient_list')
 
 def edit_patient(request, patient_id):
-    # Dummy edit logic
-    return redirect('patient_detail', patient_id=patient_id)
+    patient = get_object_or_404(Patient, user__username=patient_id)
+    if request.method == 'POST':
+        formPatientUser = PatientUserUpdateForm(request.POST, instance=patient.user)
+        formPatient = PatientPatientUpdateForm(request.POST, instance=patient)
+        if formPatient.is_valid() and formPatientUser.is_valid():
+            formPatient.save()
+            formPatientUser.save()
+            return redirect('patient_list')  # Redirect to patient list page
+    else:
+        formPatientUser = PatientUserUpdateForm( instance=patient.user)
+        formPatient = PatientPatientUpdateForm( instance=patient)
+    return render(request, 'Doctor_App/doctor/edit_patient.html', {'form1': formPatientUser,'form2':formPatient, 'patient_id': patient.user.username})
