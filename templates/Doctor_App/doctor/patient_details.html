@@ -9,11 +9,11 @@
             <a href="{% url 'patient_list' %}" class="btn btn-secondary">Back to Patient List</a>
         </div>
         <div class="col text-end">
-            <form action="{% url 'edit_patient' patient_id=patient.user.id %}" method="post" style="display: inline-block">
+            <form action="{% url 'edit_patient' patient_id=patient.user.username %}" method="post" style="display: inline-block">
                 {% csrf_token %}
                 <button type="submit" class="btn btn-primary">Edit</button>
             </form>
-            <form action="{% url 'delete_patient' patient_id=patient.user.id %}" method="post" style="display: inline-block">
+            <form action="{% url 'delete_patient' patient_id=patient.user.username %}" method="post" style="display: inline-block">
                 {% csrf_token %}
                 <button
                     type="submit"

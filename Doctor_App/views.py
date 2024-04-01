@@ -40,7 +40,7 @@ def patient_list(request):
 
 @login_required
 def patient_detail(request, patient_id):
-    patient = get_object_or_404(Patient, pk=patient_id)
+    patient = get_object_or_404(Patient, user__username=patient_id)
     return render(request, 'Doctor_App/doctor/patient_details.html', {'patient': patient})
 
 
@@ -72,7 +72,7 @@ def add_patient(request):
             # Send email to patient
             send_mail(
                 'Welcome to CareUnity Portal',
-                f'Your account has been created. Your username is: {username}. Your password is: {password}. Please login to access your account.',
+                f'Your account has been created with username: {username} and password: {password}.\n Please login to access your account.',
                 'rohan19mondal@gmail.com',
                 [user.email],
                 fail_silently=True,
@@ -84,7 +84,7 @@ def add_patient(request):
 
 
 def delete_patient(request, patient_id):
-    patient = get_object_or_404(Patient, user_id=patient_id)
+    patient = get_object_or_404(Patient, user__username=patient_id)
     patient.delete()
     # You may also want to add a success message here using Django's messages framework
     return redirect('patient_list')

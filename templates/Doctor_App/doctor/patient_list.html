@@ -40,7 +40,7 @@
                 </thead>
                 <tbody>
                     {% for patient in patients %}
-                        <tr onclick="window.location.href='{% url 'patient_detail' patient.user.id %}'" style="cursor: pointer;">
+                        <tr onclick="window.location.href='{% url 'patient_detail' patient.user.username %}'" style="cursor: pointer;">
                             <td>{{ patient.user.username }}  </td>
                             <td>{{ patient.user.first_name }} {{ patient.user.last_name }} </td>
                             <td>{{ patient.age }}  </td>
