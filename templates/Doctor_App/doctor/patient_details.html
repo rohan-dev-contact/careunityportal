@@ -1,6 +1,6 @@
 {% extends 'Doctor_App/base.html' %} {% block nav %} {% include "./navbar.html" %} {% endblock nav %} {% block content %}
 
-<div class="row mb-4">
+<div class="row mb-3 ">
     <div class="col">
         <a href="{% url 'patient_list' %}" class="btn btn-secondary">Back to Patient List</a>
     </div>
@@ -20,11 +20,39 @@
 </div>
 <div class="card">
     <div class="card-body">
-        <h1 class="card-title">Patient Details of</h1>
-        <h5 class="card-subtitle mb-2 text-muted"><strong>Patient Id:</strong> {{ patient.user.username }}</h5>
-        <p class="card-text"><strong>Name:</strong> {{ patient.user.get_full_name }}</p>
-        <p class="card-text"><strong>Email:</strong> {{ patient.user.email }}</p>
-        <!-- Add other patient details -->
+        <h3 class="card-title mb-4"><strong>Patient Id:</strong> {{ patient.user.username }}</h3>
+        {% comment %} <h5 class="card-subtitle mb-2 text-muted"><strong>Patient Id:</strong> {{ patient.user.username }}</h5> {% endcomment %}
+        <div class="row mb-3 ">
+            <div class="col">
+                <p class="card-text fs-5"><strong>Name:</strong> {{ patient.user.get_full_name }}</p>
+            </div>
+            <div class="col">
+                <p class="card-text fs-5"><strong>Mobile:</strong> {{ patient.user.mobile }}</p>
+            </div>
+        </div>
+        <div class="row mb-3 ">
+            <div class="col">
+                <p class="card-text fs-5"><strong>Email:</strong> {{ patient.user.email }}</p>
+            </div>
+            <div class="col">
+                <p class="card-text fs-5"><strong>Health Insurance:</strong> {{ patient.health_insurance}}</p>
+            </div>
+        </div>
+        <div class="row mb-3 ">
+            <div class="col">
+                <p class="card-text fs-5"><strong>Assigned Doctor:</strong> {{ patient.assigned_doctor }}</p>
+            </div>
+            <div class="col">
+                <p class="card-text fs-5"><strong>Address:</strong> {{ patient.user.address }}</p>
+            </div>
+        </div>
+        <div class="row mb-3 ">
+            <div class="col col-sm-12">
+                <p class="card-text fs-5"><strong>Health Condition:</strong> {{ patient.health_condition}}</p>
+            </div>
+            {% comment %} <div class="col">
+            </div> {% endcomment %}
+        </div>
     </div>
 </div>
 

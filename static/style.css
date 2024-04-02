@@ -50,3 +50,8 @@
     z-index: -1 !important;
     opacity: 0.3 !important;
 }
+
+
+.lg-hov:hover{
+    background-color:  red !important;
+}
