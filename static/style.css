@@ -53,5 +53,9 @@
 
 
 .lg-hov:hover{
-    background-color:  red !important;
+    color:  #f44900 !important;
+}
+
+.lg-active{
+    color: #249cec !important;
 }

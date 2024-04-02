@@ -1,0 +1,43 @@
+{% extends 'Doctor_App/base.html' %}
+
+{% block nav %}
+{% include "./navbar.html" %}
+{% endblock nav %}
+
+{% block content %}
+
+<div class="container mt-4">
+    <a href="{% url 'patient_detail' patient_id=patient.user.username %}" class="btn btn-secondary mb-3">Back to Patient Details</a>
+    <h3>Add Prescription</h3>
+    <div class="mb-3">
+    Name: {{ patient.user.get_full_name }} , Age: {{ patient.age }} , Gender: {{ patient.gender }}
+    </div>  
+    <form method="post">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="id_general_info" class="form-label">General Information:</label>
+            {{ form.general_info }}
+        </div>
+        <div class="mb-3">
+            <label for="id_diagnosis" class="form-label">Diagnosis:</label>
+            {{ form.diagnosis }}
+        </div>
+        <div class="mb-3">
+            <label for="id_medication" class="form-label">Medication:</label>
+            {{ form.medication }}
+        </div>
+        <div class="mb-3">
+            <label for="id_instructions" class="form-label">Instructions:</label>
+            {{ form.instructions }}
+        </div>
+        <div class="mb-3">
+            <label for="id_follow_up" class="form-label">Follow-Up:</label>
+            {{ form.follow_up }}
+        </div>
+        <button type="submit" class="btn btn-primary">Save Prescription</button>
+        <a href="{% url 'patient_detail' patient_id=patient.user.username %}" class="btn btn-secondary">Cancel</a>
+        <button type="submit" name="save_as_draft" value="True" class="btn btn-warning">Save as Draft</button>
+    </form>
+</div>
+
+{% endblock %}
