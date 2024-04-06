@@ -1,0 +1,28 @@
+{% extends 'Doctor_App/base.html' %}
+
+{% block nav %}
+{% include "./navbar.html" %}
+{% endblock nav %}
+
+{% block content %}
+
+<div class="container mt-4">
+    <h1>Prescription Details</h1>
+    <div class="card mt-4">
+        <div class="card-body">
+            <h3 class="card-title mb-4">{{ prescription.medication }}</h3>
+            <p><strong>Instructions:</strong> {{ prescription.instructions }}</p>
+            <p><strong>Diagnosis:</strong> {{ prescription.diagnosis }}</p>
+            <p><strong>General Information:</strong> {{ prescription.general_info }}</p>
+            <p><strong>Follow-Up:</strong> {{ prescription.follow_up }}</p>
+            <p><strong>Doctor:</strong> {{ prescription.doctor }}</p>
+            <p><strong>Date:</strong> {{ prescription.date }}</p>
+            {% if not print_mode %}
+                <a href="{% url 'edit_prescription' prescription_id=prescription.id %}" class="btn btn-primary">Edit</a>
+            {% endif %}
+            <button onclick="window.print()" class="btn btn-secondary">Print</button>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

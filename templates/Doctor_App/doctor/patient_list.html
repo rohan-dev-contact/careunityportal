@@ -14,17 +14,21 @@
         </div>
         <h1>Patient List</h1>
         <form method="GET" class="d-flex">
-            <div class="input-group me-2">
-                <select name="search_criteria" class="form-select">
-                    <option value="name" {% if search_criteria == 'name' %}selected{% endif %}>Name</option>
-                    <option value="username" {% if search_criteria == 'username' %}selected{% endif %}>Patient Id</option>
-                </select>
+            <div class="input-group me-2" style="width: 70%;">
                 <input type="text" name="search" class="form-control" placeholder="Search" value="{{ search_query }}">
-                <button type="submit" class="btn btn-primary">Search</button>
             </div>
-            {% if search_query %}
-                <a href="{% url 'patient_list' %}" class="btn btn-secondary">Clear</a>
-            {% endif %}
+            <div class="input-group" style="width: 20%;">
+                <select name="search_criteria" class="form-select" style="font-size: 0.85rem;">
+                    <option value="username" {% if search_criteria == 'username' %}selected{% endif %}>Patient Id</option>
+                    <option value="name" {% if search_criteria == 'name' %}selected{% endif %}>Name</option>
+                </select>
+            </div>
+            <div class="input-group" style="width: 10%; padding-left:8px;">
+                <button type="submit" class="btn btn-primary">Search</button>
+                {% comment %} {% if search_query %}
+                    <a href="{% url 'patient_list' %}" class="btn btn-secondary">Clear</a>
+                {% endif %} {% endcomment %}
+            </div>
         </form>
         {% if patients %}
             <table class="table">
@@ -40,7 +44,7 @@
                 </thead>
                 <tbody>
                     {% for patient in patients %}
-                        <tr onclick="window.location.href='{% url 'patient_detail' patient.user.id %}'" style="cursor: pointer;">
+                        <tr onclick="window.location.href='{% url 'patient_detail' patient.user.username %}'" style="cursor: pointer;">
                             <td>{{ patient.user.username }}  </td>
                             <td>{{ patient.user.first_name }} {{ patient.user.last_name }} </td>
                             <td>{{ patient.age }}  </td>

@@ -1,38 +1,84 @@
 {% extends 'Doctor_App/base.html' %}
+
 {% block nav %}
 {% include "./navbar.html" %}
-{% endblock nav %} 
+{% endblock nav %}
+
 {% block content %}
-<div class="container">
-    <div class="row mb-4">
-        <div class="col">
-            <a href="{% url 'patient_list' %}" class="btn btn-secondary">Back to Patient List</a>
-        </div>
-        <div class="col text-end">
-            <form action="{% url 'edit_patient' patient_id=patient.user.id %}" method="post" style="display: inline-block">
-                {% csrf_token %}
-                <button type="submit" class="btn btn-primary">Edit</button>
-            </form>
-            <form action="{% url 'delete_patient' patient_id=patient.user.id %}" method="post" style="display: inline-block">
-                {% csrf_token %}
-                <button
-                    type="submit"
-                    class="btn btn-danger"
-                    onclick="return confirm('Are you sure you want to delete this patient from the patient list? This action will not delete the user, but the patient record will be removed from the patient list.')"
-                >
-                    Delete
-                </button>
-            </form>
-        </div>
+
+<div class="row mb-3">
+    <div class="col">
+        <a href="{% url 'patient_list' %}" class="btn btn-secondary">Back to Patient List</a>
     </div>
-    <div class="card">
-        <div class="card-body">
-            <h1 class="card-title">Patient Details of</h1>
-            <h5 class="card-subtitle mb-2 text-muted"><strong>Patient Id:</strong> {{ patient.user.username }}</h5>
-            <p class="card-text"><strong>Name:</strong> {{ patient.user.get_full_name }}</p>
-            <p class="card-text"><strong>Email:</strong> {{ patient.user.email }}</p>
-            <!-- Add other patient details -->
+    <div class="col text-end">
+        <a href="{% url 'edit_patient' patient_id=patient.user.username %}" class="btn btn-primary">Edit</a>
+        <form action="{% url 'delete_patient' patient_id=patient.user.username %}" method="post" style="display: inline-block">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this patient from the patient list? This action will not delete the user, but the patient record will be removed from the patient list.')">
+                Delete
+            </button>
+        </form>
+        <a href="{% url 'add_prescription' patient_id=patient.user.username %}" class="btn btn-success">Add Prescription</a>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <h3 class="card-title mb-4"><strong>Patient Id:</strong> {{ patient.user.username }}</h3>
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <p class="card-text fs-5"><strong>Name:</strong> {{ patient.user.get_full_name }}</p>
+                <p class="card-text fs-5"><strong>Email:</strong> {{ patient.user.email }}</p>
+                <p class="card-text fs-5"><strong>Mobile:</strong> {{ patient.user.mobile }}</p>
+            </div>
+            <div class="col-md-6">
+                <p class="card-text fs-5"><strong>Health Insurance:</strong> {{ patient.health_insurance }}</p>
+                <p class="card-text fs-5"><strong>Assigned Doctor:</strong> {{ patient.assigned_doctor }}</p>
+                <p class="card-text fs-5"><strong>Address:</strong> {{ patient.user.address }}</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <p class="card-text fs-5"><strong>Health Condition:</strong> {{ patient.health_condition }}</p>
+            </div>
         </div>
     </div>
 </div>
+
+<div class="card mt-4">
+    <div class="card-body">
+        <h3 class="card-title mb-4">Prescriptions</h3>
+        {% if prescriptions %}
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Doctor</th>
+                        <th>Date</th>
+                        <th>Medication</th>
+                        <th>Instructions</th>
+                        <th>Diagnosis</th>
+                        <th>General Info</th>
+                        <th>Follow-Up</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for prescription in prescriptions %}
+                        <tr onclick="window.location.href='{% url 'view_prescription' prescription.id %}'" style="cursor: pointer;">
+                            <td>{{ prescription.doctor }}</td>
+                            <td>{{ prescription.date }}</td>
+                            <td>{{ prescription.medication |truncatechars:30}}</td>
+                            <td>{{ prescription.instructions |truncatechars:30}}</td>
+                            <td>{{ prescription.diagnosis |truncatechars:30}}</td>
+                            <td>{{ prescription.general_info |truncatechars:30}}</td>
+                            <td>{{ prescription.follow_up |truncatechars:30}}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>No prescriptions found.</p>
+        {% endif %}
+    </div>
+</div>
+
 {% endblock %}

@@ -1,8 +1,10 @@
 
+from .models import Prescription
+from .forms import PrescriptionForm
 from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth.decorators import login_required
 from patient_app.models import Patient,User
-from .forms import PatientRegistrationForm
+from .forms import PatientRegistrationForm ,PatientPatientUpdateForm,PatientUserUpdateForm
 import random
 import string
 from django.core.mail import send_mail
@@ -40,16 +42,18 @@ def patient_list(request):
 
 @login_required
 def patient_detail(request, patient_id):
-    patient = get_object_or_404(Patient, pk=patient_id)
-    return render(request, 'Doctor_App/doctor/patient_details.html', {'patient': patient})
+    patient = Patient.objects.get(user__username=patient_id)
+    prescriptions = Prescription.objects.filter(patient=patient)
+    return render(request, 'Doctor_App/doctor/patient_details.html', {'patient': patient, 'prescriptions': prescriptions})
 
 
 def add_patient(request):
     if request.method == 'POST':
         form = PatientRegistrationForm(request.POST)
         if form.is_valid():
-            username = 'PT_' + ''.join(random.choices(string.ascii_lowercase + string.digits, k=8))  # Generate random username prefixed with "PT_"
-            password = ''.join(random.choices(string.ascii_uppercase + string.digits, k=8))  # Generate random password
+            username = 'PT' + ''.join(random.choices(string.ascii_letters + string.digits, k=6))  
+            password = ''.join(random.choices(string.digits, k=8))
+
             user = User.objects.create_user(
                 username=username,
                 password=password,
@@ -72,7 +76,7 @@ def add_patient(request):
             # Send email to patient
             send_mail(
                 'Welcome to CareUnity Portal',
-                f'Your account has been created. Your username is: {username}. Your password is: {password}. Please login to access your account.',
+                f'Your account has been created with username: {username} and password: {password}.\n Please login to access your account.',
                 'rohan19mondal@gmail.com',
                 [user.email],
                 fail_silently=True,
@@ -84,11 +88,57 @@ def add_patient(request):
 
 
 def delete_patient(request, patient_id):
-    patient = get_object_or_404(Patient, user_id=patient_id)
+    patient = get_object_or_404(Patient, user__username=patient_id)
     patient.delete()
-    # You may also want to add a success message here using Django's messages framework
     return redirect('patient_list')
 
 def edit_patient(request, patient_id):
-    # Dummy edit logic
-    return redirect('patient_detail', patient_id=patient_id)
+    patient = get_object_or_404(Patient, user__username=patient_id)
+    if request.method == 'POST':
+        formPatientUser = PatientUserUpdateForm(request.POST, instance=patient.user)
+        formPatient = PatientPatientUpdateForm(request.POST, instance=patient)
+        if formPatient.is_valid() and formPatientUser.is_valid():
+            formPatient.save()
+            formPatientUser.save()
+            return redirect('patient_list')  # Redirect to patient list page
+    else:
+        formPatientUser = PatientUserUpdateForm( instance=patient.user)
+        formPatient = PatientPatientUpdateForm( instance=patient)
+    return render(request, 'Doctor_App/doctor/edit_patient.html', {'form1': formPatientUser,'form2':formPatient, 'patient_id': patient.user.username})
+
+def add_prescription(request, patient_id):
+    patient = Patient.objects.get(user__username=patient_id)
+    if request.method == 'POST':
+        form = PrescriptionForm(request.POST)
+        if form.is_valid():
+            prescription = form.save(commit=False)
+            prescription.doctor = request.user
+            prescription.patient = patient
+            if 'save_as_draft' in request.POST:
+                prescription.save()
+            else:
+                prescription.save()
+                if prescription.follow_up:
+                    previous_prescription = Prescription.objects.get(pk=prescription.follow_up.pk)
+                    previous_prescription.follow_up = prescription
+                    previous_prescription.save()
+            return redirect('patient_detail', patient_id=patient_id)
+    else:
+        form = PrescriptionForm()
+    return render(request, 'Doctor_App/doctor/add_prescription.html', {'form': form, 'patient': patient})
+
+
+def view_prescription(request, prescription_id):
+    prescription = get_object_or_404(Prescription, id=prescription_id)
+    return render(request, 'Doctor_App/doctor/view_prescription.html', {'prescription': prescription})
+
+def edit_prescription(request, prescription_id):
+    prescription = get_object_or_404(Prescription, id=prescription_id)
+    if request.method == 'POST':
+        form = PrescriptionForm(request.POST, instance=prescription)
+        if form.is_valid():
+            form.save()
+            return redirect('view_prescription', prescription_id=prescription.id)
+    else:
+        form = PrescriptionForm(instance=prescription)
+    return render(request, 'Doctor_App/doctor/edit_prescription.html', {'form': form, 'prescription': prescription})
