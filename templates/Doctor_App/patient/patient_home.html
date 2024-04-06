@@ -1,16 +1,18 @@
 {% extends 'Doctor_App/base.html' %}
 {% block nav %}
 {% include "./navbar.html" %}
+
 {% endblock nav %}  
-{% block title %}Doctor Dashboard - CareUnity Portal{% endblock %} {% block content %}
-{% comment %} <div class="row">
+{% block title %}Patient Dashboard - CareUnity Portal{% endblock %} {% block content %}
+<h1>Patient Dashboard</h1>
+ <div class="row">
     <div class="col-md-4">
         <div class="card">
             <div class="card h-100 clickable-card" onclick="location.href='{% url 'patient_list' %}'">
                 <div class="card-body">
-                    <h5 class="card-title">Patient List</h5>
-                    <p class="card-text">View and manage your patient list.</p>
-                    <a href="{% url 'patient_list' %}" class="card-link">View Patients</a>
+                    <h5 class="card-title">Appointment Booking</h5>
+                    <p class="card-text">Book your Appointment here</p>
+                    <a href="{% url 'appointment' %}" class="card-link">Book Appoinments</a>
                 </div>
             </div>
         </div>
@@ -19,40 +21,43 @@
         <div class="card">
             <div class="card h-100 clickable-card" onclick="location.href='#'">
                 <div class="card-body">
-                    <h5 class="card-title">Schedules</h5>
-                    <p class="card-text">Manage your schedules and appointments.</p>
-                    <a href="#" class="card-link">Manage Schedules</a>
+                    <h5 class="card-title">Find Doctor</h5>
+                    <a href="#" class="card-link">Doctor's List</a>
                 </div>
             </div>
         </div>
     </div>
     <div class="col-md-4">
         <div class="card">
-            <div class="card-body">
-                <h5 class="card-title">Medical Records</h5>
-                <p class="card-text">Access and manage patient medical records.</p>
-                <a href="#" class="card-link">Access Records</a>
-            </div>
+            <div class="card h-100 clickable-card" onclick="location.href='#'">
+                <div class="card-body">
+                   <h5 class="card-title">Find Your Precription</h5>
+                   <p class="card-text">Access and manage patient medical records.</p>
+                   <a href="#" class="card-link">Download Prescription</a>
+                </div>
+            </div>    
         </div>
     </div>
 </div>
 <div class="row mt-4">
     <div class="col-md-4">
         <div class="card">
-            <div class="card-body">
-                <h5 class="card-title">Billing and Payments</h5>
-                <p class="card-text">Manage patient invoices and payments.</p>
-                <a href="#" class="card-link">Manage Billing</a>
-            </div>
+            <div class="card h-100 clickable-card" onclick="location.href='#'">
+               <div class="card-body">
+                   <h5 class="card-title">Upload your Report</h5>
+                   <a href="#" class="card-link">View all Reports</a>
+                </div>
+            </div>    
         </div>
     </div>
     <div class="col-md-4">
         <div class="card">
-            <div class="card-body">
-                <h5 class="card-title">Notifications</h5>
-                <p class="card-text">Stay updated with notifications.</p>
-                <a href="#" class="card-link">View Notifications</a>
-            </div>
+            <div class="card h-100 clickable-card" onclick="location.href='#'">
+               <div class="card-body">
+                   <h5 class="card-title">Notifications</h5>
+                   <a href="#" class="card-link">View Notifications</a>
+                </div>
+            </div>    
         </div>
     </div>
     <div class="col-md-4">
@@ -64,8 +69,11 @@
             </div>
         </div>
     </div>
-</div> {% endcomment %}
+</div> 
 
-<h1>Patient Dashboard</h1>
+
+
+    
+
 
 {% endblock %}

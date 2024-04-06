@@ -3,7 +3,8 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from .forms import UserRegistrationForm,LoginForm
 from django.contrib.auth import authenticate,login,logout
-from .models import Doctor,Patient,User
+from .models import Doctor,Patient,User,Appointment
+
 
 # Create your views here.
 def home_view(request):
@@ -69,6 +70,11 @@ def userLogin(request):
 def userLogout(request):
     logout(request)
     return redirect('/login')
+
+def appointment(request):
+    appointments= Appointment.objects.all()
+    return render (request, 'Doctor_App/patient/book_appointment.html',{'appointments':appointments})
+    
 
 
 
