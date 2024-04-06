@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prescription</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .prescription-info {
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        .prescription-info p {
+            margin: 5px 0;
+        }
+
+        .doctor-signature {
+            margin-top: 50px;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Prescription</h1>
+        </div>
+        <div class="prescription-info">
+            <p><strong>Medication:</strong> {{ prescription.medication | linebreaks }}</p>
+            <p><strong>Instructions:</strong> {{ prescription.instructions | linebreaks }}</p>
+            <p><strong>Diagnosis:</strong> {{ prescription.diagnosis | linebreaks }}</p>
+            <p><strong>General Information:</strong> {{ prescription.general_info | linebreaks }}</p>
+            <p><strong>Follow-Up:</strong> {{ prescription.follow_up | linebreaks }}</p>
+            <p><strong>Doctor:</strong> {{ prescription.doctor.get_full_name | linebreaks }}</p>
+            <p><strong>Date:</strong> {{ prescription.date | linebreaks }}</p>
+        </div>
+        <div class="doctor-signature">
+            <p>__________________________</p>
+            <p>Doctor's Signature</p>
+        </div>
+        <div class="footer">
+            <p>This is a computer-generated prescription and does not require a physical signature.</p>
+        </div>
+    </div>
+    <script>
+        window.onload = function() {
+            window.print();
+        };
+    </script>
+</body>
+
+</html>

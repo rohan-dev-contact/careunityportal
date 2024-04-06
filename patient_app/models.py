@@ -33,10 +33,10 @@ class Patient(models.Model):
     age = models.IntegerField(default=0)
     gender=models.CharField(max_length=255)
     
-class Appointment(models.Model):
-    appid=models.AutoField(primary_key=True)
-    doctor=models.ForeignKey(Doctor, on_delete=models.CASCADE, verbose_name='Doctor')
-    patient=models.ForeignKey(Patient, on_delete=models.CASCADE, related_name='Patient')
-    appmadeon=models.DateField(auto_now_add=True, blank=False, verbose_name='Appointment Made Date')
-    appdate=models.DateField(verbose_name='Appointment Date')
+# class Appointment(models.Model):
+#     appid=models.AutoField(primary_key=True)
+#     doctor=models.ForeignKey(Doctor, on_delete=models.CASCADE, verbose_name='Doctor')
+#     patient=models.ForeignKey(Patient, on_delete=models.CASCADE, related_name='Patient')
+#     appmadeon=models.DateField(auto_now_add=True, blank=False, verbose_name='Appointment Made Date')
+#     appdate=models.DateField(verbose_name='Appointment Date')
     

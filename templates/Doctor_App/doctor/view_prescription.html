@@ -1,26 +1,34 @@
-{% extends 'Doctor_App/base.html' %}
+{% extends 'Doctor_App/base.html' %} {% block nav %} {% include "./navbar.html" %} {% endblock nav %} {% block content %}
 
-{% block nav %}
-{% include "./navbar.html" %}
-{% endblock nav %}
-
-{% block content %}
-
-<div class="container mt-4">
+<div class="mt-4">
     <h1>Prescription Details</h1>
     <div class="card mt-4">
         <div class="card-body">
-            <h3 class="card-title mb-4">{{ prescription.medication }}</h3>
-            <p><strong>Instructions:</strong> {{ prescription.instructions }}</p>
-            <p><strong>Diagnosis:</strong> {{ prescription.diagnosis }}</p>
-            <p><strong>General Information:</strong> {{ prescription.general_info }}</p>
-            <p><strong>Follow-Up:</strong> {{ prescription.follow_up }}</p>
-            <p><strong>Doctor:</strong> {{ prescription.doctor }}</p>
+            <p><strong>Medication:</strong> <br/>{{ prescription.medication | linebreaks }}</p>
+            <p><strong>Instructions:</strong> {{ prescription.instructions | linebreaks}}</p>
+            <p><strong>Diagnosis:</strong> {{ prescription.diagnosis | linebreaks}}</p>
+            <p><strong>General Information:</strong> {{ prescription.general_info | linebreaks}}</p>
+            {% comment %}
+            <p>
+                <strong>Follow-Up:</strong>
+                {% if prescription.follow_up %}
+                <a href="{% url 'view_prescription' prescription.follow_up.id %}">{{ prescription.follow_up.id }}</a>
+                {% else %} None {% endif %}
+            </p>
+            {% endcomment %}
+            <p><strong>Doctor:</strong> {{ prescription.doctor.get_full_name }} {% comment "" %}( {{ prescription.doctor.departments.name }} ){% endcomment %}</p>
             <p><strong>Date:</strong> {{ prescription.date }}</p>
             {% if not print_mode %}
-                <a href="{% url 'edit_prescription' prescription_id=prescription.id %}" class="btn btn-primary">Edit</a>
+            <a href="{% url 'edit_prescription' prescription_id=prescription.id %}" class="btn btn-primary">Edit</a>
+            {% if not prescription.follow_up %}
+            <a href="{% url 'add_follow_up_prescription' patient_id=prescription.patient.user.username follow_up_id=prescription.id %}" class="btn btn-success">Add Follow-Up Prescription</a>
+            {% endif %} {% if prescription.follow_up %}
+            <a href="{% url 'view_prescription' prescription.follow_up.id %}" class="btn btn-secondary">Open Follow Up Prescription </a>
+            {% endif %} 
             {% endif %}
-            <button onclick="window.print()" class="btn btn-secondary">Print</button>
+            <a href="{% url 'patient_detail' patient_id=prescription.patient.user.username %}" class="btn btn-secondary">Back to Patient Details</a>
+            <a href="{% url 'print_prescription' prescription.id %}" target="_blank" class="btn btn-secondary">Print Prescription</a>
+            {% comment %} <button onclick="window.print()" class="btn btn-secondary">Print</button> {% endcomment %}
         </div>
     </div>
 </div>

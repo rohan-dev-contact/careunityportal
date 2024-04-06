@@ -54,6 +54,37 @@
                     {% endfor %}
                 </tbody>
             </table>
+            <div class="d-flex justify-content-center">
+                <ul class="pagination">
+                    {% if patients.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page=1">&laquo; First</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ patients.previous_page_number }}">Previous</a>
+                        </li>
+                    {% endif %}
+                    {% for num in patients.paginator.page_range %}
+                        {% if patients.number == num %}
+                            <li class="page-item active" aria-current="page">
+                                <span class="page-link">{{ num }}</span>
+                            </li>
+                        {% else %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                    {% if patients.has_next %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ patients.next_page_number }}">Next</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ patients.paginator.num_pages }}">Last &raquo;</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
         {% else %}
             <p>No patients found.</p>
         {% endif %}

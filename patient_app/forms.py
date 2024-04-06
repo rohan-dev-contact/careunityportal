@@ -42,9 +42,9 @@ class UserRegistrationForm(UserCreationForm):
 class LoginForm(AuthenticationForm):
     username = forms.CharField(
         label=("Enter user name"),
-        widget=forms.TextInput(attrs={"class": "form-control border-primary"}),
+        widget=forms.TextInput(attrs={"class": "form-control border-primary","placeholder":"Enter User Name"}),
     )
     password=forms.CharField(
         label=("Enter Password"),
-        widget=forms.PasswordInput(attrs={"class": "form-control border-primary"}),
+        widget=forms.PasswordInput(attrs={"class": "form-control border-primary","placeholder":"Enter Password"}),
     )

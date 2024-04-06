@@ -8,6 +8,7 @@ from .forms import PatientRegistrationForm ,PatientPatientUpdateForm,PatientUser
 import random
 import string
 from django.core.mail import send_mail
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 # Create your views here.
 @login_required
@@ -17,7 +18,6 @@ def doctorDash(request):
 @login_required
 def patientDash(request):
     return render(request,'Doctor_App/patient/patient_home.html')
-
 
 @login_required
 def patient_list(request):
@@ -36,14 +36,29 @@ def patient_list(request):
             patients = Patient.objects.none()
     else:
         patients = Patient.objects.none()
-    # print(patients)
-    return render(request, 'Doctor_App/doctor/patient_list.html', {'patients': patients, 'search_query': search_query, 'search_criteria': search_criteria})
+
+    # Pagination
+    paginator = Paginator(patients, 10)  # Show 10 patients per page
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    return render(request, 'Doctor_App/doctor/patient_list.html', {'patients': page_obj, 'search_query': search_query, 'search_criteria': search_criteria})
 
 
 @login_required
 def patient_detail(request, patient_id):
     patient = Patient.objects.get(user__username=patient_id)
-    prescriptions = Prescription.objects.filter(patient=patient)
+    prescriptions = Prescription.objects.filter(patient=patient).order_by('-date')
+
+    paginator = Paginator(prescriptions, 5)
+    page_number = request.GET.get('page')
+    try:
+        prescriptions = paginator.page(page_number)
+    except PageNotAnInteger:
+        prescriptions = paginator.page(1)
+    except EmptyPage:
+        prescriptions = paginator.page(paginator.num_pages)
+
     return render(request, 'Doctor_App/doctor/patient_details.html', {'patient': patient, 'prescriptions': prescriptions})
 
 
@@ -106,7 +121,8 @@ def edit_patient(request, patient_id):
         formPatient = PatientPatientUpdateForm( instance=patient)
     return render(request, 'Doctor_App/doctor/edit_patient.html', {'form1': formPatientUser,'form2':formPatient, 'patient_id': patient.user.username})
 
-def add_prescription(request, patient_id):
+
+def add_prescription(request, patient_id, follow_up_id=None):
     patient = Patient.objects.get(user__username=patient_id)
     if request.method == 'POST':
         form = PrescriptionForm(request.POST)
@@ -114,19 +130,15 @@ def add_prescription(request, patient_id):
             prescription = form.save(commit=False)
             prescription.doctor = request.user
             prescription.patient = patient
-            if 'save_as_draft' in request.POST:
-                prescription.save()
-            else:
-                prescription.save()
-                if prescription.follow_up:
-                    previous_prescription = Prescription.objects.get(pk=prescription.follow_up.pk)
-                    previous_prescription.follow_up = prescription
-                    previous_prescription.save()
+            prescription.save()
+            if follow_up_id:
+                previous_prescription = Prescription.objects.get(pk=follow_up_id)
+                previous_prescription.follow_up = prescription
+                previous_prescription.save()
             return redirect('patient_detail', patient_id=patient_id)
     else:
         form = PrescriptionForm()
     return render(request, 'Doctor_App/doctor/add_prescription.html', {'form': form, 'patient': patient})
-
 
 def view_prescription(request, prescription_id):
     prescription = get_object_or_404(Prescription, id=prescription_id)
@@ -142,3 +154,8 @@ def edit_prescription(request, prescription_id):
     else:
         form = PrescriptionForm(instance=prescription)
     return render(request, 'Doctor_App/doctor/edit_prescription.html', {'form': form, 'prescription': prescription})
+
+
+def print_prescription(request, prescription_id):
+    prescription = get_object_or_404(Prescription, id=prescription_id)
+    return render(request, 'Doctor_App/doctor/print_prescription.html', {'prescription': prescription})

@@ -6,49 +6,20 @@
                 <h2 class="card-title text-center">Sign Up</h2>
                 <form method="post">
                     {% csrf_token %} {% for form in forms %}
-                    <div class="mb-3">
-                        {{form.label}}  {{form}}
+                        {{form.label}} {{form}}
                         <span class="text-danger">{{form.errors | striptags}}</span>
-                    </div>
-                    {% endfor %} {% comment %}
-                    <div class="row mb-3">
-                        <label for="{{ form.password1.id_for_label }}" class="col-sm-2 col-form-label">Password</label>
-                        <div class="col-sm-10">
-                            <input type="password" name="password1" class="form-control form-control-lg" id="{{ form.password1.id_for_label }}" />
+                    {% endfor %} 
+                    <div class="mb-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="termsCheckbox" name="terms" required />
+                            <label class="form-check-label" for="termsCheckbox"> I agree to the <a href="#" data-bs-toggle="modal" data-bs-target="#termsModal">terms and conditions</a> </label>
                         </div>
                     </div>
-                    <div class="row mb-3">
-                        <label for="{{ form.password2.id_for_label }}" class="col-sm-2 col-form-label">Confirm Password</label>
-                        <div class="col-sm-10">
-                            <input type="password" name="password2" class="form-control form-control-lg" id="{{ form.password2.id_for_label }}" />
-                        </div>
+                    <div class="mb-3">
+                        <button type="submit" class="btn btn-primary">Sign Up</button>
                     </div>
-                    <div class="row mb-3">
-                        <label for="{{ form.first_name.id_for_label }}" class="col-sm-2 col-form-label">First Name</label>
-                        <div class="col-sm-4">
-                            <input type="text" name="first_name" class="form-control form-control-lg" id="{{ form.first_name.id_for_label }}" />
-                        </div>
-                        <label for="{{ form.last_name.id_for_label }}" class="col-sm-2 col-form-label">Last Name</label>
-                        <div class="col-sm-4">
-                            <input type="text" name="last_name" class="form-control form-control-lg" id="{{ form.last_name.id_for_label }}" />
-                        </div>
-                    </div>
-                    {% endcomment %}
-                    <div class="row mb-3">
-                        <div class="col-sm-10 offset-sm-2">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="termsCheckbox" name="terms" required />
-                                <label class="form-check-label" for="termsCheckbox"> I agree to the <a href="#" data-bs-toggle="modal" data-bs-target="#termsModal">terms and conditions</a> </label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-sm-10 offset-sm-2">
-                            <button type="submit" class="btn btn-primary">Sign Up</button>
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-sm-10 offset-sm-2">
+                    <div class="mb-3">
+                        <div class="">
                             <p>Already have an account? <a href="{% url 'login' %}">Login</a></p>
                         </div>
                     </div>
@@ -58,17 +29,6 @@
     </div>
 </div>
 
-<!-- terms.html -->
-{% comment %}
-<div class="container mt-5">
-    <h2>Terms and Conditions</h2>
-    <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce vehicula quam eu eros tempus, sed malesuada massa accumsan. Integer malesuada eros ut dui elementum, ac tempor odio laoreet.
-        Proin in velit sed felis congue tincidunt et at ligula. Suspendisse ac lacinia ex. Donec interdum lorem nec nisi lacinia, vel fermentum purus egestas.
-    </p>
-    <p>By signing up, you agree to the Terms and Conditions outlined above.</p>
-</div>
-{% endcomment %}
 
 <!-- Modal -->
 <div class="modal fade" id="termsModal" tabindex="-1" aria-labelledby="termsModalLabel" aria-hidden="true">

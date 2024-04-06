@@ -6,7 +6,7 @@
 
 {% block content %}
 
-<div class="container mt-4">
+<div class="">
     <a href="{% url 'patient_detail' patient_id=patient.user.username %}" class="btn btn-secondary mb-3">Back to Patient Details</a>
     <h3>Add Prescription</h3>
     <div class="mb-3">
@@ -30,13 +30,13 @@
             <label for="id_instructions" class="form-label">Instructions:</label>
             {{ form.instructions }}
         </div>
-        <div class="mb-3">
+        {% comment %} <div class="mb-3">
             <label for="id_follow_up" class="form-label">Follow-Up:</label>
             {{ form.follow_up }}
-        </div>
-        <button type="submit" class="btn btn-primary">Save Prescription</button>
+        </div> {% endcomment %}
+        <button type="" class="btn btn-primary">Save Prescription</button>
         <a href="{% url 'patient_detail' patient_id=patient.user.username %}" class="btn btn-secondary">Cancel</a>
-        <button type="submit" name="save_as_draft" value="True" class="btn btn-warning">Save as Draft</button>
+        <button type="" name="save_as_draft" value="True" class="btn btn-warning">Save as Draft</button>
     </form>
 </div>
 

@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from .forms import UserRegistrationForm,LoginForm
 from django.contrib.auth import authenticate,login,logout
-from .models import Doctor,Patient,User,Appointment
+from .models import Doctor,Patient,User#,Appointment
 
 
 # Create your views here.

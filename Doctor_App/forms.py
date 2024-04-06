@@ -127,35 +127,23 @@ class PatientPatientUpdateForm(forms.ModelForm):
 
 
 class PrescriptionForm(forms.ModelForm):
-    general_info = forms.CharField(
-        label=("General Information"),
-        widget=forms.Textarea(attrs={"class": "form-control mt-1 border-primary", "placeholder": "Enter general information"}),
-        required=False,
-    )
-    diagnosis = forms.CharField(
-        label=("Diagnosis"),
-        widget=forms.Textarea(attrs={"class": "form-control mt-1 border-primary", "placeholder": "Enter diagnosis"}),
-        required=False,
-    )
     medication = forms.CharField(
         label=("Medication"),
         widget=forms.Textarea(attrs={"class": "form-control mt-1 border-primary", "placeholder": "Enter medication"}),
-        required=False,
     )
     instructions = forms.CharField(
         label=("Instructions"),
         widget=forms.Textarea(attrs={"class": "form-control mt-1 border-primary", "placeholder": "Enter instructions"}),
-        required=False,
     )
-    follow_up = forms.ModelChoiceField(
-        label=("Follow-Up"),
-        queryset=Prescription.objects.all(),
-        widget=forms.Select(attrs={"class": "form-select mt-1 border-primary"}),
-        required=False,
-        empty_label="Select a prescription",
+    diagnosis = forms.CharField(
+        label=("Diagnosis"),
+        widget=forms.Textarea(attrs={"class": "form-control mt-1 border-primary", "placeholder": "Enter diagnosis"}),
+    )
+    general_info = forms.CharField(
+        label=("General Information"),
+        widget=forms.Textarea(attrs={"class": "form-control mt-1 border-primary", "placeholder": "Enter general information"}),
     )
 
     class Meta:
         model = Prescription
-        fields = ['medication', 'instructions', 'diagnosis', 'general_info', 'follow_up']
-
+        fields = ['medication', 'instructions', 'diagnosis', 'general_info']

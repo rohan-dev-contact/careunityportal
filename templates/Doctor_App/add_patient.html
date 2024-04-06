@@ -1,31 +1,29 @@
 {% extends 'patient_app/base.html' %} {% block title %}Sign Up - CareUnity Portal{% endblock %} {% block content %}
 <div class="row justify-content-center mt-5">
     <div class="col-md-6 mb-4">
-        <div class="card">
+        <div class="">
             <div class="card-body">
                 <h2 class="card-title text-center">Sign Up</h2>
                 <form method="post">
-                    {% csrf_token %} 
-                    <div class="mb-3">{{form}}
-                        <span class="text-danger">{{form.errors | striptags}}</span>
+                    {% csrf_token %}
+                    {% for ele in form %}
+                    <div class="mb-3">{{ele.label}}{{ele}}
+                        <span class="text-danger">{{ele.errors | striptags}}</span>
                     </div>
-                    <div class="row mb-3">
-                        <div class="col-sm-10 offset-sm-2">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="termsCheckbox" name="terms" required />
-                                <label class="form-check-label" for="termsCheckbox"> I agree to the <a href="#" data-bs-toggle="modal" data-bs-target="#termsModal">terms and conditions</a> </label>
-                            </div>
+                        
+                         
+                    {% endfor %} 
+                    <div class="mb-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="termsCheckbox" name="terms" required />
+                            <label class="form-check-label" for="termsCheckbox"> I agree to the <a href="#" data-bs-toggle="modal" data-bs-target="#termsModal">terms and conditions</a> </label>
                         </div>
                     </div>
-                    <div class="row mb-3">
-                        <div class="col-sm-10 offset-sm-2">
-                            <button type="submit" class="btn btn-primary">Sign Up</button>
-                        </div>
+                    <div class="mb-3">
+                        <button type="submit" class="btn btn-primary">Sign Up</button>
                     </div>
-                    <div class="row mb-3">
-                        <div class="col-sm-10 offset-sm-2">
-                            <p>Already have an account? <a href="{% url 'login' %}">Login</a></p>
-                        </div>
+                    <div class="mb-3">
+                        <p>Already have an account? <a href="{% url 'login' %}">Login</a></p>
                     </div>
                 </form>
             </div>
