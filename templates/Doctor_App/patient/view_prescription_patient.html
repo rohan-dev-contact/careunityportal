@@ -1,0 +1,25 @@
+{% extends 'Doctor_App/base.html' %} {% block nav %} {% include "./navbar.html" %} {% endblock nav %} {% block content %}
+
+<div class="mt-4">
+    <h1>Prescription Details</h1>
+    <div class="card mt-4">
+        <div class="card-body">
+            <p><strong>Medication:</strong> <br/>{{ prescription.medication | linebreaks }}</p>
+            <p><strong>Instructions:</strong> {{ prescription.instructions | linebreaks}}</p>
+            <p><strong>Diagnosis:</strong> {{ prescription.diagnosis | linebreaks}}</p>
+            <p><strong>General Information:</strong> {{ prescription.general_info | linebreaks}}</p>
+            <p><strong>Doctor:</strong> {{ prescription.doctor.get_full_name }} {% comment "" %}( {{ prescription.doctor.departments.name }} ){% endcomment %}</p>
+            <p><strong>Date:</strong> {{ prescription.date }}</p>
+            {% if not print_mode %}
+            {% if prescription.follow_up %}
+            <a href="{% url 'view_prescription' prescription.follow_up.id %}" class="btn btn-secondary">Open Follow Up Prescription </a>
+            {% endif %} 
+            {% endif %}
+            <a href="{% url 'patient_prescription_list' %}" class="btn btn-secondary">Back to Prescription List</a>
+            <a href="{% url 'print_prescription' prescription.id %}" target="_blank" class="btn btn-secondary">Print Prescription</a>
+            {% comment %} <button onclick="window.print()" class="btn btn-secondary">Print</button> {% endcomment %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}

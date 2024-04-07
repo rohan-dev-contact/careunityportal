@@ -22,6 +22,7 @@
             <div class="card h-100 clickable-card" onclick="location.href='#'">
                 <div class="card-body">
                     <h5 class="card-title">Find Doctor</h5>
+                    <p class="card-text">Get doctors at your fingure tip</p>
                     <a href="#" class="card-link">Doctor's List</a>
                 </div>
             </div>
@@ -29,18 +30,18 @@
     </div>
     <div class="col-md-4">
         <div class="card">
-            <div class="card h-100 clickable-card" onclick="location.href='#'">
+            <div class="card h-100 clickable-card" onclick="location.href='{% url 'patient_prescription_list' %}'">
                 <div class="card-body">
-                   <h5 class="card-title">Find Your Precription</h5>
-                   <p class="card-text">Access and manage patient medical records.</p>
-                   <a href="#" class="card-link">Download Prescription</a>
+                   <h5 class="card-title">Your Precription</h5>
+                   <p class="card-text">Access your medical records.</p>
+                   <a href="{% url 'patient_prescription_list' %}" class="card-link">Download Prescription</a>
                 </div>
             </div>    
         </div>
     </div>
 </div>
 <div class="row mt-4">
-    <div class="col-md-4">
+    {% comment %} <div class="col-md-4">
         <div class="card">
             <div class="card h-100 clickable-card" onclick="location.href='#'">
                <div class="card-body">
@@ -49,8 +50,8 @@
                 </div>
             </div>    
         </div>
-    </div>
-    <div class="col-md-4">
+    </div> {% endcomment %}
+    {% comment %} <div class="col-md-4">
         <div class="card">
             <div class="card h-100 clickable-card" onclick="location.href='#'">
                <div class="card-body">
@@ -59,7 +60,7 @@
                 </div>
             </div>    
         </div>
-    </div>
+    </div> {% endcomment %}
 </div> 
 
 

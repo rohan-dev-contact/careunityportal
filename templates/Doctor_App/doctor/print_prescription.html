@@ -1,78 +1,114 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Prescription</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            line-height: 1.5;
-        }
-
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        .header {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        .prescription-info {
-            border-bottom: 1px solid #ccc;
-            padding-bottom: 10px;
-            margin-bottom: 20px;
-        }
-
-        .prescription-info p {
-            margin: 5px 0;
-        }
-
-        .doctor-signature {
-            margin-top: 50px;
-        }
-
-        .footer {
-            text-align: center;
-            margin-top: 30px;
-        }
-    </style>
-</head>
-
-<body>
-    <div class="container">
-        <div class="header">
-            <h1>Prescription</h1>
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Prescription</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                margin: 0;
+                padding: 0;
+                background-color: #f4f4f4;
+                color: #333;
+            }
+            .container {
+                max-width: 800px;
+                margin: 0 auto;
+                padding: 20px;
+                background-color: #fff;
+                border: 1px solid #ddd;
+                border-radius: 5px;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            }
+            .header {
+                text-align: center;
+                margin-bottom: 20px;
+            }
+            .section {
+                margin-bottom: 20px;
+                border-bottom: 1px solid #ddd;
+                padding-bottom: 10px;
+            }
+            .section:last-child {
+                border-bottom: none;
+                padding-bottom: 0;
+            }
+            .section-title {
+                font-size: 1.2em;
+                font-weight: bold;
+                margin-bottom: 10px;
+                color: #333;
+            }
+            .section-content {
+                margin-left: 20px;
+                color: #666;
+            }
+            .footer {
+                text-align: center;
+                margin-top: 20px;
+                color: #999;
+            }
+            .print-button {
+                display: none;
+            }
+            @media print {
+                .print-button {
+                    display: none !important;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="header" style="display: flex; justify-content: space-between; align-items: center">
+                <h3 style="margin: 0">Care Unity Portal E-Prescription</h3>
+                <p style="margin: 0">Date: {{ prescription.date }}</p>
+            </div>
+            <div class="section">
+                <div class="section-title"></div>
+                <div class="section-content">
+                    <p><strong>{{ prescription.doctor.get_full_name }}</strong></p>
+                    <p><strong>{{ prescription.doctor.email }}</strong></p>
+                    <p><strong>{{sname }}</strong></p>
+                    <p><strong>{{dname }}</strong></p>
+                </div>
+            </div>
+            <div class="section">
+                <div class="section-content">
+                    <p><strong>PID:</strong> {{ prescription.patient.user.username }}</p>
+                    <p><strong>Name:</strong> {{ prescription.patient.user.get_full_name }}</p>
+                    <p><strong>Age:</strong> {{ prescription.patient.age }}</p>
+                    <p><strong>Gender:</strong> {{ prescription.patient.gender }}</p>
+                    <!-- Add more patient details as needed -->
+                </div>
+            </div>
+            <div class="section">
+                <div class="section-title">Prescription Details:</div>
+                <div class="section-content">
+                    <p><strong>Medication:</strong> {{ prescription.medication |linebreaksbr }}</p>
+                    <p><strong>Instructions:</strong> {{ prescription.instructions |linebreaksbr }}</p>
+                    <p><strong>Diagnosis:</strong> {{ prescription.diagnosis |linebreaksbr }}</p>
+                    <p><strong>General Information:</strong> {{ prescription.general_info |linebreaksbr }}</p>
+                    <p><strong>Follow-Up:</strong> {{ prescription.follow_up |linebreaksbr }}</p>
+                </div>
+            </div>
+            <br />
+            <br />
+            <br />
+            <br />
+            <p>_____________________________________</p>
+            <p>{{ prescription.doctor.get_full_name }}</p>
+            <div class="footer">
+                <p>End of Prescription</p>
+            </div>
         </div>
-        <div class="prescription-info">
-            <p><strong>Medication:</strong> {{ prescription.medication | linebreaks }}</p>
-            <p><strong>Instructions:</strong> {{ prescription.instructions | linebreaks }}</p>
-            <p><strong>Diagnosis:</strong> {{ prescription.diagnosis | linebreaks }}</p>
-            <p><strong>General Information:</strong> {{ prescription.general_info | linebreaks }}</p>
-            <p><strong>Follow-Up:</strong> {{ prescription.follow_up | linebreaks }}</p>
-            <p><strong>Doctor:</strong> {{ prescription.doctor.get_full_name | linebreaks }}</p>
-            <p><strong>Date:</strong> {{ prescription.date | linebreaks }}</p>
-        </div>
-        <div class="doctor-signature">
-            <p>__________________________</p>
-            <p>Doctor's Signature</p>
-        </div>
-        <div class="footer">
-            <p>This is a computer-generated prescription and does not require a physical signature.</p>
-        </div>
-    </div>
-    <script>
-        window.onload = function() {
-            window.print();
-        };
-    </script>
-</body>
-
+        <button class="print-button" onclick="window.print()">Print</button>
+        {% comment %} <script>
+            window.onload = function () {
+                window.print();
+            };
+        </script> {% endcomment %}
+    </body>
 </html>

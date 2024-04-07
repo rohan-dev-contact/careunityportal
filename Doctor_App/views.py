@@ -3,7 +3,7 @@ from .models import Prescription
 from .forms import PrescriptionForm
 from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth.decorators import login_required
-from patient_app.models import Patient,User
+from patient_app.models import Patient,User,Doctor
 from .forms import PatientRegistrationForm ,PatientPatientUpdateForm,PatientUserUpdateForm
 import random
 import string
@@ -156,6 +156,40 @@ def edit_prescription(request, prescription_id):
     return render(request, 'Doctor_App/doctor/edit_prescription.html', {'form': form, 'prescription': prescription})
 
 
+def get_specializations(obj):
+    return ', '.join([s.name for s in obj.specialization.all()])
+
+def get_departments(obj):
+    return ', '.join([s.department_name for s in obj.departments.all()])
+
 def print_prescription(request, prescription_id):
     prescription = get_object_or_404(Prescription, id=prescription_id)
-    return render(request, 'Doctor_App/doctor/print_prescription.html', {'prescription': prescription})
+    doctorDetails = get_object_or_404(Doctor,user_id=prescription.doctor_id)
+    dname = get_departments(doctorDetails)
+    sname = get_specializations(doctorDetails)
+    # print(doctorDetails)
+    return render(request, 'Doctor_App/doctor/print_prescription.html', {'prescription': prescription,'doctorDetails':doctorDetails,'dname':dname,'sname':sname})
+
+
+def patient_prescription_list(request):
+    patient = request.user.patient  # Assuming the user is logged in and has a patient profile
+    prescriptions = patient.prescription_set.all().order_by('-date')
+
+    # Pagination
+    paginator = Paginator(prescriptions, 10)  # Show 10 prescriptions per page
+    page = request.GET.get('page')
+    try:
+        prescriptions = paginator.page(page)
+    except PageNotAnInteger:
+        prescriptions = paginator.page(1)
+    except EmptyPage:
+        prescriptions = paginator.page(paginator.num_pages)
+
+    return render(request, 'Doctor_App/patient/patient_prescription_list.html', {'prescriptions': prescriptions})
+
+
+
+
+def prescription_details(request, prescription_id):
+    prescription = get_object_or_404(Prescription, id=prescription_id)
+    return render(request, 'Doctor_App/patient/view_prescription_patient.html', {'prescription': prescription})

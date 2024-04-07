@@ -30,7 +30,7 @@ class PatientAdmin(admin.ModelAdmin):
 
 @admin.register(Doctor)
 class DoctorAdmin(admin.ModelAdmin):
-    list_display=('username','email','get_specializations','experience',)
+    list_display=('username','email','get_specializations','get_departments','experience',)
     list_filter = ('departments','specialization__name')
     search_fields = ('user__username', 'specialization__name', 'departments__department_name')
 
@@ -45,6 +45,10 @@ class DoctorAdmin(admin.ModelAdmin):
     def get_specializations(self, obj):
         return ', '.join([s.name for s in obj.specialization.all()])
     get_specializations.short_description = 'Specializations'
+
+    def get_departments(self, obj):
+        return ', '.join([s.department_name for s in obj.departments.all()])
+    get_departments.short_description = 'Departments'
 
 
 @admin.register(Department)

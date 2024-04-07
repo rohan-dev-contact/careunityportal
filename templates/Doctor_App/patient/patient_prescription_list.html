@@ -1,0 +1,63 @@
+<!-- patient_prescription_list.html -->
+
+{% extends 'Doctor_App/base.html' %} {% block nav %} {% include "./navbar.html" %} {% endblock nav %} {% block content %}
+
+<div class="row mb-4">
+    <div class="col">
+        <a href="{% url 'patient_dashboard' %}" class="btn btn-secondary">Back to Dashboard</a>
+    </div>
+    {% comment %}
+    <div class="col text-end">
+        <a href="{% url 'add_patient' %}" class="btn btn-primary">Add New Patient</a>
+    </div>
+    {% endcomment %}
+</div>
+<div class="card-body">
+    <h3 class="card-title mb-4">Prescriptions</h3>
+    {% if prescriptions %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Doctor</th>
+                <th>Date</th>
+                <th>Medication</th>
+                <th>Instructions</th>
+                <th>Diagnosis</th>
+                <th>General Info</th>
+                <th>Follow-Up</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for prescription in prescriptions %}
+            <tr onclick="window.location.href='{% url 'prescription_detail' prescription.id %}'" style="cursor: pointer">
+                <td>{{ prescription.doctor.get_full_name }}</td>
+                <td>{{ prescription.date }}</td>
+                <td>{{ prescription.medication |truncatechars:30}}</td>
+                <td>{{ prescription.instructions |truncatechars:30}}</td>
+                <td>{{ prescription.diagnosis |truncatechars:30}}</td>
+                <td>{{ prescription.general_info |truncatechars:30}}</td>
+                <td>{% if prescription.follow_up %} Yes {% else %} None {% endif %}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div class="d-flex justify-content-center">
+        <ul class="pagination">
+            {% if prescriptions.has_previous %}
+            <li class="page-item"><a class="page-link" href="?page=1">First</a></li>
+            <li class="page-item"><a class="page-link" href="?page={{ prescriptions.previous_page_number }}">Previous</a></li>
+            {% endif %} {% for num in prescriptions.paginator.page_range %} {% if prescriptions.number == num %}
+            <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+            {% else %}
+            <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+            {% endif %} {% endfor %} {% if prescriptions.has_next %}
+            <li class="page-item"><a class="page-link" href="?page={{ prescriptions.next_page_number }}">Next</a></li>
+            <li class="page-item"><a class="page-link" href="?page={{ prescriptions.paginator.num_pages }}">Last</a></li>
+            {% endif %}
+        </ul>
+    </div>
+    {% else %}
+    <p>No prescriptions found.</p>
+    {% endif %}
+</div>
+{% endblock %}
