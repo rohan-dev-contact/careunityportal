@@ -8,7 +8,7 @@
  <div class="row">
     <div class="col-md-4">
         <div class="card">
-            <div class="card h-100 clickable-card" onclick="location.href='{% url 'patient_list' %}'">
+            <div class="card h-100 clickable-card" onclick="location.href='#'">
                 <div class="card-body">
                     <h5 class="card-title">Appointment Booking</h5>
                     <p class="card-text">Book your Appointment here</p>
@@ -19,11 +19,11 @@
     </div>
     <div class="col-md-4">
         <div class="card">
-            <div class="card h-100 clickable-card" onclick="location.href='#'">
+            <div class="card h-100 clickable-card" onclick="location.href='{% url "find_doctor" %}'">
                 <div class="card-body">
                     <h5 class="card-title">Find Doctor</h5>
                     <p class="card-text">Get doctors at your fingure tip</p>
-                    <a href="#" class="card-link">Doctor's List</a>
+                    <a href="{% url "find_doctor" %}" class="card-link">Doctor's List</a>
                 </div>
             </div>
         </div>

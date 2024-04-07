@@ -2,6 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from patient_app.models import User,Patient
 from .models import Prescription
+from patient_app.models import Department
 
 class PatientRegistrationForm(UserCreationForm):
     first_name = forms.CharField(
@@ -147,3 +148,12 @@ class PrescriptionForm(forms.ModelForm):
     class Meta:
         model = Prescription
         fields = ['medication', 'instructions', 'diagnosis', 'general_info']
+
+
+
+
+
+class DepartmentForm(forms.Form):
+    def __init__(self, *args, **kwargs):
+        super(DepartmentForm, self).__init__(*args, **kwargs)
+        self.fields['department'] = forms.ModelChoiceField(queryset=Department.objects.all(), label='Select Department')

@@ -11,6 +11,10 @@
                     {% comment %} <a class="nav-link {% if url_name == 'patient_list' %}active{% endif %}" aria-current="page" href="{% url 'patient_list' %}"></a> {% endcomment %}
                     <a class="nav-link {% if url_name == 'patient_list' %}active{% endif %}" aria-current="page" href="#">Book Appointment</a>
                 </li>
+                <li class="nav-item">
+                    {% comment %} <a class="nav-link {% if url_name == 'patient_list' %}active{% endif %}" aria-current="page" href="{% url 'patient_list' %}"></a> {% endcomment %}
+                    <a class="nav-link {% if url_name == 'find_doctor' %}active{% endif %}" aria-current="page" href="{% url "find_doctor" %}">Find Doctor</a>
+                </li>
             </ul>
             <ul class="navbar-nav">
                 <li class="nav-item">

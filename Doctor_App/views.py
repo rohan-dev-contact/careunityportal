@@ -4,7 +4,7 @@ from .forms import PrescriptionForm
 from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth.decorators import login_required
 from patient_app.models import Patient,User,Doctor
-from .forms import PatientRegistrationForm ,PatientPatientUpdateForm,PatientUserUpdateForm
+from .forms import PatientRegistrationForm ,PatientPatientUpdateForm,PatientUserUpdateForm,DepartmentForm
 import random
 import string
 from django.core.mail import send_mail
@@ -193,3 +193,16 @@ def patient_prescription_list(request):
 def prescription_details(request, prescription_id):
     prescription = get_object_or_404(Prescription, id=prescription_id)
     return render(request, 'Doctor_App/patient/view_prescription_patient.html', {'prescription': prescription})
+
+
+
+def find_doctor(request):
+    if request.method == 'POST':
+        form = DepartmentForm(request.POST)
+        if form.is_valid():
+            department= form.cleaned_data['department']
+            doctors = Doctor.objects.filter(departments=department)
+            return render(request, 'Doctor_App/patient/find_doctor.html', {'form': form, 'doctors': doctors,'get_departments':get_departments})
+    else:
+        form = DepartmentForm()
+    return render(request, 'Doctor_App/patient/find_doctor.html', {'form': form})
