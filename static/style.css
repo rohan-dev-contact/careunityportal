@@ -169,3 +169,7 @@ p:hover {
     animation-duration: 0.5s;
     animation-timing-function: ease-out;
 } */
+
+tbody tr:hover{
+    background-color: #59e7a0c4 !important;
+}
