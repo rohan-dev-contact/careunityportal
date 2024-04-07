@@ -153,7 +153,15 @@ class PrescriptionForm(forms.ModelForm):
 
 
 
+# class DepartmentForm(forms.Form):
+#     department_choices = [(department.id, department.department_name) for department in Department.objects.all()]
+#     department = forms.ChoiceField(choices=department_choices, label='Select Department')
 class DepartmentForm(forms.Form):
+    department_choices = [(department.id, department.department_name) for department in Department.objects.all()]
+    DEFAULT_CHOICE = ('', 'Select Department')
+    department_choices.insert(0, DEFAULT_CHOICE)
+    department = forms.ChoiceField(choices=department_choices, label='Select Department', initial='')
+
     def __init__(self, *args, **kwargs):
-        super(DepartmentForm, self).__init__(*args, **kwargs)
-        self.fields['department'] = forms.ModelChoiceField(queryset=Department.objects.all(), label='Select Department')
+        super().__init__(*args, **kwargs)
+        self.fields['department'].initial = ''

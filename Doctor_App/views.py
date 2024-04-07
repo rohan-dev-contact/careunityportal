@@ -3,7 +3,7 @@ from .models import Prescription
 from .forms import PrescriptionForm
 from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth.decorators import login_required
-from patient_app.models import Patient,User,Doctor
+from patient_app.models import Patient,User,Doctor,Department
 from .forms import PatientRegistrationForm ,PatientPatientUpdateForm,PatientUserUpdateForm,DepartmentForm
 import random
 import string
@@ -196,13 +196,40 @@ def prescription_details(request, prescription_id):
 
 
 
+# def find_doctor(request):
+#     department_details = None
+#     doctors = None
+
+#     if request.method == 'POST':
+#         form = DepartmentForm(request.POST)
+#         if form.is_valid():
+#             department_id = form.cleaned_data['department']
+#             department_details = Department.objects.get(pk=department_id)
+#             doctors = Doctor.objects.filter(departments=department_id)
+#     else:
+#         form = DepartmentForm()
+
+#     return render(request, 'Doctor_App/patient/find_doctor.html', {'form': form, 'department_details': department_details, 'doctors': doctors})
+
+
 def find_doctor(request):
+    department_details = None
+    doctors = None
+
     if request.method == 'POST':
         form = DepartmentForm(request.POST)
         if form.is_valid():
-            department= form.cleaned_data['department']
-            doctors = Doctor.objects.filter(departments=department)
-            return render(request, 'Doctor_App/patient/find_doctor.html', {'form': form, 'doctors': doctors,'get_departments':get_departments})
+            department_id = form.cleaned_data['department']
+            department_details = Department.objects.get(pk=department_id)
+            doctors_list = Doctor.objects.filter(departments=department_id)
+            paginator = Paginator(doctors_list, 10)  # Show 10 doctors per page
+            page_number = request.GET.get('page')
+            doctors = paginator.get_page(page_number)
     else:
         form = DepartmentForm()
-    return render(request, 'Doctor_App/patient/find_doctor.html', {'form': form})
+
+    return render(request, 'Doctor_App/patient/find_doctor.html', {'form': form, 'department_details': department_details, 'doctors': doctors})
+
+def doctor_details(request, doctor_id):
+    doctor = get_object_or_404(Doctor, user_id=doctor_id)
+    return render(request, 'Doctor_App/patient/doctor_details.html', {'doctor': doctor})

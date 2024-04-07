@@ -1,0 +1,15 @@
+{% extends 'Doctor_App/base.html' %}
+
+{% block content %}
+<div class="card-body">
+    <h1>{{ doctor.user.get_full_name }}</h1>
+    <p><strong>Specializations:</strong>
+        {% for specialization in doctor.specializations.all %}
+            {{ specialization }}{% if not forloop.last %}, {% endif %}
+        {% endfor %}
+    </p>
+    <p><strong>Phone Number:</strong> {{ doctor.user.mobile }}</p>
+    <p><strong>Email:</strong> {{ doctor.user.email }}</p>
+    <!-- Add more details here -->
+</div>
+{% endblock %}

@@ -53,8 +53,18 @@ class DoctorAdmin(admin.ModelAdmin):
 
 @admin.register(Department)
 class DepartmentAdmin(admin.ModelAdmin):
-    list_display=('department_name','id')
-    search_fields = ('department_name',)
+    list_display=('department_name', 'id', 'head_of_department', 'location', 'contact_phone', 'contact_email', 'emergency_services')
+    list_filter = ('emergency_services',)
+    search_fields = ('department_name', 'location', 'contact_phone', 'contact_email')
+    fieldsets = (
+        (None, {
+            'fields': ('department_name', 'work_description', 'intended_patients', 'treated_diseases')
+        }),
+        ('Department Details', {
+            'fields': ('head_of_department', 'location', 'contact_phone', 'contact_email', 'special_facilities', 'operating_hours', 'emergency_services', 'insurance_accepted'),
+            'classes': ('collapse',),
+        }),
+    )
 
 @admin.register(Specialization)
 class SpecializationAdmin(admin.ModelAdmin):

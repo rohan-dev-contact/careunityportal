@@ -9,7 +9,19 @@ class User(AbstractUser):
         return ("UserName = " + self.username+", Email = "+self.email)
 
 class Department(models.Model):
-    department_name=models.CharField(max_length=255)
+    department_name = models.CharField(max_length=255)
+    work_description = models.TextField(blank=True, null=True)
+    intended_patients = models.CharField(max_length=255, blank=True, null=True)
+    treated_diseases = models.TextField(blank=True, null=True)
+    head_of_department = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
+    location = models.CharField(max_length=255, blank=True, null=True)
+    contact_phone = models.CharField(max_length=20, blank=True, null=True)
+    contact_email = models.EmailField(blank=True, null=True)
+    special_facilities = models.TextField(blank=True, null=True)
+    operating_hours = models.TextField(blank=True, null=True)
+    emergency_services = models.BooleanField(default=False)
+    insurance_accepted = models.TextField(blank=True, null=True)
+
     def __str__(self):
         return self.department_name
 
