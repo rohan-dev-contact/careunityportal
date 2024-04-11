@@ -1,10 +1,99 @@
 {% extends './base.html' %}
-
 {% block title %}Services - CareUnity Portal{% endblock %}
-
 {% block content %}
-<div class="container mt-5">
-    <h2>Our Services</h2>
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis nec velit eget ex maximus mattis vel vitae dolor.</p>
+    <title>Services - CareUnity</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .service {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .service h2 {
+            color: #333;
+            margin-top: 0;
+        }
+        .service p {
+            color: #666;
+        }
+    </style>
+
+
+<!-- Header -->
+<header class="bg-dark text-white py-4">
+    <div class="container text-center">
+        <h1>Services</h1>
+    </div>
+</header>
+
+<!-- Main content -->
+<div class="container mt-4">
+
+   
+    <div class="row">
+        <div class="col-md-4">
+            <img src="https://www.metropolisindia.com/upgrade/blog/upload/2023/06/Full-body-checkup.jpg" alt="General Checkup" class="img-fluid mb-3">
+        </div>
+        <div class="col-md-8">
+            <div class="service">
+                <h2>General Checkup</h2>
+                <p>Regular health checkups are important for maintaining good health and preventing diseases. Book an appointment for a comprehensive general checkup with our experienced doctors.</p>
+            </div>
+        </div>
+    </div>
+
+    
+    <div class="row">
+        <div class="col-md-4">
+            <img src="https://img.freepik.com/free-photo/african-american-practitioner-doctor-standing-beside-sick-young-patient-during-medical-appointment-explaining-bones-xray-expertise-hospital-ward-physician-woman-discussing-healthcare-expertise_482257-33629.jpg" alt="Specialized Treatment" class="img-fluid mb-3">
+        </div>
+        <div class="col-md-8">
+            <div class="service">
+                <h2>Specialized Treatment</h2>
+                <p>We offer specialized treatments for various medical conditions, including cardiology, orthopedics, dermatology, and more. Our team of specialists provides personalized care to meet your unique needs.</p>
+            </div>
+        </div>
+    </div>
+
+    
+    <div class="row">
+        <div class="col-md-4">
+            <img src="https://img.freepik.com/premium-photo/male-patient-having-consultation-with-doctor-psychiatrist-who-working-diagnostic-examination-men-s-health-disease-mental-illness-medical-clinic-hospital-mental-health-service-center_265022-24493.jpg" alt="Diagnostic Services" class="img-fluid mb-3">
+        </div>
+        <div class="col-md-8">
+            <div class="service">
+                <h2>Diagnostic Services</h2>
+                <p>Our state-of-the-art diagnostic facilities enable accurate and timely diagnosis of medical conditions. From blood tests to imaging studies, we offer a wide range of diagnostic services to support your healthcare needs.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add more services as needed -->
+
 </div>
+
+<!-- Footer -->
+<footer class="bg-dark text-white py-3 mt-5">
+    <div class="container text-center">
+        <p>&copy; 2024 CareUnity Portal</p>
+    </div>
+</footer>
+
+<!-- Bootstrap JS -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
+
 {% endblock %}

@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from patient_app.models import User,Patient
 from .models import Prescription
-from patient_app.models import Department
+from datetime import date, timedelta
 
 class PatientRegistrationForm(UserCreationForm):
     first_name = forms.CharField(
@@ -144,6 +144,10 @@ class PrescriptionForm(forms.ModelForm):
         label=("General Information"),
         widget=forms.Textarea(attrs={"class": "form-control mt-1 border-primary", "placeholder": "Enter general information"}),
     )
+    
+    class Appointment:
+        td=date.today()
+        
 
     class Meta:
         model = Prescription
