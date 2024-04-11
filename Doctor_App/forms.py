@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from patient_app.models import User,Patient
+from patient_app.models import User,Patient,Department
 from .models import Prescription
 from datetime import date, timedelta
 
@@ -145,8 +145,8 @@ class PrescriptionForm(forms.ModelForm):
         widget=forms.Textarea(attrs={"class": "form-control mt-1 border-primary", "placeholder": "Enter general information"}),
     )
     
-    class Appointment:
-        td=date.today()
+class Appointment:
+    td=date.today()
         
 
     class Meta:
