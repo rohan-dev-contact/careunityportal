@@ -1,13 +1,12 @@
-from datetime import timedelta,datetime
-from django.http import HttpResponseRedirect
+from datetime import timedelta
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from django.urls import reverse
 from django.utils import timezone
+import random
 
 from CareUnity_Portal import settings
 from Doctor_App.forms import Appointment
-from patient_app.forms import OTPVerificationForm, PasswordResetRequestForm, UserRegistrationForm,LoginForm
+from patient_app.forms import OTPVerificationForm, PasswordResetForm, PasswordResetRequestForm, UserRegistrationForm,LoginForm
 from django.contrib.auth import authenticate,login,logout
 from patient_app.models import OTP, Doctor,Patient,User
 from django.core.mail import send_mail
@@ -89,8 +88,6 @@ def appointment(request):
     return render (request, 'Doctor_App/patient/book_appointment.html',{'appointments':appointments})
 
 
-# utils.py
-import random
 
 def generate_otp():
     return str(random.randint(100000, 999999))
@@ -100,73 +97,6 @@ def send_otp(email, otp):
     message = f'Your OTP is: {otp}'
     send_mail(subject, message, settings.EMAIL_HOST_USER, [email])
 
-# def passwordResetRequestView(request):
-#     if request.method == 'POST':
-#         form = PasswordResetRequestForm(request.POST)
-#         if form.is_valid():
-#             username = form.cleaned_data['username']
-#             try:
-#                 user = User.objects.get(username=username)
-#             except User.DoesNotExist:
-#                 # Handle user not found error
-#                 return render(request, 'patient_app/registration/reset_password.html', {'form': form, 'error': 'User not found'})
-
-#             otp = generate_otp()
-#             # OTP.objects.create(user=user, otp=otp)
-#             print(otp)
-
-#             send_otp(user.mobile, otp)  # Assuming send_otp sends the OTP via SMS
-
-#             return redirect(request, 'verify_otp', {'user': user})
-#     else:
-#         form = PasswordResetRequestForm()
-#     return render(request, 'patient_app/registration/reset_password.html', {'form': form})
-
-
-# def verify_otp(request):
-#     if request.method == 'POST':
-#         otp = request.POST.get('otp')
-#         user_id = request.session.get('reset_user_id')
-#         print(otp,user)
-#         if not user_id:
-#             return HttpResponseRedirect(reverse('password_reset_request'))
-#         try:
-#             user = User.objects.get(id=user_id)
-#         except User.DoesNotExist:
-#             return HttpResponseRedirect(reverse('password_reset_request'))
-
-#         # Check if the OTP is valid
-#         otp_obj = OTP.objects.filter(user=user, otp=otp).order_by('-created_at').first()
-#         if otp_obj:
-#             # OTP is valid, proceed to reset password
-#             # Clear the session
-#             del request.session['reset_user_id']
-#             return render(request, 'reset_password.html', {'user': user})
-#         else:
-#             messages.error(request, 'Invalid OTP. Please try again.')
-#     return render(request, 'otp_verification.html')
-
-
-# def verify_otp(request, username):
-#     if request.method == 'POST':
-#         form = OTPVerificationForm(request.POST)
-#         if form.is_valid():
-#             otp = form.cleaned_data['otp']
-#             user_id = username
-#             print(otp, user_id)
-#             # Add OTP validation logic here
-#             if valid_otp(otp):
-#                 # OTP is valid, proceed with password reset
-#                 return redirect('reset_password')  # Assuming 'reset_password' is the URL name for the reset password view
-#             else:
-#                 messages.error(request, 'Invalid OTP. Please try again.')
-#     else:
-#         form = OTPVerificationForm()
-#     return render(request, 'patient_app/registration/otp_verification.html', {'form': form})
-
-
-# def valid_otp(otp):
-#     pass
 
 
 
@@ -178,14 +108,11 @@ def passwordResetRequestView(request):
             try:
                 user = User.objects.get(username=username)
             except User.DoesNotExist:
-                # Handle user not found error
                 return render(request, 'patient_app/registration/reset_password.html', {'form': form, 'error': 'User not found'})
 
             otp = generate_otp()
             OTP.objects.create(user=user, otp=otp)
-            send_otp(user.email, otp)  # Assuming send_otp sends the OTP via SMS
-
-            # Redirect to OTP verification view
+            send_otp(user.email, otp)
             return redirect('verify_otp', username=username)
     else:
         form = PasswordResetRequestForm()
@@ -199,17 +126,12 @@ def verify_otp(request, username):
             try:
                 user = User.objects.get(username=username)
             except User.DoesNotExist:
-                # Handle user not found error
                 return render(request, 'patient_app/registration/reset_password.html', {'form': form, 'error': 'User not found'})
-
-            # Get the latest OTP for the user
+            
             otp_obj = OTP.objects.filter(user=user).order_by('-created_at').first()
             if otp_obj and otp_obj.otp == otp:
-                # Check if OTP is not expired (within 3 minutes)
                 if otp_obj.created_at + timedelta(minutes=3) >= timezone.now():
-                    # OTP is valid, proceed with password reset or whatever logic you need
-                    print("valid otp")
-                    return render(request, 'patient_app/registration/reset_password.html', {'user': user})
+                    return redirect('reset_password', username=username)
                 else:
                     messages.error(request, 'OTP has expired. Please request a new OTP.')
             else:
@@ -217,3 +139,25 @@ def verify_otp(request, username):
     else:
         form = OTPVerificationForm()
     return render(request, 'patient_app/registration/otp_verification.html', {'form': form})
+
+
+
+def reset_password(request, username):
+    try:
+        user = User.objects.get(username=username)
+    except User.DoesNotExist:
+        return render(request, 'patient_app/registration/reset_password.html', {'error': 'User not found'})
+
+    if request.method == 'POST':
+        form = PasswordResetForm(user, request.POST)
+        if form.is_valid():
+            form.save()
+            # Authenticate the user and log them in
+            user = authenticate(request, username=username, password=form.cleaned_data['new_password1'])
+            if user is not None:
+                login(request, user)
+                # Redirect to a success page or the login page
+                return redirect('login')
+    else:
+        form = PasswordResetForm(user)
+    return render(request, 'patient_app/registration/set_password.html', {'form': form})

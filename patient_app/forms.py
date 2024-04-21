@@ -1,6 +1,6 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm,AuthenticationForm
-from .models import User
+from django.contrib.auth.forms import UserCreationForm,AuthenticationForm,SetPasswordForm
+from patient_app.models import User
 
 class UserRegistrationForm(UserCreationForm):
     username = forms.CharField(
@@ -77,3 +77,22 @@ class PasswordResetRequestForm(forms.Form):
 
 class OTPVerificationForm(forms.Form):
     otp = forms.CharField(label='Enter OTP', max_length=6, widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter OTP'}))
+
+
+class PasswordResetForm(SetPasswordForm):
+    def __init__(self, user, *args, **kwargs):
+        super().__init__(user, *args, **kwargs)
+        self.user = user
+
+        for fieldname in ['new_password1', 'new_password2']:
+            self.fields[fieldname].widget.attrs.update({
+                'class': 'form-control',
+                'placeholder': self.fields[fieldname].label,
+            })
+
+    def save(self, commit=True):
+        password = self.cleaned_data["new_password1"]
+        self.user.set_password(password)
+        if commit:
+            self.user.save()
+        return self.user

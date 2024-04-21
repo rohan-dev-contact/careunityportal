@@ -1,8 +1,8 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from patient_app.models import User,Patient,Department
-from .models import Prescription
-from datetime import date, timedelta
+from Doctor_App.models import Prescription
+from datetime import date
 
 class PatientRegistrationForm(UserCreationForm):
     first_name = forms.CharField(

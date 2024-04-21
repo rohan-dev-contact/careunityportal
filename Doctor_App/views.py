@@ -1,15 +1,14 @@
 from CareUnity_Portal import settings
-from .models import Prescription
-from .forms import PrescriptionForm
+from Doctor_App.models import Prescription
+from Doctor_App.forms import PrescriptionForm
 from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth.decorators import login_required
 from patient_app.models import Patient,User,Doctor,Department
-from .forms import PatientRegistrationForm ,PatientPatientUpdateForm,PatientUserUpdateForm,DepartmentForm
+from Doctor_App.forms import PatientRegistrationForm ,PatientPatientUpdateForm,PatientUserUpdateForm,DepartmentForm
 import random
 import string
 from django.core.mail import send_mail
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from pprint import pprint
 
 """Views Starts From Here"""
 @login_required

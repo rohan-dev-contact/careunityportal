@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.models import Group
 
 from patient_app.forms import PlainTextPasswordUserCreationForm
-from .models import Specialization, User,Department,Doctor,Patient
+from patient_app.models import Specialization, User,Department,Doctor,Patient
 from django.contrib.auth.admin import UserAdmin
 
 

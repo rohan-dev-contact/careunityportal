@@ -1,5 +1,5 @@
 from django.urls import path
-from . import views
+from patient_app import views
 from Doctor_App.views import add_patient
 urlpatterns = [
     path('', views.home_view, name='home'),
@@ -13,4 +13,5 @@ urlpatterns = [
     path('appointment/',views.appointment, name='appointment'), 
     path('reset-password/', views.passwordResetRequestView, name='password_reset_request'),
     path('verify-otp/<str:username>/', views.verify_otp, name='verify_otp'),
+    path('reset_password/<str:username>/', views.reset_password, name='reset_password'),
 ]
