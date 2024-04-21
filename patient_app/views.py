@@ -8,6 +8,15 @@ from .models import Doctor,Patient,User#,Appointment
 
 # Create your views here.
 def home_view(request):
+    if request.user.is_authenticated:
+        is_doctor = Doctor.objects.filter(user=request.user).exists()
+        is_patient = Patient.objects.filter(user=request.user).exists()
+        if is_doctor:
+            return redirect('doctor_dashboard')  # Redirect to doctor dashboard
+        elif is_patient:
+            return redirect('patient_dashboard')  # Redirect to patient dashboard
+        else:
+            return redirect('home')  # Redirect to a general home page
     return render(request, 'patient_app/home.html')
 
 def about_view(request):
