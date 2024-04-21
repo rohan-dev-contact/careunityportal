@@ -12,6 +12,8 @@ admin.site.site_title='Administration'
 admin.site.index_title='CareUnity Portal'
 admin.site.unregister(Group)
 
+admin.site.register(Contact)
+
 # @admin.register(User)
 # class UserAdmin(admin.ModelAdmin):
 #     list_display=('username','first_name','last_name','email','is_staff','is_active','address','mobile','is_superuser','last_login','id')

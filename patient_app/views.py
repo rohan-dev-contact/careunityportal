@@ -29,10 +29,17 @@ def services_view(request):
     return render(request, 'patient_app/services.html')
 
 def contact_view(request):
+    if request.method=='POST':
+        form=Contact_form(request.POST)
+        if form.is_valid():
+            form.save
+            return render(request, 'patient_app/success.html')
+    form= Contact_form()
+    context = {'form':form}
     return render(request, 'patient_app/contact.html')
 
 def terms(request):
-    return render(request, 'patient_app/terms.html')
+    return render(request, 'patient_app/terms.html',context)
 
 def signup(request):
     if request.method == 'POST':
@@ -84,8 +91,43 @@ def userLogout(request):
     return redirect('/login')
 
 def appointment(request):
-    appointments= Appointment.objects.all()
-    return render (request, 'Doctor_App/patient/book_appointment.html',{'appointments':appointments})
+    pass
+    # if request.method=='POST':
+    #     form=Appointment_form(request.POST)
+    #     if form.is_valid():
+    #         appt=form.save(commit=False)
+    #         appt.user=request.user
+    #         appt.save()
+    #         return redirect('appointment booked successfully !')
+    #     else:
+    #         form=Appointment_form()
+    #         return render(request,'Doctor_App/patient/book_appointment.html',{'form':form})
+        
+        
+    
+    return render (request, 'Doctor_App/patient/book_appointment.html',{'appointment':appointment})
+
+# def select_dept(request):
+#     if request.method=='POST':
+#         form= Dept_Selection_Form(request.POST)
+#         if form.is_valid():
+#             selected_dept= form.cleaned_data['departments']
+#             doctors= Doctor.objects.filter(departments=selected_dept)
+#             return render(request,'Doctor_App/doctor/doctor_list.html',{'doctors':doctors})
+#         else:
+#             form=Dept_Selection_Form()
+#             return render(request, 'Doctor_App/doctor/select_dept.html', {'form':form})
+
+def upload_file(request):
+    if request.method == 'POST':
+        form = FileUploadForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('upload_success')  # Redirect to a success page
+    else:
+        form = FileUploadForm()
+    return render(request, 'Doctor_App/patient/report_upload.html', {'form': form})
+
 
 
 

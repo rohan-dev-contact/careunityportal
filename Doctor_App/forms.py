@@ -145,10 +145,6 @@ class PrescriptionForm(forms.ModelForm):
         widget=forms.Textarea(attrs={"class": "form-control mt-1 border-primary", "placeholder": "Enter general information"}),
     )
     
-class Appointment:
-    td=date.today()
-        
-
     class Meta:
         model = Prescription
         fields = ['medication', 'instructions', 'diagnosis', 'general_info']
