@@ -1,7 +1,6 @@
 from django.urls import path
 from . import views
 from Doctor_App.views import add_patient
-from .views import appointment
 urlpatterns = [
     path('', views.home_view, name='home'),
     path('about/', views.about_view, name='about'),
@@ -11,5 +10,7 @@ urlpatterns = [
     path('terms/', views.terms, name='terms'),
     path('login/',views.userLogin,name='login'),
     path('logout/',views.userLogout,name='logout'),
-    path('appointment/',views.appointment, name='appointment')
+    path('appointment/',views.appointment, name='appointment'), 
+    path('reset-password/', views.passwordResetRequestView, name='password_reset_request'),
+    path('verify-otp/<str:username>/', views.verify_otp, name='verify_otp'),
 ]

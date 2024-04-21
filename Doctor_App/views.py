@@ -1,3 +1,4 @@
+from CareUnity_Portal import settings
 from .models import Prescription
 from .forms import PrescriptionForm
 from django.shortcuts import get_object_or_404, render, redirect
@@ -124,7 +125,7 @@ def add_patient(request):
             send_mail(
                 'Welcome to CareUnity Portal',
                 f'Your account has been created with username: {username} and password: {password}.\n Please login to access your account.',
-                'rohan19mondal@gmail.com',
+                settings.EMAIL_HOST_USER,
                 [user.email],
                 fail_silently=True,
             )

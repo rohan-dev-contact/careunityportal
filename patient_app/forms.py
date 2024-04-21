@@ -70,3 +70,10 @@ class PlainTextPasswordUserCreationForm(UserCreationForm):
         if commit:
             user.save()
         return user
+
+class PasswordResetRequestForm(forms.Form):
+    username = forms.CharField(label=("Username"), max_length=100, widget=forms.TextInput(attrs={"class": "form-control", "placeholder": "Enter Username"}))
+
+
+class OTPVerificationForm(forms.Form):
+    otp = forms.CharField(label='Enter OTP', max_length=6, widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter OTP'}))

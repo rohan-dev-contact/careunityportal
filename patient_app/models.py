@@ -49,6 +49,14 @@ class Patient(models.Model):
     gender=models.CharField(max_length=255)
     def __str__(self):
         return f"Patient: {self.user.first_name} {self.user.last_name} (ID: {self.pk})"
+    
+
+
+class OTP(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    otp = models.CharField(max_length=6)
+    created_at = models.DateTimeField(auto_now_add=True)
+
 # class Appointment(models.Model):
 #     appid=models.AutoField(primary_key=True)
 #     doctor=models.ForeignKey(Doctor, on_delete=models.CASCADE, verbose_name='Doctor')

@@ -154,12 +154,12 @@ button[type="submit"]:hover {
     transform: scale(1.1);
 }
 
-h2:hover {
+/* h2:hover {
     color: blue;
     animation-name: zoomIn;
     animation-duration: 0.5s;
     animation-timing-function: ease-out;
-}
+} */
 
 /* p {
     color: #666;
