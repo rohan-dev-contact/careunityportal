@@ -1,4 +1,7 @@
 /* General Styles */
+::-webkit-scrollbar{
+    display: none;
+}
 
 body {
     font-family: Arial, sans-serif;
@@ -56,7 +59,7 @@ select {
     border-radius: 5px;
     font-size: 16px;
 }
-
+/* 
 button[type="submit"] {
     width: 100%;
     padding: 10px;
@@ -71,7 +74,7 @@ button[type="submit"] {
 
 button[type="submit"]:hover {
     background-color: #0056b3;
-}
+} */
 
 /* Styles for specific elements */
 

@@ -36,6 +36,9 @@ class Doctor(models.Model):
     specialization = models.ManyToManyField(Specialization)
     experience = models.IntegerField()
     departments = models.ManyToManyField(Department)
+    def __str__(self):
+        return (self.user.first_name+' '+self.user.last_name + ' ('+self.user.username+')')
+    
 
 class Patient(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
@@ -44,7 +47,8 @@ class Patient(models.Model):
     health_insurance = models.CharField(max_length=255)    
     age = models.IntegerField(default=0)
     gender=models.CharField(max_length=255)
-    
+    def __str__(self):
+        return f"Patient: {self.user.first_name} {self.user.last_name} (ID: {self.pk})"
 # class Appointment(models.Model):
 #     appid=models.AutoField(primary_key=True)
 #     doctor=models.ForeignKey(Doctor, on_delete=models.CASCADE, verbose_name='Doctor')

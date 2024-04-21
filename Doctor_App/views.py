@@ -9,6 +9,7 @@ import random
 import string
 from django.core.mail import send_mail
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from pprint import pprint
 
 # Create your views here.
 @login_required
@@ -19,23 +20,26 @@ def doctorDash(request):
 def patientDash(request):
     return render(request,'Doctor_App/patient/patient_home.html')
 
-@login_required
+# @login_required
 def patient_list(request):
+    current_doctor = Doctor.objects.get(user=request.user) if hasattr(request.user, 'doctor') else None
     search_query = request.GET.get('search', '')
     search_criteria = request.GET.get('search_criteria', 'name')
     
-    if search_criteria == 'name':
+    if search_criteria == 'name' and search_query != '' :
         users = User.objects.filter(first_name__icontains=search_query)
         patient_ids = [user.id for user in users]
         patients = Patient.objects.filter(user_id__in=patient_ids)
-    elif search_criteria == 'username':
+    elif search_criteria == 'username' and search_query != '':
         try:
             patient_id = search_query
             patients = Patient.objects.filter(user__username=patient_id)
         except ValueError:
             patients = Patient.objects.none()
     else:
-        patients = Patient.objects.none()
+        patients = Patient.objects.all()
+        patients = patients.filter(assigned_doctor=current_doctor) | patients.filter(assigned_doctor=None)    
+
 
     # Pagination
     paginator = Paginator(patients, 10)  # Show 10 patients per page
@@ -43,6 +47,14 @@ def patient_list(request):
     page_obj = paginator.get_page(page_number)
 
     return render(request, 'Doctor_App/doctor/patient_list.html', {'patients': page_obj, 'search_query': search_query, 'search_criteria': search_criteria})
+
+
+
+
+
+
+
+
 
 
 @login_required

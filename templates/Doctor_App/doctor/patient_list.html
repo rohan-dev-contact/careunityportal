@@ -13,8 +13,8 @@
             </div> {% endcomment %}
         </div>
         <h1>Patient List</h1>
-        <form method="GET" class="d-flex">
-            <div class="input-group me-2" style="width: 70%;">
+        <form method="GET" class="d-flex justify-content-start">
+            <div class="input-group me-2" style="width: 60%;">
                 <input type="text" name="search" class="form-control" placeholder="Search" value="{{ search_query }}">
             </div>
             <div class="input-group" style="width: 20%;">
@@ -23,12 +23,17 @@
                     <option value="name" {% if search_criteria == 'name' %}selected{% endif %}>Name</option>
                 </select>
             </div>
-            <div class="input-group" style="width: 10%; padding-left:8px;">
-                <button type="submit" class="btn btn-primary">Search</button>
-                {% comment %} {% if search_query %}
-                    <a href="{% url 'patient_list' %}" class="btn btn-secondary">Clear</a>
-                {% endif %} {% endcomment %}
+           
+            {% if search_query %}
+            <div class="d-flex justify-content-start" style="width: 20%;">
+                <button type="submit" class="btn btn-primary mx-1">Search</button>
+                <a href="{% url 'patient_list' %}" class="btn btn-secondary mx-1">Clear</a>
             </div>
+            {% else %}
+            <div class="d-flex justify-content-start" style="width: 10%;">
+                <button type="submit" class="btn btn-primary mx-1">Search</button>
+            </div>
+            {% endif %}
         </form>
         {% if patients %}
             <table class="table">
