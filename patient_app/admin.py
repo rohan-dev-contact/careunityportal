@@ -1,6 +1,10 @@
 from django.contrib import admin
 from django.contrib.auth.models import Group
+
+from patient_app.forms import PlainTextPasswordUserCreationForm
 from .models import Specialization, User,Department,Doctor,Patient
+from django.contrib.auth.admin import UserAdmin
+
 
 # Register your models here.
 admin.site.site_header='CareUnity Portal'
@@ -8,9 +12,9 @@ admin.site.site_title='Administration'
 admin.site.index_title='CareUnity Portal'
 admin.site.unregister(Group)
 
-@admin.register(User)
-class UserAdmin(admin.ModelAdmin):
-    list_display=('username','first_name','last_name','email','is_staff','is_active','address','mobile','is_superuser','last_login','id')
+# @admin.register(User)
+# class UserAdmin(admin.ModelAdmin):
+#     list_display=('username','first_name','last_name','email','is_staff','is_active','address','mobile','is_superuser','last_login','id')
 
 
 @admin.register(Patient)
@@ -74,3 +78,15 @@ class DepartmentAdmin(admin.ModelAdmin):
 class SpecializationAdmin(admin.ModelAdmin):
     list_display=('name','id')
     search_fields = ('name',)
+
+
+class CustomUserAdmin(UserAdmin):
+    add_form = PlainTextPasswordUserCreationForm
+    add_fieldsets = (
+        (None, {
+            'classes': ('wide',),
+            'fields': ('username', 'password1', 'password2', 'first_name', 'last_name', 'email', 'is_staff', 'is_active', 'address', 'mobile')}
+        ),
+    )
+
+admin.site.register(User, CustomUserAdmin)

@@ -48,3 +48,25 @@ class LoginForm(AuthenticationForm):
         label=("Enter Password"),
         widget=forms.PasswordInput(attrs={"class": "form-control border-primary","placeholder":"Enter Password"}),
     )
+
+
+class PlainTextPasswordUserCreationForm(UserCreationForm):
+    password1 = forms.CharField(
+        label=("Enter Password"),
+        widget=forms.PasswordInput(attrs={"class": "form-control mt-1 border-primary"}),
+    )
+    password2 = forms.CharField(
+        label=("Confirm Password"),
+        widget=forms.PasswordInput(attrs={"class": "form-control mt-1 border-primary"}),
+    )
+
+    class Meta(UserCreationForm.Meta):
+        model = User
+        fields = ("username", "password1", "password2", "first_name", "last_name", "email", "is_staff", "is_active", "address", "mobile")
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        user.set_password(self.cleaned_data["password1"])
+        if commit:
+            user.save()
+        return user
