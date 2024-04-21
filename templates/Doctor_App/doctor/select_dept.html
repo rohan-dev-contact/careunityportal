@@ -1,0 +1,15 @@
+{% comment %} <!-- select_department.html -->
+
+{% extends 'Doctor_App/base.html' %}
+{% block nav %}
+{% include "./navbar.html" %}
+{% endblock nav %}
+
+{%block content%}
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Select Department</button>
+</form>
+{%endblock%} {% endcomment %}
+

@@ -12,7 +12,7 @@ admin.site.site_title='Administration'
 admin.site.index_title='CareUnity Portal'
 admin.site.unregister(Group)
 
-admin.site.register(Contact)
+# admin.site.register(Contact)
 
 # @admin.register(User)
 # class UserAdmin(admin.ModelAdmin):

@@ -5,7 +5,7 @@ from django.utils import timezone
 import random
 
 from CareUnity_Portal import settings
-from Doctor_App.forms import Appointment
+# from Doctor_App.forms import Appointment
 from patient_app.forms import OTPVerificationForm, PasswordResetForm, PasswordResetRequestForm, UserRegistrationForm,LoginForm
 from django.contrib.auth import authenticate,login,logout
 from patient_app.models import OTP, Doctor,Patient,User

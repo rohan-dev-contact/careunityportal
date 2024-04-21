@@ -1,0 +1,14 @@
+{% comment %} <!-- doctor_list.html -->
+{% extends 'Doctor_App/base.html' %}
+{% block nav %}
+{% include "./navbar.html" %}
+{% endblock nav %}
+
+{% block content %}
+<h2>Doctors in {{ doctors.0.departments }}</h2>
+<ul>
+    {% for doctor in doctors %}
+        <li>{{ doctor.name }}</li>
+    {% endfor %}
+</ul>
+{%endblock%} {% endcomment %}
