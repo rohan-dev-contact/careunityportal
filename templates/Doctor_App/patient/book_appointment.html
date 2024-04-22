@@ -1,111 +1,15 @@
-{% extends 'Doctor_App/base.html' %}
-{% block nav %}
-{% include "./navbar.html" %}
-{% endblock nav %}
-{% load static %}
-{% block title %}Booking Appointment- CareUnity Portal{% endblock %}
-{% block content %}
+{% extends 'Doctor_App/base.html' %} {% block nav %} {% include "./navbar.html" %} {% endblock nav %} {% block content %}
 
-<link
-            id="theme-style"
-            href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
-            rel="stylesheet"
-            integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
-            crossorigin="anonymous"
-        />
-        <link rel="stylesheet" href="{% static "style.css" %}">
 <div class="row mb-4">
     <div class="col">
         <a href="{% url 'patient_dashboard' %}" class="btn btn-secondary">Back to Dashboard</a>
     </div>
-    {% comment %} <div class="col text-end">
-        <a href="{% url 'add_patient' %}" class="btn btn-primary">Add New Patient</a>
-    </div> {% endcomment %}
 </div>
-        <h2>Book Appointment</h2>
-        <form action="#" method="post"> <!-- Action attribute should point to your server-side script -->
-            <div class="form-group">
-                <label for="department">Choose Department:</label>
-                <select id="department" name="department">
-                    <option value="0">Select Department</option>
-                    <option value="1">Cardiology</option>
-                    <option value="2">Orthopedics</option>
-                    <option value="3">Dermatology</option>
-                    <!-- Add more options as needed -->
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="doctor">Choose Doctor:</label>
-                <select id="doctor" name="doctor">
-                    <option value="0">Select Doctor</option>
-                    <!-- Options for doctors will be populated dynamically based on the selected department -->
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="name">Patient Name:</label>
-                <input type="text" id="name" name="name" placeholder="Enter your name" required>
-            </div>
-            <div class="form-group">
-                <label for="age">Age:</label>
-                <input type="number" id="age" name="age" placeholder="Enter your age" required>
-            </div>
-            <div class="form-group">
-                <label for="gender">Gender:</label>
-                <select id="gender" name="gender">
-                    <option value="male">Male</option>
-                    <option value="female">Female</option>
-                    <option value="other">Other</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="date">Date:</label>
-                <input type="date" id="date" name="date" required>
-            </div>
-            <div class="form-group">
-                <label for="time">Time Slot:</label>
-                <input type="time" id="time" name="time" required>
-            </div>
-            <button type="submit">Book Appointment</button>
-        </form>
-    {% comment %} <script>
-    document.getElementById('department').addEventListener('change', function() {
-        var departmentId = this.value;
-        var doctorSelect = document.getElementById('doctor');
-    
-       
-        doctorSelect.innerHTML = '<option value="0">Select Doctor</option>';
-    
-        if (departmentId !== '0') {
-            // Perform AJAX request to fetch doctors based on selected department
-            // Replace the URL with the endpoint where you fetch doctors from your server
-            var url = '/get-doctors/' + departmentId; // Example URL, replace with actual endpoint
-            fetch(url)
-                .then(response => response.json())
-                .then(data => {
-                    // Populate doctor options based on fetched data
-                    data.forEach(doctor => {
-                        var option = document.createElement('option');
-                        option.value = doctor.id; // Assuming doctors have an ID field
-                        option.textContent = doctor.name; // Assuming doctors have a name field
-                        doctorSelect.appendChild(option);
-                    });
-                })
-                .catch(error => console.error('Error fetching doctors:', error));
-        }
-    });
+<h2>Book Appointment</h2>
+<form method="post">
+    {% csrf_token %} {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Book Appointment</button>
+    <a href="javascript:history.back()" class="btn btn-secondary">Cancel</a>
+</form>
 
-    var timeInput = document.getElementById('time');
-
-for (var hour = 0; hour < 24; hour++) {
-    var option = document.createElement('option');
-    var hourDisplay = (hour % 12 || 12).toString().padStart(2, '0');
-    var ampm = hour < 12 ? 'AM' : 'PM';
-    var value = hour.toString().padStart(2, '0') + ':00';
-    option.text = hourDisplay + ':00 ' + ampm;
-    option.value = value;
-    timeInput.appendChild(option);
-}
-
-</script> {% endcomment %}
-    
-{%endblock%}
+{% endblock %}

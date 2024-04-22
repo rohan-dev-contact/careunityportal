@@ -1,15 +1,45 @@
 {% extends 'Doctor_App/base.html' %}
-
+{% block nav %}
+    {% include "./navbar.html" %}
+{% endblock nav %}
 {% block content %}
 <div class="card-body">
-    <h1>{{ doctor.user.get_full_name }}</h1>
-    <p><strong>Specializations:</strong>
-        {% for specialization in doctor.specializations.all %}
-            {{ specialization }}{% if not forloop.last %}, {% endif %}
-        {% endfor %}
-    </p>
-    <p><strong>Phone Number:</strong> {{ doctor.user.mobile }}</p>
-    <p><strong>Email:</strong> {{ doctor.user.email }}</p>
-    <!-- Add more details here -->
+    <div class="d-flex justify-content-between align-items-center">
+        <button class="btn btn-secondary" onclick="goBack()">Back</button>
+        <h1 class="mb-0">Doctor: {{ doctor.user.get_full_name }}</h1>
+    </div>
+    <hr>
+    <div>
+        <h3>Doctor Details</h3>
+        <ul>
+            <li><strong>Specializations:</strong>
+                {% for specialization in doctor.specialization.all %}
+                    {{ specialization }}{% if not forloop.last %}, {% endif %}
+                {% endfor %}
+            </li>
+            <li><strong>Phone Number:</strong> {{ doctor.user.mobile }}</li>
+            <li><strong>Email:</strong> {{ doctor.user.email }}</li>
+            <li><strong>Address:</strong> {{ doctor.user.address }}</li>
+            <li><strong>Qualifications:</strong> 
+                {% for qualification in doctor.qualifications.all %}
+                 {{ qualification }}{% if not forloop.last %}, {% endif %}
+                {% endfor %}</li>
+        </ul>
+    </div>
+    <hr>
+    <div>
+        <h3>Availability</h3>
+        {{ doctor.get_schedule_display |safe}}
+    </div>
+    <hr>
+    <div>
+        <a href="{% url 'book_appointment' department_id=department_id doctor_id=doctor.user_id %}" class="btn btn-primary">Book Appointment</a>
+    </div>    
 </div>
+
+<script>
+function goBack() {
+    window.history.back();
+}
+</script>
 {% endblock %}

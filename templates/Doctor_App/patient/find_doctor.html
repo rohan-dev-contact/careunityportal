@@ -39,7 +39,7 @@
             </thead>
             <tbody>
                 {% for doctor in doctors %}
-                <tr class="clickable-row" onclick="window.location='{% url 'doctor_details' doctor.user.id %}'" style="cursor: pointer;">
+                <tr class="clickable-row" onclick="window.location='{% url 'doctor_details' doctor_id=doctor.user.id department_id=department_details.id %}'" style="cursor: pointer;">
                     <td>{{ doctor.user.get_full_name }}</td>
                     <td>{% for specialization in doctor.specialization.all %} {{ specialization }}{% if not forloop.last %}, {% endif %} {% endfor %}</td>
                     <td>{{ doctor.user.mobile }}</td>

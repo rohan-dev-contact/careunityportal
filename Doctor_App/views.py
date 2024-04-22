@@ -1,9 +1,11 @@
+from datetime import timedelta, timezone
 from CareUnity_Portal import settings
 from Doctor_App.models import Prescription
 from Doctor_App.forms import PrescriptionForm
 from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth.decorators import login_required
-from patient_app.models import Patient,User,Doctor,Department
+from patient_app.forms import AppointmentForm
+from patient_app.models import Appointment, Patient, Schedule,User,Doctor,Department
 from Doctor_App.forms import PatientRegistrationForm ,PatientPatientUpdateForm,PatientUserUpdateForm,DepartmentForm
 import random
 import string
@@ -272,7 +274,32 @@ def find_doctor(request):
     return render(request, 'Doctor_App/patient/find_doctor.html', {'form': form, 'department_details': department_details, 'doctors': doctors})
 
 
-def doctor_details(request, doctor_id):
+def doctor_details(request, doctor_id,department_id):
     doctor = get_object_or_404(Doctor, user_id=doctor_id)
-    return render(request, 'Doctor_App/patient/doctor_details.html', {'doctor': doctor})
+    return render(request, 'Doctor_App/patient/doctor_details.html', {'doctor': doctor,'department_id':department_id})
 
+
+
+def book_appointment(request, department_id=None, doctor_id=None):
+    if department_id and doctor_id:
+        form = AppointmentForm(request.POST or None, initial={'doctor': doctor_id})
+        form.set_initial_department_doctor(department_id, doctor_id)
+    else:
+        form = AppointmentForm(request.POST or None)
+
+    if request.method == 'POST' and form.is_valid():
+        appointment = form.save(commit=False)
+        schedule = Schedule.objects.filter(doctor=appointment.doctor, days=appointment.appdate.strftime('%A')).first()
+        
+        # Check if the appointment date is within the allowed range (within 1 month from today)
+        if appointment.appdate > timezone.now().date() + timedelta(days=30):
+            form.add_error('appdate', 'Appointment date must be within 1 month from today.')
+        # Check if the doctor has reached the maximum booking limit for the selected date
+        elif schedule and Appointment.objects.filter(doctor=appointment.doctor, appdate=appointment.appdate).count() >= schedule.max_patient_count:
+            form.add_error('appdate', 'Maximum booking limit for this date has been reached.')
+
+        if not form.errors:
+            appointment.save()
+            return render(request, 'Doctor_App/patient/success.html', {'message': 'Appointment booked successfully!'})
+    
+    return render(request, 'Doctor_App/patient/book_appointment.html', {'form': form})

@@ -82,27 +82,27 @@ WSGI_APPLICATION = 'CareUnity_Portal.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'careuniportal',
-        'USER': 'careunityportal',      
-        'PASSWORD': 'careunityportal',  
-        'HOST': 'db4free.net',          
-        'PORT': '3306',               
-    }
-}
-# Database set up for local using xampp
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.mysql',
 #         'NAME': 'careuniportal',
-#         'USER': 'root',      
-#         'PASSWORD': '',  
-#         'HOST': 'localhost',          
+#         'USER': 'careunityportal',      
+#         'PASSWORD': 'careunityportal',  
+#         'HOST': 'db4free.net',          
 #         'PORT': '3306',               
 #     }
 # }
+# Database set up for local using xampp
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'careuniportal',
+        'USER': 'root',      
+        'PASSWORD': '',  
+        'HOST': 'localhost',          
+        'PORT': '3306',               
+    }
+}
 
 
 

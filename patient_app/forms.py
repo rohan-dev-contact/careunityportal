@@ -1,6 +1,7 @@
+import datetime
 from django import forms
 from django.contrib.auth.forms import UserCreationForm,AuthenticationForm,SetPasswordForm
-from patient_app.models import User
+from patient_app.models import Appointment, Doctor, User
 
 class UserRegistrationForm(UserCreationForm):
     username = forms.CharField(
@@ -96,3 +97,18 @@ class PasswordResetForm(SetPasswordForm):
         if commit:
             self.user.save()
         return self.user
+
+
+class AppointmentForm(forms.ModelForm):
+    class Meta:
+        model = Appointment
+        fields = ['patient', 'doctor', 'appdate']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['patient'].widget.attrs['readonly'] = True  # Make patient details read-only
+        self.fields['appdate'].widget.attrs['min'] = str(datetime.date.today())  # Set minimum date to today
+
+    def set_initial_department_doctor(self, department_id, doctor_id):
+        self.fields['doctor'].queryset = Doctor.objects.filter(departments=department_id)
+        self.initial['doctor'] = doctor_id
