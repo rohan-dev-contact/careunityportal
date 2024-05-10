@@ -6,9 +6,9 @@ import random
 
 from CareUnity_Portal import settings
 # from Doctor_App.forms import Appointment
-from patient_app.forms import OTPVerificationForm, PasswordResetForm, PasswordResetRequestForm, UserRegistrationForm,LoginForm
+from patient_app.forms import AppointmentForm, OTPVerificationForm, PasswordResetForm, PasswordResetRequestForm, UserRegistrationForm,LoginForm
 from django.contrib.auth import authenticate,login,logout
-from patient_app.models import OTP, Doctor,Patient,User
+from patient_app.models import OTP, Appointment, Doctor,Patient, Schedule,User
 from django.core.mail import send_mail
 
 # Create your views here.
@@ -203,3 +203,5 @@ def reset_password(request, username):
     else:
         form = PasswordResetForm(user)
     return render(request, 'patient_app/registration/set_password.html', {'form': form})
+
+

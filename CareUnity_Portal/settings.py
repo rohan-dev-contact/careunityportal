@@ -90,6 +90,17 @@ WSGI_APPLICATION = 'CareUnity_Portal.wsgi.application'
 #         'PORT': '3306',               
 #     }
 # }
+# Database set up for local using xampp
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'careuniportal',
+        'USER': 'root',      
+        'PASSWORD': '',  
+        'HOST': 'localhost',          
+        'PORT': '3306',               
+    }
+}
 
 # Database set up for local using xampp
 DATABASES = {

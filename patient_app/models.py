@@ -30,14 +30,52 @@ class Specialization(models.Model):
     def __str__(self):
         return self.name
     
+
+class Qualification(models.Model):
+    name = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.name
+    
+    
 class Doctor(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     specialization = models.ManyToManyField(Specialization)
     experience = models.IntegerField()
     departments = models.ManyToManyField(Department)
+    qualifications = models.ManyToManyField(Qualification)
+
+    # def get_schedule_display(self):
+    #     schedules = Schedule.objects.filter(doctor=self)
+    #     schedule_info = []
+    #     for schedule in schedules:
+    #         schedule_info.append(f"{schedule.days}: {schedule.time_slot}")
+    #         print(schedule_info)
+    #     return ", ".join(schedule_info)
+
+    def get_schedule_display(self):
+        schedules = Schedule.objects.filter(doctor=self)
+        table_html = '<table class="table">'
+        table_html += '<thead><tr><th>Day</th><th>Time Slot</th></tr></thead>'
+        table_html += '<tbody>'
+        
+        for schedule in schedules:
+            table_html += f'<tr><td>{schedule.days}</td><td>{schedule.time_slot}</td></tr>'
+            
+        table_html += '</tbody></table>'
+        
+        return table_html
+    
     def __str__(self):
         return (self.user.first_name+' '+self.user.last_name + ' ('+self.user.username+')')
     
+
+class Schedule(models.Model):
+    sid=models.AutoField(primary_key=True)
+    days=models.CharField(max_length=255, verbose_name='Available Days')
+    time_slot=models.CharField(max_length=200, verbose_name='Available Time')
+    doctor=models.ForeignKey(Doctor, on_delete=models.CASCADE, verbose_name='Doctor')
+    max_patient_count = models.PositiveIntegerField(default=5, verbose_name='Max Patient Count')
 
 class Patient(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
@@ -56,10 +94,14 @@ class OTP(models.Model):
     otp = models.CharField(max_length=6)
     created_at = models.DateTimeField(auto_now_add=True)
 
-# class Appointment(models.Model):
-#     appid=models.AutoField(primary_key=True)
-#     doctor=models.ForeignKey(Doctor, on_delete=models.CASCADE, verbose_name='Doctor')
-#     patient=models.ForeignKey(Patient, on_delete=models.CASCADE, related_name='Patient')
-#     appmadeon=models.DateField(auto_now_add=True, blank=False, verbose_name='Appointment Made Date')
-#     appdate=models.DateField(verbose_name='Appointment Date')
+class Appointment(models.Model):
+    appid = models.AutoField(primary_key=True)
+    doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE, verbose_name='Doctor')
+    patient = models.ForeignKey(Patient, on_delete=models.CASCADE, related_name='Patient')
+    appmadeon = models.DateField(auto_now_add=True, blank=False, verbose_name='Appointment Made Date')
+    appdate = models.DateField(verbose_name='Appointment Date')
+
+    def __str__(self):
+        return f"Appointment ID: {self.appid}, Doctor: {self.doctor}, Patient: {self.patient}"
+
     

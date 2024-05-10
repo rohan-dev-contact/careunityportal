@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.models import Group
 
 from patient_app.forms import PlainTextPasswordUserCreationForm
-from patient_app.models import Specialization, User,Department,Doctor,Patient
+from patient_app.models import Qualification, Schedule, Specialization, User,Department,Doctor,Patient
 from django.contrib.auth.admin import UserAdmin
 
 
@@ -11,12 +11,6 @@ admin.site.site_header='CareUnity Portal'
 admin.site.site_title='Administration'
 admin.site.index_title='CareUnity Portal'
 admin.site.unregister(Group)
-
-# admin.site.register(Contact)
-
-# @admin.register(User)
-# class UserAdmin(admin.ModelAdmin):
-#     list_display=('username','first_name','last_name','email','is_staff','is_active','address','mobile','is_superuser','last_login','id')
 
 
 @admin.register(Patient)
@@ -40,9 +34,9 @@ class PatientAdmin(admin.ModelAdmin):
 
 @admin.register(Doctor)
 class DoctorAdmin(admin.ModelAdmin):
-    list_display=('username','email','get_specializations','get_departments','experience',)
+    list_display=('username','email','get_specializations','get_departments','experience','get_qualifications')
     list_filter = ('departments','specialization__name')
-    search_fields = ('user__username', 'specialization__name', 'departments__department_name')
+    search_fields = ('user__username', 'specialization__name', 'departments__department_name','qualifications')
 
     def username(self, obj):
         return obj.user.username
@@ -59,6 +53,10 @@ class DoctorAdmin(admin.ModelAdmin):
     def get_departments(self, obj):
         return ', '.join([s.department_name for s in obj.departments.all()])
     get_departments.short_description = 'Departments'
+
+    def get_qualifications(self, obj):
+        return ', '.join([s.name for s in obj.qualifications.all()])
+    get_qualifications.short_description = 'Qualifications'
 
 
 @admin.register(Department)
@@ -92,3 +90,12 @@ class CustomUserAdmin(UserAdmin):
     )
 
 admin.site.register(User, CustomUserAdmin)
+
+@admin.register(Qualification)
+class QualificationAdmin(admin.ModelAdmin):
+    list_display=('name','id')
+    search_fields = ('name',)
+
+@admin.register(Schedule)
+class ScheduleAdmin(admin.ModelAdmin):
+    list_display=('sid','days','time_slot','doctor','max_patient_count')

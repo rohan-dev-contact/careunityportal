@@ -8,11 +8,11 @@
  <div class="row">
     <div class="col-md-4">
         <div class="card">
-            <div class="card h-100 clickable-card" onclick="location.href='{%url "appointment"%}'">
+            <div class="card h-100 clickable-card" onclick="location.href='{% comment "" %}{%url ""%}{% endcomment %}#'">
                 <div class="card-body">
                     <h5 class="card-title">Appointment Booking</h5>
                     <p class="card-text">Book your Appointment here</p>
-                    <a href="{% url "appointment" %}" class="card-link">Book Appoinments</a>
+                    <a href="{% comment "" %}{%url ""%}{% endcomment %}#" class="card-link">Book Appoinments</a>
                 </div>
             </div>
         </div>
@@ -46,7 +46,7 @@
             <div class="card h-100 clickable-card" onclick="location.href='{% url 'upload_file' %}'">
                <div class="card-body">
                    <h5 class="card-title">Upload your Report</h5>
-                   <a href="{% url 'upload_file' %}" class="card-link">upload test report</a>
+                   <a href="  {% url 'upload_file' %}" class="card-link">upload test report</a>
                 </div>
             </div>    
         </div>
