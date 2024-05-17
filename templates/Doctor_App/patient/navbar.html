@@ -9,7 +9,7 @@
             <ul class="navbar-nav me-auto">
                 <li class="nav-item">
                     {% comment %} <a class="nav-link {% if url_name == 'patient_list' %}active{% endif %}" aria-current="page" href="{% url 'patient_list' %}"></a> {% endcomment %}
-                    <a class="nav-link {% if url_name == 'patient_list' %}active{% endif %}" aria-current="page" href="#">Book Appointment</a>
+                    <a class="nav-link {% if url_name == 'patient_list' %}active{% endif %}" aria-current="page" href="{% url "upcoming_appointments" %}">Your Appointment</a>
                 </li>
                 <li class="nav-item">
                     {% comment %} <a class="nav-link {% if url_name == 'patient_list' %}active{% endif %}" aria-current="page" href="{% url 'patient_list' %}"></a> {% endcomment %}

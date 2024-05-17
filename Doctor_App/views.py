@@ -302,3 +302,22 @@ def appointment_success(request, appointment_id, doctor_id, department_id):
     appointment = get_object_or_404(Appointment, appid=appointment_id)
     return render(request, 'Doctor_App/patient/appointment_success.html', {'appointment': appointment, 'doctor_id': doctor_id, 'department_id': department_id})
 
+
+
+@login_required
+def upcoming_appointments(request):
+    patient = request.user.patient
+    appointments = Appointment.objects.filter(patient=patient).order_by('appdate')
+
+    # Pagination
+    paginator = Paginator(appointments, 10)
+    page = request.GET.get('page')
+
+    try:
+        appointments = paginator.page(page)
+    except PageNotAnInteger:
+        appointments = paginator.page(1)
+    except EmptyPage:
+        appointments = paginator.page(paginator.num_pages)
+
+    return render(request, 'Doctor_App/patient/upcoming_appointments.html', {'appointments': appointments})

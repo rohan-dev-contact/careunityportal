@@ -1,0 +1,60 @@
+{% extends 'Doctor_App/base.html' %} 
+{% block title %}
+    Upcoming Appointments
+{% endblock title %}
+{% block nav %} 
+    {% include "./navbar.html" %}
+{% endblock nav %} 
+{% block content %}
+    <div class="">
+        <h1 class="mt-4 mb-4">Upcoming Appointments</h1>
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Doctor</th>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Department</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for appointment in appointments %}
+                        <tr class="appointment-item">
+                            <td>{{ appointment.doctor.user.get_full_name }}</td>
+                            <td>{{ appointment.appdate|date:"D, d M Y" }}</td>
+                            <td>{{ appointment.appdate|time:"g:i A" }}</td>
+                            <td>{{ appointment.doctor.departments.first.department_name }}</td>
+                            <td class="action">
+                                <button class="btn btn-danger btn-sm">Cancel</button>
+                                <button class="btn btn-warning btn-sm">Reschedule</button>
+                                <button class="btn btn-success btn-sm">Print Slip</button>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="pagination justify-content-center">
+            {% if appointments.has_previous %}
+                <a href="?page=1" class="btn btn-secondary">&laquo; First</a>
+                <a href="?page={{ appointments.previous_page_number }}" class="btn btn-secondary">Previous</a>
+            {% endif %}
+            <span class="current mx-3">Page {{ appointments.number }} of {{ appointments.paginator.num_pages }}.</span>
+            {% if appointments.has_next %}
+                <a href="?page={{ appointments.next_page_number }}" class="btn btn-secondary">Next</a>
+                <a href="?page={{ appointments.paginator.num_pages }}" class="btn btn-secondary">Last &raquo;</a>
+            {% endif %}
+        </div>
+        <a href="{% url 'dashboard' %}" class="btn btn-primary mt-4"><i class="fas fa-arrow-left"></i> Back to Dashboard</a>
+    </div>
+    <script>
+        // Toggle appointment details on row click
+        document.querySelectorAll('.appointment-item').forEach(function(row) {
+            row.addEventListener('click', function() {
+                this.nextElementSibling.classList.toggle('open');
+            });
+        });
+    </script>
+{% endblock %}
