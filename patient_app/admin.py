@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.models import Group
 
 from patient_app.forms import PlainTextPasswordUserCreationForm
-from patient_app.models import Qualification, Schedule, Specialization, User,Department,Doctor,Patient
+from patient_app.models import Contact, Qualification, Schedule, Specialization, User,Department,Doctor,Patient
 from django.contrib.auth.admin import UserAdmin
 
 
@@ -99,3 +99,9 @@ class QualificationAdmin(admin.ModelAdmin):
 @admin.register(Schedule)
 class ScheduleAdmin(admin.ModelAdmin):
     list_display=('sid','days','time_slot','doctor','max_patient_count')
+
+@admin.register(Contact)
+class ContactAdmin(admin.ModelAdmin):
+    list_display = ('name', 'email', 'subject', 'created_at','message')
+    list_filter = ('created_at',)
+    search_fields = ('name', 'email', 'subject')

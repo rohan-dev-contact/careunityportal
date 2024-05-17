@@ -6,7 +6,7 @@ import random
 
 from CareUnity_Portal import settings
 # from Doctor_App.forms import Appointment
-from patient_app.forms import AppointmentForm, OTPVerificationForm, PasswordResetForm, PasswordResetRequestForm, UserRegistrationForm,LoginForm
+from patient_app.forms import AppointmentForm, ContactForm, OTPVerificationForm, PasswordResetForm, PasswordResetRequestForm, UserRegistrationForm,LoginForm
 from django.contrib.auth import authenticate,login,logout
 from patient_app.models import OTP, Appointment, Doctor,Patient, Schedule,User
 from django.core.mail import send_mail
@@ -31,18 +31,21 @@ def about_view(request):
 def services_view(request):
     return render(request, 'patient_app/services.html')
 
+
+
 def contact_view(request):
-    if request.method=='POST':
-        form=Contact_form(request.POST)
+    if request.method == 'POST':
+        form = ContactForm(request.POST)
         if form.is_valid():
-            form.save
-            return render(request, 'patient_app/success.html')
-    form= Contact_form()
-    context = {'form':form}
-    return render(request, 'patient_app/contact.html')
+            form.save()
+            messages.success(request, 'Your message has been sent successfully!')
+            return redirect('contact')
+    else:
+        form = ContactForm()
+    return render(request, 'patient_app/contact.html', {'form': form})
 
 def terms(request):
-    return render(request, 'patient_app/terms.html',context)
+    return render(request, 'patient_app/terms.html')
 
 def signup(request):
     if request.method == 'POST':
@@ -60,34 +63,45 @@ def signup(request):
         form = UserRegistrationForm()
     return render(request, 'patient_app/registration/signup.html', {'forms': form})
 
-
 def userLogin(request):
-    print(request)
-    if request.POST:
-        form=LoginForm(request=request, data=request.POST)
+    if request.method == 'POST':
+        form = LoginForm(request.POST)
+        form.request = request  # Pass the request to the form for CAPTCHA validation
         if form.is_valid():
-            username=form.cleaned_data['username']
-            password=form.cleaned_data['password']
-            user=authenticate(username=username, password=password)
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+            user = authenticate(username=username, password=password)
             if user is not None:
                 login(request, user)
                 is_doctor = Doctor.objects.filter(user=user).exists()
                 is_patient = Patient.objects.filter(user=user).exists()
                 if is_doctor:
-                    return redirect('doctor_dashboard')  # Redirect to doctor dashboard
+                    return redirect('doctor_dashboard')
                 elif is_patient:
-                    return redirect('patient_dashboard')  # Redirect to patient dashboard
+                    return redirect('patient_dashboard')
                 else:
-                    return redirect('home')  # Redirect to a general home page
-        else: 
-            username=form.cleaned_data['username']
-            if User.objects.filter(username=username).exists():
-                form.add_error('password', 'Invalid password.')
+                    return redirect('home')
             else:
-                form.add_error('username', 'Username does not exist.')
+                form.add_error('password', 'Invalid password.')
+        else:
+            # Regenerate CAPTCHA question
+            num1 = random.randint(1, 10)
+            num2 = random.randint(1, 10)
+            request.session['captcha_answer'] = num1 + num2
+            form.fields['captcha_answer'].label = f"What is {num1} + {num2}?"
+
+            # Display errors
+            return render(request, 'patient_app/registration/login.html', {'form': form})
     else:
-        form=LoginForm()
-    return render(request, 'patient_app/registration/login.html', {'forms':form})
+        form = LoginForm()
+
+        # Generate a new CAPTCHA question
+        num1 = random.randint(1, 10)
+        num2 = random.randint(1, 10)
+        request.session['captcha_answer'] = num1 + num2
+        form.fields['captcha_answer'].label = f"What is {num1} + {num2}?"
+
+    return render(request, 'patient_app/registration/login.html', {'form': form})
 
 def userLogout(request):
     logout(request)

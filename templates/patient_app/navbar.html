@@ -1,7 +1,8 @@
-{% block navbar %} {% with request.resolver_match.url_name as url_name %}
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+{% block navbar %}
+{% with request.resolver_match.view_name as url_name %}
+<nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm p-3 mb-5 bg-white rounded">
     <div class="container-fluid">
-        <a class="navbar-brand" href="{% url 'home' %}">CareUnity Portal</a>
+        <a class="navbar-brand text-primary" href="{% url 'home' %}">CareUnity Portal</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -9,7 +10,7 @@
             <ul class="navbar-nav me-auto">
                 {% if user.is_authenticated %}
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'dashboard' %}"><i class="bi bi-box-arrow-right"></i> Dashboard</a>
+                    <a class="nav-link {% if url_name == 'dashboard' %}active{% endif %}" href="{% url 'dashboard' %}"><i class="bi bi-box-arrow-right"></i> Dashboard</a>
                 </li>
                 {% endif %}
                 <li class="nav-item">
@@ -24,21 +25,20 @@
                 <li class="nav-item">
                     <a class="nav-link {% if url_name == 'contact' %}active{% endif %}" href="{% url 'contact' %}">Contact</a>
                 </li>
-             
             </ul>
             <ul class="navbar-nav">
-                
                 {% if user.is_authenticated %}
                 <li class="nav-item">
-                    <a class="nav-link lg-hov" href="{% url 'logout' %}"><i class="bi bi-box-arrow-right"></i> Logout</a>
+                    <a class="nav-link text-danger" href="{% url 'logout' %}"><i class="bi bi-box-arrow-right"></i> Logout</a>
                 </li>
                 {% else %}
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'login' %}"><i class="bi bi-box-arrow-in-right"></i> Sign In</a>
+                    <a class="nav-link text-success" href="{% url 'login' %}"><i class="bi bi-box-arrow-in-right"></i> Sign In</a>
                 </li>
                 {% endif %}
             </ul>
         </div>
     </div>
 </nav>
-{% endwith %} {% endblock %}
+{% endwith %}
+{% endblock %}

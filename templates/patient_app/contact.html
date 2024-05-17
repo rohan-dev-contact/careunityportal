@@ -1,37 +1,100 @@
-{% extends './base.html' %}
+{% extends 'Doctor_App/base.html' %} {% block title %} Contact Us {% endblock title %} {% block nav %} {% include "./navbar.html" %} {% endblock nav %} {% block content %}
+<style>
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+        color: #fff;
+    }
 
-{% block title %}Contact - CareUnity Portal{% endblock %}
+    .btn-primary:hover {
+        background-color: #0056b3;
+        border-color: #0056b3;
+    }
 
-{% block content %}
-        <h1>Contact Us</h1>
-        <p>Please fill out the form below to get in touch with us.</p>
-        <form action="" method="post">
+    .btn-secondary {
+        background-color: #6c757d;
+        border-color: #6c757d;
+        color: #fff;
+    }
+
+    .btn-secondary:hover {
+        background-color: #5a6268;
+        border-color: #5a6268;
+    }
+
+    .card {
+        border-radius: 15px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        margin-top: 20px;
+    }
+
+    .card-header {
+        background-color: #007bff;
+        color: #fff;
+        border-radius: 15px 15px 0 0;
+        text-align: center;
+        font-size: 1.5rem;
+    }
+
+    .card-body {
+        padding: 2rem;
+    }
+
+    .form-control {
+        border-radius: 5px;
+        border: 1px solid #ced4da;
+    }
+
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+
+    .form-label {
+        font-weight: bold;
+    }
+
+    .form-control:focus {
+        border-color: #80bdff;
+        outline: 0;
+        box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+    }
+
+    .alert-success {
+        margin-top: 1rem;
+    }
+
+    .btn-primary {
+        width: 100%;
+        padding: 0.75rem;
+    }
+</style>
+
+<div class="card">
+    <div class="card-header">Contact Us</div>
+    <div class="card-body">
+        {% if messages %}
+        <div class="alert alert-success">{% for message in messages %} {{ message }} {% endfor %}</div>
+        {% endif %}
+        <form method="post" novalidate>
             {% csrf_token %}
-            {{form}}
             <div class="form-group">
-                <label for="fullName">Full Name</label>
-                <input type="text" class="form-control" id="fullName" name="fullName" placeholder="Enter your full name" required>
+                <label for="id_name" class="form-label">Name</label>
+                {{ form.name }}
             </div>
             <div class="form-group">
-                <label for="email">Email Address</label>
-                <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email address" required>
+                <label for="id_email" class="form-label">Email</label>
+                {{ form.email }}
             </div>
             <div class="form-group">
-                <label for="message">Message</label>
-                <textarea class="form-control" id="message" name="message" rows="5" placeholder="Enter your message" required></textarea>
+                <label for="id_subject" class="form-label">Subject</label>
+                {{ form.subject }}
             </div>
-            <button type="" class="btn btn-primary">Send</button>
+            <div class="form-group">
+                <label for="id_message" class="form-label">Message</label>
+                {{ form.message }}
+            </div>
+            <button type="submit" class="btn btn-primary">Send Message</button>
         </form>
     </div>
-    <!-- Bootstrap JS (optional) -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-</body>
-
-</html>
-
-
-</html>
-
+</div>
 {% endblock %}
