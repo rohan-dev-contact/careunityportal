@@ -1,6 +1,15 @@
-{% extends 'Doctor_App/base.html' %} {% block nav %} {% include "./navbar.html" %} {% endblock nav %} {% block title %}Doctor Dashboard - CareUnity Portal{% endblock %} {% block content %}
+{% extends 'Doctor_App/base.html' %}
+
+{% block nav %}
+{% include "./navbar.html" %}
+{% endblock nav %}
+
+{% block title %}Welcome Doctor - CareUnity Portal{% endblock %}
+
+{% block content %}
+<h1 class="text-center mb-4">Dashboard</h1>
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-6 mb-4">
         <div class="section">
             <div class="card h-100 clickable-card" onclick="location.href='{% url 'patient_list' %}'">
                 <div class="card-body">
@@ -11,7 +20,7 @@
             </div>
         </div>
     </div>
-    <div class="col-md-6">
+    <div class="col-md-6 mb-4">
         <div class="section">
             <div class="card h-100 clickable-card" onclick="location.href='#'">
                 <div class="card-body">
@@ -23,5 +32,4 @@
         </div>
     </div>
 </div>
-
 {% endblock %}

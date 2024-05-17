@@ -1,29 +1,23 @@
-/* General Styles */
-::-webkit-scrollbar{
-    display: none;
-}
-
 body {
     font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
     margin: 0;
     padding: 0;
-    background-color: #f4f4f4;
 }
 
 .container {
-    /* margin: 50px; */
     padding: 20px;
     background-color: #fff;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     min-height: 80vh;
 }
+
 .section {
     background-color: #f0f0f0;
     padding: 20px;
     margin-bottom: 20px;
     border-radius: 5px;
-    cursor: pointer;
     transition: background-color 0.3s ease;
 }
 
@@ -31,148 +25,60 @@ body {
     background-color: #e0e0e0;
 }
 
-h2 {
-    margin-top: 0;
-    text-align: center;
+h1, h3, h5 {
     color: #333;
 }
 
-.form-group {
-    margin-bottom: 20px;
-}
-
-label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
-    color: #555;
-}
-
-input[type="text"],
-input[type="number"],
-input[type="date"],
-input[type="time"],
-select {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 16px;
-}
-/* 
-button[type="submit"] {
-    width: 100%;
-    padding: 10px;
+.card {
     border: none;
-    border-radius: 5px;
-    background-color: #007bff;
-    color: #fff;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-button[type="submit"]:hover {
-    background-color: #0056b3;
-} */
-
-/* Styles for specific elements */
-
-.clickable-card {
-    cursor: pointer;
-    background-color: #f4f4f4ee !important;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transition: transform 0.2s;
 }
 
-.clickable-card:hover {
-    transform: scale(1.02);
+.card:hover {
+    transform: translateY(-5px);
 }
 
-.loader {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 9999;
-    border: 10px solid #f3f3f3;
-    border-radius: 50%;
-    border-top: 10px solid #3498db;
-    width: 80px;
-    height: 80px;
-    animation: spin 4s linear infinite;
+.card-body {
+    padding: 20px;
 }
 
-@keyframes spin {
-    0% { transform: translate(-50%, -50%) rotate(0deg); }
-    25% { transform: translate(-50%, -50%) rotate(360deg); }
-    50% { transform: translate(-50%, -50%) rotate(720deg); }
-    75% { transform: translate(-50%, -50%) rotate(1080deg); }
-    100% { transform: translate(-50%, -50%) rotate(1440deg); }
+.card-title {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
 }
 
-.waterMark {
-    color: #dddddd !important;
-    font-size: 4rem !important;
-    position: absolute !important;
-    top: 50% !important;
-    left: 50% !important;
-    transform: translate(-50%, -50%) !important;
-    pointer-events: none !important;
-    z-index: -1 !important;
-    opacity: 0.3 !important;
+.card-text {
+    font-size: 1rem;
+    margin-bottom: 20px;
 }
 
-.lg-hov:hover {
-    color:  #f44900 !important;
+.table-responsive {
+    margin-top: 20px;
 }
 
-.lg-active {
-    color: #249cec !important;
+.table-hover tbody tr:hover {
+    background-color: #f0f0f0;
 }
 
-/* Animation */
-
-@keyframes shake {
-    0% { transform: translateX(-2px); }
-    50% { transform: translateX(2px); }
-    100% { transform: translateX(-2px); }
+.table-light {
+    background-color: #f8f9fa;
 }
 
-@keyframes fadeInOut {
-    0% { opacity: 0; }
-    50% { opacity: 1; }
-    100% { opacity: 0; }
+.pagination {
+    margin-top: 20px;
 }
 
-.img-fluid {
-    width: 100%;
-    border-radius: 10px;
-    transition: transform 0.3s ease;
+.btn {
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-.img-fluid:hover {
-    transform: scale(1.1);
+.btn:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* h2:hover {
-    color: blue;
-    animation-name: zoomIn;
-    animation-duration: 0.5s;
-    animation-timing-function: ease-out;
-} */
-
-/* p {
-    color: #666;
-    transition: color 0.3s ease;
-}
-
-p:hover {
-    color: #33cc33;
-    animation-name: fadeInOut;
-    animation-duration: 0.5s;
-    animation-timing-function: ease-out;
-} */
-
-tbody tr:hover{
-    background-color: #59e7a0c4 !important;
+.btn-secondary, .btn-primary, .btn-danger, .btn-success {
+    margin: 5px;
 }

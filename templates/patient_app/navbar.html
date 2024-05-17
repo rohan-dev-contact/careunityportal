@@ -7,6 +7,11 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav me-auto">
+                {% if user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'dashboard' %}"><i class="bi bi-box-arrow-right"></i> Dashboard</a>
+                </li>
+                {% endif %}
                 <li class="nav-item">
                     <a class="nav-link {% if url_name == 'home' %}active{% endif %}" href="{% url 'home' %}">Home</a>
                 </li>
@@ -19,8 +24,10 @@
                 <li class="nav-item">
                     <a class="nav-link {% if url_name == 'contact' %}active{% endif %}" href="{% url 'contact' %}">Contact</a>
                 </li>
+             
             </ul>
             <ul class="navbar-nav">
+                
                 {% if user.is_authenticated %}
                 <li class="nav-item">
                     <a class="nav-link lg-hov" href="{% url 'logout' %}"><i class="bi bi-box-arrow-right"></i> Logout</a>

@@ -1,71 +1,70 @@
 {% extends 'Doctor_App/base.html' %}
+
 {% block nav %}
 {% include "./navbar.html" %}
+{% endblock nav %}
 
-{% endblock nav %}  
-{% block title %}Patient Dashboard - CareUnity Portal{% endblock %} {% block content %}
-<h1>Patient Dashboard</h1>
- <div class="row">
-    <div class="col-md-4">
-        <div class="card">
-            <div class="card h-100 clickable-card" onclick="location.href='{% comment "" %}{%url ""%}{% endcomment %}#'">
+{% block title %}Welcome Patient - CareUnity Portal{% endblock %}
+
+{% block content %}
+<h1 class="text-center mb-4">Dashboard</h1>
+<div class="row">
+    <div class="col-md-4 mb-4">
+        <div class="section">
+            <div class="card h-100 clickable-card" onclick="location.href='{% comment "" %}{% url "" %}{% endcomment %}#'">
                 <div class="card-body">
                     <h5 class="card-title">Appointment Booking</h5>
                     <p class="card-text">Book your Appointment here</p>
-                    <a href="{% comment "" %}{%url ""%}{% endcomment %}#" class="card-link">Book Appoinments</a>
+                    <a href="#" class="card-link">Book Appointments</a>
                 </div>
             </div>
         </div>
     </div>
-    <div class="col-md-4">
-        <div class="card">
+    <div class="col-md-4 mb-4">
+        <div class="section">
             <div class="card h-100 clickable-card" onclick="location.href='{% url "find_doctor" %}'">
                 <div class="card-body">
                     <h5 class="card-title">Find Doctor</h5>
-                    <p class="card-text">Get doctors at your fingure tip</p>
+                    <p class="card-text">Get doctors at your fingertip</p>
                     <a href="{% url "find_doctor" %}" class="card-link">Doctor's List</a>
                 </div>
             </div>
         </div>
     </div>
-    <div class="col-md-4">
-        <div class="card">
+    <div class="col-md-4 mb-4">
+        <div class="section">
             <div class="card h-100 clickable-card" onclick="location.href='{% url 'patient_prescription_list' %}'">
                 <div class="card-body">
-                   <h5 class="card-title">Your Precription</h5>
-                   <p class="card-text">Access your medical records.</p>
-                   <a href="{% url 'patient_prescription_list' %}" class="card-link">Download Prescription</a>
+                    <h5 class="card-title">Your Prescription</h5>
+                    <p class="card-text">Access your medical records.</p>
+                    <a href="{% url 'patient_prescription_list' %}" class="card-link">Download Prescription</a>
                 </div>
-            </div>    
+            </div>
         </div>
     </div>
 </div>
 <div class="row mt-4">
-    <div class="col-md-4">
-        <div class="card">
+    <div class="col-md-4 mb-4">
+        <div class="section">
             <div class="card h-100 clickable-card" onclick="location.href='{% url 'upload_file' %}'">
-               <div class="card-body">
-                   <h5 class="card-title">Upload your Report</h5>
-                   <a href="  {% url 'upload_file' %}" class="card-link">upload test report</a>
+                <div class="card-body">
+                    <h5 class="card-title">Upload your Report</h5>
+                    <a href="{% url 'upload_file' %}" class="card-link">Upload Test Report</a>
                 </div>
-            </div>    
+            </div>
         </div>
-    </div> 
-    {% comment %} <div class="col-md-4">
-        <div class="card">
+    </div>
+    {% comment %}
+    <div class="col-md-4 mb-4">
+        <div class="section">
             <div class="card h-100 clickable-card" onclick="location.href='#'">
-               <div class="card-body">
-                   <h5 class="card-title">Notifications</h5>
-                   <a href="#" class="card-link">View Notifications</a>
+                <div class="card-body">
+                    <h5 class="card-title">Notifications</h5>
+                    <a href="#" class="card-link">View Notifications</a>
                 </div>
-            </div>    
+            </div>
         </div>
-    </div> {% endcomment %}
-</div> 
-
-
-
-    
-
-
+    </div>
+    {% endcomment %}
+</div>
 {% endblock %}

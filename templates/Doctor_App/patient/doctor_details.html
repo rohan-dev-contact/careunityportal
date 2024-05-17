@@ -33,7 +33,9 @@
     </div>
     <hr>
     <div>
-        <a href="{% url 'book_appointment' department_id=department_id doctor_id=doctor.user_id %}" class="btn btn-primary">Book Appointment</a>
+        
+        <a href="{% url 'book_appointment' doctor_id=doctor.user_id department_id=department_id %}" class="btn">Book Appointment</a>
+        {% comment %} <a href="{% url 'book_appointment' department_id=department_id doctor_id=doctor.user_id %}" class="btn btn-primary">Book Appointment</a> {% endcomment %}
     </div>    
 </div>
 

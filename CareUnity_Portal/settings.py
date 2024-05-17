@@ -102,18 +102,6 @@ DATABASES = {
     }
 }
 
-# Database set up for local using xampp
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'careuniportal',
-        'USER': 'root',      
-        'PASSWORD': '',  
-        'HOST': 'localhost',          
-        'PORT': '3306',               
-    }
-}
-
 
 
 # Password validation

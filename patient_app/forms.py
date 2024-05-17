@@ -1,7 +1,7 @@
 import datetime
 from django import forms
 from django.contrib.auth.forms import UserCreationForm,AuthenticationForm,SetPasswordForm
-from patient_app.models import Appointment, Doctor, User
+from patient_app.models import Appointment, Doctor, Schedule, User
 
 class UserRegistrationForm(UserCreationForm):
     username = forms.CharField(
@@ -102,13 +102,22 @@ class PasswordResetForm(SetPasswordForm):
 class AppointmentForm(forms.ModelForm):
     class Meta:
         model = Appointment
-        fields = ['patient', 'doctor', 'appdate']
+        fields = ['appdate']
+        widgets = {
+            'appdate': forms.DateInput(attrs={'type': 'date'}),
+        }
 
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['patient'].widget.attrs['readonly'] = True  # Make patient details read-only
-        self.fields['appdate'].widget.attrs['min'] = str(datetime.date.today())  # Set minimum date to today
+        doctor = kwargs.pop('doctor')
+        super(AppointmentForm, self).__init__(*args, **kwargs)
+        self.fields['appdate'].label = 'Appointment Date'
+        self.fields['appdate'].error_messages = {'required': 'Please select a date.'}
+        self.fields['appdate'].validators.append(self.validate_appdate)
 
-    def set_initial_department_doctor(self, department_id, doctor_id):
-        self.fields['doctor'].queryset = Doctor.objects.filter(departments=department_id)
-        self.initial['doctor'] = doctor_id
+        # Get available dates for the doctor
+        schedules = Schedule.objects.filter(doctor=doctor)
+        self.available_dates = [schedule.days for schedule in schedules]
+
+    def validate_appdate(self, value):
+        if value.strftime('%A') not in self.available_dates:
+            raise forms.ValidationError('The selected date is not available. Please choose a date when the doctor is available.')

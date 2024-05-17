@@ -279,27 +279,26 @@ def doctor_details(request, doctor_id,department_id):
     return render(request, 'Doctor_App/patient/doctor_details.html', {'doctor': doctor,'department_id':department_id})
 
 
+@login_required
+def book_appointment(request, doctor_id, department_id):
+    doctor = get_object_or_404(Doctor, user_id=doctor_id)
+    patient = request.user.patient  # Assuming user is a patient
 
-# def book_appointment(request, department_id=None, doctor_id=None):
-#     if department_id and doctor_id:
-#         form = AppointmentForm(request.POST or None, initial={'doctor': doctor_id})
-#         form.set_initial_department_doctor(department_id, doctor_id)
-#     else:
-#         form = AppointmentForm(request.POST or None)
+    if request.method == 'POST':
+        form = AppointmentForm(request.POST, doctor=doctor)
+        if form.is_valid():
+            appointment = form.save(commit=False)
+            appointment.doctor = doctor
+            appointment.patient = patient
+            appointment.appdate = form.cleaned_data['appdate']
+            appointment.save()
+            return redirect('appointment_success', appointment_id=appointment.appid, doctor_id=doctor_id, department_id=department_id)
+    else:
+        form = AppointmentForm(doctor=doctor)
 
-#     if request.method == 'POST' and form.is_valid():
-#         appointment = form.save(commit=False)
-#         schedule = Schedule.objects.filter(doctor=appointment.doctor, days=appointment.appdate.strftime('%A')).first()
-        
-#         # Check if the appointment date is within the allowed range (within 1 month from today)
-#         if appointment.appdate > timezone.now().date() + timedelta(days=30):
-#             form.add_error('appdate', 'Appointment date must be within 1 month from today.')
-#         # Check if the doctor has reached the maximum booking limit for the selected date
-#         elif schedule and Appointment.objects.filter(doctor=appointment.doctor, appdate=appointment.appdate).count() >= schedule.max_patient_count:
-#             form.add_error('appdate', 'Maximum booking limit for this date has been reached.')
+    return render(request, 'Doctor_App/patient/book_appointment.html', {'form': form, 'doctor': doctor, 'department_id': department_id})
 
-#         if not form.errors:
-#             appointment.save()
-#             return render(request, 'Doctor_App/patient/success.html', {'message': 'Appointment booked successfully!'})
-    
-#     return render(request, 'Doctor_App/patient/book_appointment.html', {'form': form})
+def appointment_success(request, appointment_id, doctor_id, department_id):
+    appointment = get_object_or_404(Appointment, appid=appointment_id)
+    return render(request, 'Doctor_App/patient/appointment_success.html', {'appointment': appointment, 'doctor_id': doctor_id, 'department_id': department_id})
+

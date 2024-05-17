@@ -13,6 +13,9 @@ from django.core.mail import send_mail
 
 # Create your views here.
 def home_view(request):
+    return render(request, 'patient_app/home.html')
+
+def dashboard(request):
     if request.user.is_authenticated:
         is_doctor = Doctor.objects.filter(user=request.user).exists()
         is_patient = Patient.objects.filter(user=request.user).exists()

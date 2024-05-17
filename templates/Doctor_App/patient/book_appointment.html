@@ -1,15 +1,9 @@
 {% extends 'Doctor_App/base.html' %} {% block nav %} {% include "./navbar.html" %} {% endblock nav %} {% block content %}
-
-<div class="row mb-4">
-    <div class="col">
-        <a href="{% url 'patient_dashboard' %}" class="btn btn-secondary">Back to Dashboard</a>
-    </div>
+<div class="booking-form">
+    <h1>Book an Appointment with Dr. {{ doctor.user.first_name }} {{ doctor.user.last_name }}</h1>
+    <form method="post">
+        {% csrf_token %} {{ form.as_p }}
+        <button type="submit" class="btn">Confirm Appointment</button>
+    </form>
 </div>
-<h2>Book Appointment</h2>
-<form method="post">
-    {% csrf_token %} {{ form.as_p }}
-    <button type="submit" class="btn btn-primary">Book Appointment</button>
-    <a href="javascript:history.back()" class="btn btn-secondary">Cancel</a>
-</form>
-
 {% endblock %}

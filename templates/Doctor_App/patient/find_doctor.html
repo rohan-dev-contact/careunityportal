@@ -1,40 +1,47 @@
-{% extends 'Doctor_App/base.html' %} {% block nav %} {% include "./navbar.html" %} {% endblock nav %} {% block content %}
-<div class="card-body">
-    <div class="d-flex justify-content-between align-items-center">
+{% extends 'Doctor_App/base.html' %}
+
+{% block nav %}
+{% include "./navbar.html" %}
+{% endblock nav %}
+
+{% block content %}
+<div class=" mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
         <a href="{% url 'patient_dashboard' %}" class="btn btn-secondary">Back to Dashboard</a>
         <h1 class="mb-0">Find a Doctor</h1>
         <form id="searchForm" method="post" class="d-flex">
-            {% csrf_token %} {% for field in form.visible_fields %}
-            <div class="form-group row">
-                <div class="">{{ field }}</div>
+            {% csrf_token %}
+            {% for field in form.visible_fields %}
+            <div class="form-group mx-2">
+                {{ field }}
             </div>
             {% endfor %}
         </form>
     </div>
 
-    <div class="mt-3">
-        {% if department_details %}
-        <div class="card">
-            <div class="card-header">Department Details</div>
-            <div class="card-body">
-                <p><strong>Department Name:</strong> {{ department_details.department_name }}</p>
-                <p><strong>Work Description:</strong> {{ department_details.work_description }}</p>
-                <p><strong>Intended Patients:</strong> {{ department_details.intended_patients }}</p>
-                <p><strong>Treated Diseases:</strong> {{ department_details.treated_diseases }}</p>
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#departmentModal">Show More</button>
-            </div>
+    {% if department_details %}
+    <div class="card mb-4">
+        <div class="card-header">Department Details</div>
+        <div class="card-body">
+            <p><strong>Department Name:</strong> {{ department_details.department_name }}</p>
+            <p><strong>Work Description:</strong> {{ department_details.work_description }}</p>
+            <p><strong>Intended Patients:</strong> {{ department_details.intended_patients }}</p>
+            <p><strong>Treated Diseases:</strong> {{ department_details.treated_diseases }}</p>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#departmentModal">Show More</button>
         </div>
-        {% endif %} {% if doctors %}
-        <h3>Doctors:</h3>
-        <table class="table">
-            <thead>
+    </div>
+    {% endif %}
+
+    {% if doctors %}
+    <h3>Doctors</h3>
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead class="thead-light">
                 <tr>
                     <th>Name</th>
                     <th>Specializations</th>
                     <th>Phone Number</th>
                     <th>Email</th>
-                    {% comment %} <th>Action</th> {% endcomment %}
-
                 </tr>
             </thead>
             <tbody>
@@ -44,29 +51,34 @@
                     <td>{% for specialization in doctor.specialization.all %} {{ specialization }}{% if not forloop.last %}, {% endif %} {% endfor %}</td>
                     <td>{{ doctor.user.mobile }}</td>
                     <td>{{ doctor.user.email }}</td>
-                    {% comment %} <td><a href="{% url 'doctor_details' doctor.user.id %}" class="btn btn-primary">Show More</a></td> {% endcomment %}
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
-        {% else %}
-        <p>No doctors found.</p>
-        {% endif %} {% if doctors.has_other_pages %}
-        <ul class="pagination">
-            {% if doctors.has_previous %}
-            <li class="page-item"><a class="page-link" href="?page=1">First</a></li>
-            <li class="page-item"><a class="page-link" href="?page={{ doctors.previous_page_number }}">Previous</a></li>
-            {% endif %} {% for i in doctors.paginator.page_range %} {% if doctors.number == i %}
-            <li class="page-item active"><span class="page-link">{{ i }}</span></li>
-            {% else %}
-            <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
-            {% endif %} {% endfor %} {% if doctors.has_next %}
-            <li class="page-item"><a class="page-link" href="?page={{ doctors.next_page_number }}">Next</a></li>
-            <li class="page-item"><a class="page-link" href="?page={{ doctors.paginator.num_pages }}">Last</a></li>
-            {% endif %}
-        </ul>
-        {% endif %}
     </div>
+    {% else %}
+    <p>No doctors found.</p>
+    {% endif %}
+
+    {% if doctors.has_other_pages %}
+    <ul class="pagination justify-content-center">
+        {% if doctors.has_previous %}
+        <li class="page-item"><a class="page-link" href="?page=1">First</a></li>
+        <li class="page-item"><a class="page-link" href="?page={{ doctors.previous_page_number }}">Previous</a></li>
+        {% endif %}
+        {% for i in doctors.paginator.page_range %}
+        {% if doctors.number == i %}
+        <li class="page-item active"><span class="page-link">{{ i }}</span></li>
+        {% else %}
+        <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+        {% endif %}
+        {% endfor %}
+        {% if doctors.has_next %}
+        <li class="page-item"><a class="page-link" href="?page={{ doctors.next_page_number }}">Next</a></li>
+        <li class="page-item"><a class="page-link" href="?page={{ doctors.paginator.num_pages }}">Last</a></li>
+        {% endif %}
+    </ul>
+    {% endif %}
 </div>
 
 <!-- Department Modal -->
@@ -80,13 +92,13 @@
                 </button>
             </div>
             <div class="modal-body">
-                <p><strong>Location:</strong> {{department_details.location }}</p>
-                <p><strong>Contact Phone:</strong> {{department_details.contact_phone }}</p>
-                <p><strong>Contact Email:</strong> {{department_details.contact_email }}</p>
-                <p><strong>Special Facilities:</strong> {{department_details.special_facilities }}</p>
-                <p><strong>Operating Hours:</strong> {{department_details.operating_hours }}</p>
-                <p><strong>Emergency Services:</strong> {{department_details.emergency_services }}</p>
-                <p><strong>Insurance Accepted:</strong> {{department_details.insurance_accepted }}</p>
+                <p><strong>Location:</strong> {{ department_details.location }}</p>
+                <p><strong>Contact Phone:</strong> {{ department_details.contact_phone }}</p>
+                <p><strong>Contact Email:</strong> {{ department_details.contact_email }}</p>
+                <p><strong>Special Facilities:</strong> {{ department_details.special_facilities }}</p>
+                <p><strong>Operating Hours:</strong> {{ department_details.operating_hours }}</p>
+                <p><strong>Emergency Services:</strong> {{ department_details.emergency_services }}</p>
+                <p><strong>Insurance Accepted:</strong> {{ department_details.insurance_accepted }}</p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -103,4 +115,42 @@
     });
 </script>
 
+<style>
+    .card {
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-header {
+        background-color: #3498db;
+        color: white;
+        font-weight: bold;
+    }
+
+    .card-body {
+        padding: 20px;
+    }
+
+    .clickable-row:hover {
+        background-color: #f1f1f1;
+    }
+
+    .pagination .page-link {
+        color: #3498db;
+    }
+
+    .pagination .page-item.active .page-link {
+        background-color: #3498db;
+        border-color: #3498db;
+    }
+
+    .modal-header {
+        background-color: #3498db;
+        color: white;
+    }
+
+    .modal-content {
+        border-radius: 10px;
+    }
+</style>
 {% endblock %}

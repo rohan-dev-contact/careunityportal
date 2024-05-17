@@ -1,0 +1,7 @@
+{% extends 'Doctor_App/base.html' %} {% block nav %} {% include "./navbar.html" %} {% endblock nav %} {% block content %}
+<div class="success-message">
+    <h1>Appointment Confirmed!</h1>
+    <p>Your appointment has been successfully booked.</p>
+    <a href="{% url 'doctor_details' doctor_id=appointment.doctor.user_id department_id=department_id %}" class="btn">Back to Doctor Details</a>
+</div>
+{% endblock %}
