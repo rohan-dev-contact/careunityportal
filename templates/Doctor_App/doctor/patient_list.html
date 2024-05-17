@@ -4,15 +4,72 @@
 {% endblock nav %}
 
 {% block content %}
+<style>
+    .btn-secondary {
+        background-color: #6c757d;
+        border-color: #6c757d;
+        color: #fff;
+    }
+
+    .btn-secondary:hover {
+        background-color: #5a6268;
+        border-color: #5a6268;
+    }
+
+    .table-striped tbody tr:nth-of-type(odd) {
+        background-color: #f8f9fa;
+    }
+
+    .table-striped tbody tr:hover {
+        background-color: #e9ecef;
+    }
+
+    .card {
+        border-radius: 15px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-header {
+        background-color: #007bff;
+        color: #fff;
+        border-radius: 15px 15px 0 0;
+    }
+
+    .card-title {
+        color: #333;
+    }
+
+    .pagination {
+        justify-content: center;
+        margin-top: 20px;
+    }
+
+    .pagination .page-item .page-link {
+        color: #007bff;
+        border-color: #007bff;
+    }
+
+    .pagination .page-item.active .page-link {
+        background-color: #007bff;
+        border-color: #007bff;
+        color:black;
+    }
+
+    .pagination .page-link:hover {
+        background-color: #0056b3;
+        border-color: #0056b3;
+    }
+
+    .table {
+        border-radius: 15px;
+    }
+</style>
         <div class="row mb-4">
             <div class="col">
-                <a href="{% url 'doctor_dashboard' %}" class="btn btn-secondary">Back to Dashboard</a>
+                <a href="{% url 'doctor_dashboard' %}" class="btn btn-outline-secondary">Back to Dashboard</a>
             </div>
-            {% comment %} <div class="col text-end">
-                <a href="{% url 'add_patient' %}" class="btn btn-primary">Add New Patient</a>
-            </div> {% endcomment %}
         </div>
-        <h1>Patient List</h1>
+        
         <form method="GET" class="d-flex justify-content-start">
             <div class="input-group me-2" style="width: 60%;">
                 <input type="text" name="search" class="form-control" placeholder="Search" value="{{ search_query }}">
@@ -23,20 +80,26 @@
                     <option value="name" {% if search_criteria == 'name' %}selected{% endif %}>Name</option>
                 </select>
             </div>
-           
+            
             {% if search_query %}
             <div class="d-flex justify-content-start" style="width: 20%;">
-                <button type="submit" class="btn btn-primary mx-1">Search</button>
-                <a href="{% url 'patient_list' %}" class="btn btn-secondary mx-1">Clear</a>
+                <button type="submit" class="btn btn-outline-info mx-2">Search</button>
+                <a href="{% url 'patient_list' %}" class="btn btn-outline-secondary mx-2">Clear</a>
             </div>
             {% else %}
             <div class="d-flex justify-content-start" style="width: 10%;">
-                <button type="submit" class="btn btn-primary mx-1">Search</button>
+                <button type="submit" class="btn btn-outline-info mx-2">Search</button>
             </div>
             {% endif %}
         </form>
+        <div class="card mt-4">
+            <div class="card-header">
+                <h3 class="card-title mb-0">Patient List</h3>
+            </div>
+            <div class="card-body">
         {% if patients %}
-            <table class="table">
+        <div class="table-responsive">
+            <table class="table table-striped">
                 <thead>
                     <tr>
                         <th>Patient Id</th>
@@ -59,6 +122,8 @@
                     {% endfor %}
                 </tbody>
             </table>
+        </div>
+    </div>
             <div class="d-flex justify-content-center">
                 <ul class="pagination">
                     {% if patients.has_previous %}

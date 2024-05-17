@@ -61,7 +61,7 @@ def patient_list(request):
                 patients = patients.filter(assigned_doctor=current_doctor) | patients.filter(assigned_doctor=None)    
 
             # Pagination
-            paginator = Paginator(patients, 10)  # Show 10 patients per page
+            paginator = Paginator(patients, 5)  # Show 10 patients per page
             page_number = request.GET.get('page')
             page_obj = paginator.get_page(page_number)
 

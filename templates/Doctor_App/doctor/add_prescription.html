@@ -7,7 +7,7 @@
 {% block content %}
 
 <div class="">
-    <a href="{% url 'patient_detail' patient_id=patient.user.username %}" class="btn btn-secondary mb-3">Back to Patient Details</a>
+    <a href="{% url 'patient_detail' patient_id=patient.user.username %}" class="btn btn-outline-secondary mb-3">Back to Patient Details</a>
     <h3>Add Prescription</h3>
     <div class="mb-3">
     Name: {{ patient.user.get_full_name }} , Age: {{ patient.age }} , Gender: {{ patient.gender }}
@@ -34,9 +34,9 @@
             <label for="id_follow_up" class="form-label">Follow-Up:</label>
             {{ form.follow_up }}
         </div> {% endcomment %}
-        <button type="" class="btn btn-primary">Save Prescription</button>
-        <a href="{% url 'patient_detail' patient_id=patient.user.username %}" class="btn btn-secondary">Cancel</a>
-        <button type="" name="save_as_draft" value="True" class="btn btn-warning">Save as Draft</button>
+        <button type="" class="btn btn-outline-primary">Save Prescription</button>
+        <a href="{% url 'patient_detail' patient_id=patient.user.username %}" class="btn btn-outline-secondary">Cancel</a>
+        <button type="" name="save_as_draft" value="True" class="btn btn-outline-warning">Save as Draft</button>
     </form>
 </div>
 
