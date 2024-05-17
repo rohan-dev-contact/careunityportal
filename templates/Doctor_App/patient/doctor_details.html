@@ -5,11 +5,11 @@
 {% block content %}
 <div class="card-body">
     <div class="d-flex justify-content-between align-items-center">
-        <button class="btn btn-secondary" onclick="goBack()">Back</button>
+        <button class="btn btn-outline-secondary" onclick="goBack()">Back</button>
         <h1 class="mb-0">Doctor: {{ doctor.user.get_full_name }}</h1>
     </div>
     <hr>
-    <div>
+    <div class="mt-4">
         <h3>Doctor Details</h3>
         <ul>
             <li><strong>Specializations:</strong>
@@ -33,9 +33,7 @@
     </div>
     <hr>
     <div>
-        
-        <a href="{% url 'book_appointment' doctor_id=doctor.user_id department_id=department_id %}" class="btn">Book Appointment</a>
-        {% comment %} <a href="{% url 'book_appointment' department_id=department_id doctor_id=doctor.user_id %}" class="btn btn-primary">Book Appointment</a> {% endcomment %}
+        <a href="{% url 'book_appointment' doctor_id=doctor.user_id department_id=department_id %}" class="btn btn-outline-primary">Book Appointment</a>
     </div>    
 </div>
 

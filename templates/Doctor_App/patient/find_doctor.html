@@ -5,9 +5,60 @@
 {% endblock nav %}
 
 {% block content %}
-<div class=" mt-4">
+<style>
+    .container {
+        background: #ffffff;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+    }
+
+    .table-hover tbody tr:hover {
+        background-color: #f1f1f1;
+    }
+
+    .table thead {
+        background-color: #3498db;
+        color: #fff;
+    }
+
+    .btn-secondary {
+        background-color: #3498db;
+        border-color: #3498db;
+    }
+
+    .btn-secondary:hover {
+        background-color: #2980b9;
+        border-color: #2980b9;
+    }
+
+    .card-header {
+        background-color: #3498db;
+        color: #fff;
+    }
+
+    .pagination .page-link {
+        color: #3498db;
+    }
+
+    .pagination .page-item.active .page-link {
+        background-color: #3498db;
+        border-color: #3498db;
+    }
+
+    .modal-header {
+        background-color: #3498db;
+        color: #fff;
+    }
+
+    .modal-content {
+        border-radius: 10px;
+    }
+</style>
+
+<div class="mt-4">
     <div class="d-flex justify-content-between align-items-center mb-3">
-        <a href="{% url 'patient_dashboard' %}" class="btn btn-secondary">Back to Dashboard</a>
+        <a href="{% url 'patient_dashboard' %}" class="btn btn-outline-secondary">Back to Dashboard</a>
         <h1 class="mb-0">Find a Doctor</h1>
         <form id="searchForm" method="post" class="d-flex">
             {% csrf_token %}
@@ -27,7 +78,7 @@
             <p><strong>Work Description:</strong> {{ department_details.work_description }}</p>
             <p><strong>Intended Patients:</strong> {{ department_details.intended_patients }}</p>
             <p><strong>Treated Diseases:</strong> {{ department_details.treated_diseases }}</p>
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#departmentModal">Show More</button>
+            <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#departmentModal">Show More</button>
         </div>
     </div>
     {% endif %}
@@ -36,7 +87,7 @@
     <h3>Doctors</h3>
     <div class="table-responsive">
         <table class="table table-hover">
-            <thead class="thead-light">
+            <thead>
                 <tr>
                     <th>Name</th>
                     <th>Specializations</th>
@@ -107,50 +158,9 @@
     </div>
 </div>
 
-<!-- Optional JavaScript -->
-<!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <script>
     document.getElementById("id_department").addEventListener("change", function () {
         document.getElementById("searchForm").submit();
     });
 </script>
-
-<style>
-    .card {
-        border-radius: 10px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
-
-    .card-header {
-        background-color: #3498db;
-        color: white;
-        font-weight: bold;
-    }
-
-    .card-body {
-        padding: 20px;
-    }
-
-    .clickable-row:hover {
-        background-color: #f1f1f1;
-    }
-
-    .pagination .page-link {
-        color: #3498db;
-    }
-
-    .pagination .page-item.active .page-link {
-        background-color: #3498db;
-        border-color: #3498db;
-    }
-
-    .modal-header {
-        background-color: #3498db;
-        color: white;
-    }
-
-    .modal-content {
-        border-radius: 10px;
-    }
-</style>
 {% endblock %}

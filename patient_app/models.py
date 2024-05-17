@@ -95,13 +95,19 @@ class OTP(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
 class Appointment(models.Model):
+    STATUS_CHOICES = (
+        ('Pending', 'Pending'),
+        ('Confirmed', 'Confirmed'),
+        ('Cancelled', 'Cancelled'),
+    )
+
     appid = models.AutoField(primary_key=True)
     doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE, verbose_name='Doctor')
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE, related_name='Patient')
     appmadeon = models.DateField(auto_now_add=True, blank=False, verbose_name='Appointment Made Date')
     appdate = models.DateField(verbose_name='Appointment Date')
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='Pending', verbose_name='Status')
 
     def __str__(self):
         return f"Appointment ID: {self.appid}, Doctor: {self.doctor}, Patient: {self.patient}"
-
     

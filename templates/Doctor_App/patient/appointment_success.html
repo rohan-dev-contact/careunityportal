@@ -1,7 +1,21 @@
 {% extends 'Doctor_App/base.html' %} {% block nav %} {% include "./navbar.html" %} {% endblock nav %} {% block content %}
-<div class="success-message">
-    <h1>Appointment Confirmed!</h1>
-    <p>Your appointment has been successfully booked.</p>
-    <a href="{% url 'doctor_details' doctor_id=appointment.doctor.user_id department_id=department_id %}" class="btn">Back to Doctor Details</a>
+<div class="mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <button class="btn btn-outline-secondary" onclick="goBack()">Back to Doctor Details</button>
+        <button class="btn btn-outline-primary" onclick="viewAppointments()">View Booked Appointments</button>
+    </div>
+    <hr />
+    <h1>Confirmation</h1>
+    <p>Your appointment with Dr. {{ doctor_id}} has been successfully booked with booking id {{appointment.appid}}.</p>
 </div>
+
+<script>
+    function goBack() {
+        window.location.href = "{% url 'find_doctor' %}";
+    }
+
+    function viewAppointments() {
+        window.location.href = "{% url 'upcoming_appointments' %}";
+    }
+</script>
 {% endblock %}

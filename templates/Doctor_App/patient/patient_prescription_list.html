@@ -1,63 +1,131 @@
-<!-- patient_prescription_list.html -->
+{% extends 'Doctor_App/base.html' %}
 
-{% extends 'Doctor_App/base.html' %} {% block nav %} {% include "./navbar.html" %} {% endblock nav %} {% block content %}
+{% block nav %}
+    {% include "./navbar.html" %}
+{% endblock nav %}
 
-<div class="row mb-4">
-    <div class="col">
-        <a href="{% url 'patient_dashboard' %}" class="btn btn-secondary">Back to Dashboard</a>
+{% block content %}
+<style>
+    .btn-secondary {
+        background-color: #6c757d;
+        border-color: #6c757d;
+        color: #fff;
+    }
+
+    .btn-secondary:hover {
+        background-color: #5a6268;
+        border-color: #5a6268;
+    }
+
+    .table-striped tbody tr:nth-of-type(odd) {
+        background-color: #f8f9fa;
+    }
+
+    .table-striped tbody tr:hover {
+        background-color: #e9ecef;
+    }
+
+    .card {
+        border-radius: 15px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-header {
+        background-color: #007bff;
+        color: #fff;
+        border-radius: 15px 15px 0 0;
+    }
+
+    .card-title {
+        color: #333;
+    }
+
+    .pagination {
+        justify-content: center;
+        margin-top: 20px;
+    }
+
+    .pagination .page-item .page-link {
+        color: #007bff;
+        border-color: #007bff;
+    }
+
+    .pagination .page-item.active .page-link {
+        background-color: #007bff;
+        border-color: #007bff;
+    }
+
+    .pagination .page-link:hover {
+        background-color: #0056b3;
+        border-color: #0056b3;
+    }
+
+    .table {
+        border-radius: 15px;
+    }
+</style>
+
+<div class="mt-4">
+    <div class="row mb-4">
+        <div class="col">
+            <a href="{% url 'patient_dashboard' %}" class="btn btn-secondary">Back to Dashboard</a>
+        </div>
     </div>
-    {% comment %}
-    <div class="col text-end">
-        <a href="{% url 'add_patient' %}" class="btn btn-primary">Add New Patient</a>
-    </div>
-    {% endcomment %}
-</div>
-<div class="card-body">
-    <h3 class="card-title mb-4">Prescriptions</h3>
-    {% if prescriptions %}
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Doctor</th>
-                <th>Date</th>
-                <th>Medication</th>
-                <th>Instructions</th>
-                <th>Diagnosis</th>
-                <th>General Info</th>
-                <th>Follow-Up</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for prescription in prescriptions %}
-            <tr onclick="window.location.href='{% url 'prescription_detail' prescription.id %}'" style="cursor: pointer">
-                <td>{{ prescription.doctor.get_full_name }}</td>
-                <td>{{ prescription.date }}</td>
-                <td>{{ prescription.medication |truncatechars:30}}</td>
-                <td>{{ prescription.instructions |truncatechars:30}}</td>
-                <td>{{ prescription.diagnosis |truncatechars:30}}</td>
-                <td>{{ prescription.general_info |truncatechars:30}}</td>
-                <td>{% if prescription.follow_up %} Yes {% else %} None {% endif %}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    <div class="d-flex justify-content-center">
-        <ul class="pagination">
-            {% if prescriptions.has_previous %}
-            <li class="page-item"><a class="page-link" href="?page=1">First</a></li>
-            <li class="page-item"><a class="page-link" href="?page={{ prescriptions.previous_page_number }}">Previous</a></li>
-            {% endif %} {% for num in prescriptions.paginator.page_range %} {% if prescriptions.number == num %}
-            <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title mb-0">Prescriptions</h3>
+        </div>
+        <div class="card-body">
+            {% if prescriptions %}
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Doctor</th>
+                            <th>Date</th>
+                            <th>Medication</th>
+                            <th>Instructions</th>
+                            <th>Diagnosis</th>
+                            <th>General Info</th>
+                            <th>Follow-Up</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for prescription in prescriptions %}
+                        <tr onclick="window.location.href='{% url 'prescription_detail' prescription.id %}'" style="cursor: pointer">
+                            <td>{{ prescription.doctor.get_full_name }}</td>
+                            <td>{{ prescription.date }}</td>
+                            <td>{{ prescription.medication |truncatechars:30}}</td>
+                            <td>{{ prescription.instructions |truncatechars:30}}</td>
+                            <td>{{ prescription.diagnosis |truncatechars:30}}</td>
+                            <td>{{ prescription.general_info |truncatechars:30}}</td>
+                            <td>{% if prescription.follow_up %} Yes {% else %} None {% endif %}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="d-flex justify-content-center">
+                <nav aria-label="Prescription Pagination">
+                    <ul class="pagination">
+                        {% if prescriptions.has_previous %}
+                        <li class="page-item"><a class="page-link" href="?page=1">First</a></li>
+                        <li class="page-item"><a class="page-link" href="?page={{ prescriptions.previous_page_number }}">Previous</a></li>
+                        {% endif %} {% for num in prescriptions.paginator.page_range %} {% if prescriptions.number == num %}
+                        <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+                        {% else %}
+                        <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+                        {% endif %} {% endfor %} {% if prescriptions.has_next %}
+                        <li class="page-item"><a class="page-link" href="?page={{ prescriptions.next_page_number }}">Next</a></li>
+                        <li class="page-item"><a class="page-link" href="?page={{ prescriptions.paginator.num_pages }}">Last</a></li>
+                        {% endif %}
+                    </ul>
+                </nav>
+            </div>
             {% else %}
-            <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
-            {% endif %} {% endfor %} {% if prescriptions.has_next %}
-            <li class="page-item"><a class="page-link" href="?page={{ prescriptions.next_page_number }}">Next</a></li>
-            <li class="page-item"><a class="page-link" href="?page={{ prescriptions.paginator.num_pages }}">Last</a></li>
+            <p class="text-center">No prescriptions found.</p>
             {% endif %}
-        </ul>
+        </div>
     </div>
-    {% else %}
-    <p>No prescriptions found.</p>
-    {% endif %}
 </div>
 {% endblock %}

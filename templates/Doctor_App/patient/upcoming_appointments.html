@@ -1,30 +1,105 @@
-{% extends 'Doctor_App/base.html' %} 
+{% extends 'Doctor_App/base.html' %}
+
 {% block title %}
     Upcoming Appointments
 {% endblock title %}
-{% block nav %} 
+
+{% block nav %}
     {% include "./navbar.html" %}
-{% endblock nav %} 
+{% endblock nav %}
+
 {% block content %}
-    <div class="">
-        <h1 class="mt-4 mb-4">Upcoming Appointments</h1>
-        <div class="table-responsive">
-            <table class="table table-striped table-bordered">
-                <thead class="thead-dark">
-                    <tr>
-                        <th>Doctor</th>
-                        <th>Date</th>
-                        <th>Time</th>
-                        <th>Department</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for appointment in appointments %}
-                        <tr class="appointment-item">
+<style>
+    .btn-secondary {
+        background-color: #6c757d;
+        border-color: #6c757d;
+        color: #fff;
+    }
+
+    .btn-secondary:hover {
+        background-color: #5a6268;
+        border-color: #5a6268;
+    }
+
+    .table-striped tbody tr:nth-of-type(odd) {
+        background-color: #f8f9fa;
+    }
+
+    .table-striped tbody tr:hover {
+        background-color: #e9ecef;
+    }
+
+    .card {
+        border-radius: 15px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-header {
+        background-color: #007bff;
+        color: #fff;
+        border-radius: 15px 15px 0 0;
+    }
+
+    .card-title {
+        color: #333;
+    }
+
+    .pagination {
+        justify-content: center;
+        margin-top: 20px;
+    }
+
+    .pagination .page-item .page-link {
+        color: #007bff;
+        border-color: #007bff;
+    }
+
+    .pagination .page-item.active .page-link {
+        background-color: #007bff;
+        border-color: #007bff;
+    }
+
+    .pagination .page-link:hover {
+        background-color: #0056b3;
+        border-color: #0056b3;
+    }
+
+    .table {
+        border-radius: 15px;
+    }
+</style>
+
+<div class="mt-4">
+    <div class="row mb-4">
+        <div class="col">
+            <a href="{% url 'patient_dashboard' %}" class="btn btn-secondary">Back to Dashboard</a>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title mb-0">Upcoming Appointments</h3>
+        </div>
+        <div class="card-body">
+            {% if appointments %}
+            <div class="table-responsive">
+                <table class="table table-striped table-hover table-bordered">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>Doctor</th>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Status</th>
+                            <th>Department</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for appointment in appointments %}
+                        <tr onclick="window.location.href='#'{% comment "" %}{% url 'appointment_detail' appointment.id %}'"{% endcomment %} style="cursor: pointer">
                             <td>{{ appointment.doctor.user.get_full_name }}</td>
                             <td>{{ appointment.appdate|date:"D, d M Y" }}</td>
                             <td>{{ appointment.appdate|time:"g:i A" }}</td>
+                            <td>{{ appointment.status }}</td>
                             <td>{{ appointment.doctor.departments.first.department_name }}</td>
                             <td class="action">
                                 <button class="btn btn-danger btn-sm">Cancel</button>
@@ -32,29 +107,35 @@
                                 <button class="btn btn-success btn-sm">Print Slip</button>
                             </td>
                         </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-        <div class="pagination justify-content-center">
-            {% if appointments.has_previous %}
-                <a href="?page=1" class="btn btn-secondary">&laquo; First</a>
-                <a href="?page={{ appointments.previous_page_number }}" class="btn btn-secondary">Previous</a>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="d-flex justify-content-center">
+                <nav aria-label="Appointments Pagination">
+                    <ul class="pagination">
+                        {% if appointments.has_previous %}
+                        <li class="page-item"><a class="page-link" href="?page=1">First</a></li>
+                        <li class="page-item"><a class="page-link" href="?page={{ appointments.previous_page_number }}">Previous</a></li>
+                        {% endif %}
+                        {% for num in appointments.paginator.page_range %}
+                            {% if appointments.number == num %}
+                                <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+                            {% else %}
+                                <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+                            {% endif %}
+                        {% endfor %}
+                        {% if appointments.has_next %}
+                        <li class="page-item"><a class="page-link" href="?page={{ appointments.next_page_number }}">Next</a></li>
+                        <li class="page-item"><a class="page-link" href="?page={{ appointments.paginator.num_pages }}">Last</a></li>
+                        {% endif %}
+                    </ul>
+                </nav>
+            </div>
+            {% else %}
+            <p class="text-center">No upcoming appointments found.</p>
             {% endif %}
-            <span class="current mx-3">Page {{ appointments.number }} of {{ appointments.paginator.num_pages }}.</span>
-            {% if appointments.has_next %}
-                <a href="?page={{ appointments.next_page_number }}" class="btn btn-secondary">Next</a>
-                <a href="?page={{ appointments.paginator.num_pages }}" class="btn btn-secondary">Last &raquo;</a>
-            {% endif %}
         </div>
-        <a href="{% url 'dashboard' %}" class="btn btn-primary mt-4"><i class="fas fa-arrow-left"></i> Back to Dashboard</a>
     </div>
-    <script>
-        // Toggle appointment details on row click
-        document.querySelectorAll('.appointment-item').forEach(function(row) {
-            row.addEventListener('click', function() {
-                this.nextElementSibling.classList.toggle('open');
-            });
-        });
-    </script>
+</div>
 {% endblock %}

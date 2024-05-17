@@ -1,25 +1,71 @@
-{% extends 'Doctor_App/base.html' %} {% block nav %} {% include "./navbar.html" %} {% endblock nav %} {% block content %}
+{% extends 'Doctor_App/base.html' %} 
+{% block nav %} 
+{% include "./navbar.html" %} 
+{% endblock nav %} 
+{% block content %}
 
-<div class="mt-4">
-    <h1>Prescription Details</h1>
-    <div class="card mt-4">
-        <div class="card-body">
-            <p><strong>Medication:</strong> <br/>{{ prescription.medication | linebreaks }}</p>
-            <p><strong>Instructions:</strong> {{ prescription.instructions | linebreaks}}</p>
-            <p><strong>Diagnosis:</strong> {{ prescription.diagnosis | linebreaks}}</p>
-            <p><strong>General Information:</strong> {{ prescription.general_info | linebreaks}}</p>
-            <p><strong>Doctor:</strong> {{ prescription.doctor.get_full_name }} {% comment "" %}( {{ prescription.doctor.departments.name }} ){% endcomment %}</p>
-            <p><strong>Date:</strong> {{ prescription.date }}</p>
-            {% if not print_mode %}
-            {% if prescription.follow_up %}
-            <a href="{% url 'view_prescription' prescription.follow_up.id %}" class="btn btn-secondary">Open Follow Up Prescription </a>
-            {% endif %} 
-            {% endif %}
-            <a href="{% url 'patient_prescription_list' %}" class="btn btn-secondary">Back to Prescription List</a>
-            <a href="{% url 'print_prescription' prescription.id %}" target="_blank" class="btn btn-secondary">Print Prescription</a>
-            {% comment %} <button onclick="window.print()" class="btn btn-secondary">Print</button> {% endcomment %}
+    <div class="row mb-4 justify-content-between">
+        <div class="col-auto">
+            <a href="{% url 'patient_dashboard' %}" class="btn btn-outline-primary">Back to Dashboard</a>
+        </div>
+        <div class="col-auto">
+            <div class="btn-group" role="group" aria-label="Prescription Actions">
+                <a href="{% url 'patient_prescription_list' %}" class="btn btn-outline-secondary">Back to Prescription List</a>
+                <a href="{% url 'print_prescription' prescription.id %}" target="_blank" class="btn btn-outline-success">Print Prescription</a>
+                {% if not print_mode and prescription.follow_up %}
+                    <a href="{% url 'view_prescription' prescription.follow_up.id %}" class="btn btn-outline-info">Open Follow Up Prescription</a>
+                {% endif %}
+            </div>
         </div>
     </div>
-</div>
+    <div class="card shadow-lg border-0">
+        <div class="card-header bg-gradient-primary text-white">
+            <h2 class="mb-0">Prescription Details</h2>
+        </div>
+        <div class="card-body">
+            <div class="row mb-3">
+                <div class="col-4 font-weight-bold">Medication:</div>
+                <div class="col-8">{{ prescription.medication | linebreaks }}</div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-4 font-weight-bold">Instructions:</div>
+                <div class="col-8">{{ prescription.instructions | linebreaks }}</div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-4 font-weight-bold">Diagnosis:</div>
+                <div class="col-8">{{ prescription.diagnosis | linebreaks }}</div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-4 font-weight-bold">General Information:</div>
+                <div class="col-8">{{ prescription.general_info | linebreaks }}</div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-4 font-weight-bold">Doctor:</div>
+                <div class="col-8">{{ prescription.doctor.get_full_name }}</div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-4 font-weight-bold">Date:</div>
+                <div class="col-8">{{ prescription.date }}</div>
+            </div>
+        </div>
+    </div>
+    
+<style>
+    .card {
+        border-radius: 10px;
+        overflow: hidden;
+    }
+    .card-header {
+        background-color: blue;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+    }
+    .font-weight-bold {
+        font-weight: bold;
+    }
+    .btn-outline-primary, .btn-outline-secondary, .btn-outline-info, .btn-outline-success {
+        border-width: 2px;
+    }
+</style>
 
 {% endblock %}

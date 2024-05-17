@@ -19,6 +19,6 @@ urlpatterns = [
     path('find-doctor/', views.find_doctor, name='find_doctor'),
     path('doctors/<int:doctor_id>/<int:department_id>', views.doctor_details, name='doctor_details'),
     path('doctor/<int:doctor_id>/<int:department_id>/book/', views.book_appointment, name='book_appointment'),
-    path('appointment/success/<int:appointment_id>/<int:doctor_id>/<int:department_id>/', views.appointment_success, name='appointment_success'),
+    path('appointment/success/<int:appointment_id>/<doctor_id>/<int:department_id>', views.appointment_success, name='appointment_success'),
     path('upcoming-appointments/', views.upcoming_appointments, name='upcoming_appointments'),
 ]

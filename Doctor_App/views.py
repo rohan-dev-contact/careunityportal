@@ -239,7 +239,7 @@ def patient_prescription_list(request):
     prescriptions = patient.prescription_set.all().order_by('-date')
 
     # Pagination
-    paginator = Paginator(prescriptions, 10)  # Show 10 prescriptions per page
+    paginator = Paginator(prescriptions, 5)  # Show 10 prescriptions per page
     page = request.GET.get('page')
     try:
         prescriptions = paginator.page(page)
@@ -292,7 +292,7 @@ def book_appointment(request, doctor_id, department_id):
             appointment.patient = patient
             appointment.appdate = form.cleaned_data['appdate']
             appointment.save()
-            return redirect('appointment_success', appointment_id=appointment.appid, doctor_id=doctor_id, department_id=department_id)
+            return redirect('appointment_success', appointment_id=appointment.appid, doctor_id=doctor.user.get_full_name(), department_id=department_id)
     else:
         form = AppointmentForm(doctor=doctor)
 

@@ -1,9 +1,45 @@
 {% extends 'Doctor_App/base.html' %} {% block nav %} {% include "./navbar.html" %} {% endblock nav %} {% block content %}
-<div class="booking-form">
-    <h1>Book an Appointment with Dr. {{ doctor.user.first_name }} {{ doctor.user.last_name }}</h1>
+<div class="card-body">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <button class="btn btn-outline-secondary" onclick="goBack()">Back</button>
+        <h1 class="mb-0">Book an Appointment with Dr. {{ doctor.user.first_name }} {{ doctor.user.last_name }}</h1>
+    </div>
+    <hr />
+    <h3>Doctor Details</h3>
+    <ul>
+        <li>
+            <strong>Specializations:</strong>
+            {% for specialization in doctor.specialization.all %} {{ specialization }}{% if not forloop.last %}, {% endif %} {% endfor %}
+        </li>
+        <li><strong>Phone Number:</strong> {{ doctor.user.mobile }}</li>
+        <li><strong>Email:</strong> {{ doctor.user.email }}</li>
+        <li><strong>Address:</strong> {{ doctor.user.address }}</li>
+        <li>
+            <strong>Qualifications:</strong>
+            {% for qualification in doctor.qualifications.all %} {{ qualification }}{% if not forloop.last %}, {% endif %} {% endfor %}
+        </li>
+
+        <strong>Availability:</strong>
+        {{ doctor.get_schedule_display |safe}}
+    </ul>
+    <hr />
     <form method="post">
-        {% csrf_token %} {{ form.as_p }}
-        <button type="submit" class="btn">Confirm Appointment</button>
+        {% csrf_token %}
+        <div class="mb-3">
+            {% for field in form %}
+            <div class="form-group">
+                {{ field.label_tag }} {{ field }} {% if field.errors %}
+                <div class="text-danger">{% for error in field.errors %} {{ error }} {% endfor %}</div>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+        <button type="submit" class="btn btn-outline-primary">Confirm Appointment</button>
     </form>
 </div>
+<script>
+    function goBack() {
+        window.history.back();
+    }
+</script>
 {% endblock %}
