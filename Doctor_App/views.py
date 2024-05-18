@@ -1,4 +1,6 @@
-from datetime import timedelta, timezone
+from datetime import timedelta
+from django.utils import timezone
+import datetime
 from CareUnity_Portal import settings
 from Doctor_App.models import Prescription
 from Doctor_App.forms import PrescriptionForm
@@ -11,6 +13,7 @@ import random
 import string
 from django.core.mail import send_mail
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from datetime import datetime
 
 """Views Starts From Here"""
 @login_required
@@ -321,3 +324,26 @@ def upcoming_appointments(request):
         appointments = paginator.page(paginator.num_pages)
 
     return render(request, 'Doctor_App/patient/upcoming_appointments.html', {'appointments': appointments})
+
+
+def doctor_appointments(request):
+    selected_date_str = request.GET.get('date', None)
+    if selected_date_str:
+        try:
+            selected_date = datetime.strptime(selected_date_str, '%Y-%m-%d').date()
+        except ValueError:
+            selected_date = datetime.strptime(selected_date_str, '%B %d, %Y').date()
+    else:
+        selected_date = timezone.now().date()
+    
+    appointments_list = Appointment.objects.filter(doctor=request.user.doctor, appdate=selected_date)
+    
+    paginator = Paginator(appointments_list, 2)  # Show 5 appointments per page
+    page_number = request.GET.get('page')
+    appointments = paginator.get_page(page_number)
+    
+    context = {
+        'appointments': appointments,
+        'selected_date': selected_date,
+    }
+    return render(request, 'Doctor_App/doctor/appointments.html', context)
