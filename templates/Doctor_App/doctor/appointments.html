@@ -46,7 +46,7 @@
         <div class="card-body">
             {% if appointments %}
                 <div class="table-responsive">
-                    <table class="table table-striped">
+                    <table class="table table-striped  table-hover">
                         <thead>
                             <tr>
                                 <th>Patient</th>
@@ -56,7 +56,7 @@
                         </thead>
                         <tbody>
                             {% for appointment in appointments %}
-                                <tr>
+                                <tr class="clickable-row" data-href="{% url 'patient_detail' appointment.patient.user.username %}" style="cursor: pointer">
                                     <td>{{ appointment.patient.user.get_full_name }}</td>
                                     <td>{{ appointment.appdate|time:"g:i A" }}</td>
                                     <td>{{ appointment.status }}</td>
@@ -107,6 +107,14 @@
     document.getElementById('appointment-date').addEventListener('change', function() {
         const selectedDate = this.value;
         window.location.href = `{% url 'doctor_appointments' %}?date=${selectedDate}`;
+    });
+    document.addEventListener('DOMContentLoaded', function() {
+        var rows = document.querySelectorAll('.clickable-row');
+        rows.forEach(function(row) {
+            row.addEventListener('click', function() {
+                window.location.href = this.getAttribute('data-href');
+            });
+        });
     });
 </script>
 {% endblock %}
