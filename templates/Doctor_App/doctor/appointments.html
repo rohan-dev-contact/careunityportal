@@ -4,24 +4,36 @@
     {% include "./navbar.html" %}
 {% endblock nav %}
 
-
 {% block content %}
 <style>
     .card {
-        border-radius: 15px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 12px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
         margin-top: 20px;
+        background-color: #ffffff;
     }
     .card-header {
-        background-color: #007bff;
+        background-color: #4a90e2;
         color: #fff;
-        border-radius: 15px 15px 0 0;
+        border-radius: 12px 12px 0 0;
+        padding: 15px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
     }
     .card-body {
-        padding: 20px;
+        padding: 25px;
     }
     .table {
         margin-top: 20px;
+    }
+    .table thead th {
+        border-bottom: 2px solid #dee2e6;
+        background-color: #f8f9fa;
+    }
+    .table tbody tr:hover {
+        background-color: #f1f1f1;
+        transition: background-color 0.2s ease-in-out;
     }
     .pagination {
         display: flex;
@@ -31,22 +43,45 @@
     .pagination .page-link {
         border-radius: 5px;
         margin: 0 5px;
+        color: #007bff;
+    }
+    .pagination .page-item.active .page-link {
+        background-color: #007bff;
+        border-color: #007bff;
+        color: #fff;
+    }
+    #appointment-date {
+        max-width: 300px;
+        padding: 10px;
+        border: 1px solid #ced4da;
+        border-radius: 5px;
+        margin-left: auto;
+    }
+    .btn-outline-secondary {
+        border-color: #6c757d;
+        color: #6c757d;
+    }
+    .btn-outline-secondary:hover {
+        background-color: #6c757d;
+        color: #fff;
     }
 </style>
 
-<div class=" mt-4">
-    <h2 class="text-center mb-4">Doctor's Appointments</h2>
-    <div class="d-flex justify-content-center mb-4">
-        <input type="date" id="appointment-date" class="form-control" value="{{ selected_date }}">
+<div class="">
+    <div class="row mb-4">
+        <div class="col">
+            <a href="{% url 'doctor_dashboard' %}" class="btn btn-outline-secondary">Back to Dashboard</a>
+        </div>
     </div>
     <div class="card">
         <div class="card-header">
             <h3 class="card-title mb-0">Appointments for {{ selected_date }}</h3>
+            <input type="date" id="appointment-date" class="form-control" value="{{ selected_date }}">
         </div>
         <div class="card-body">
             {% if appointments %}
                 <div class="table-responsive">
-                    <table class="table table-striped  table-hover">
+                    <table class="table table-striped table-hover">
                         <thead>
                             <tr>
                                 <th>Patient</th>
@@ -68,13 +103,13 @@
                 <div class="d-flex justify-content-center">
                     <ul class="pagination">
                         {% if appointments.has_previous %}
-                        <li class="page-item">
-                            <a class="page-link" href="?page=1&date={{ selected_date }}">&laquo; First</a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="?page={{ appointments.previous_page_number }}&date={{ selected_date }}">Previous</a>
-                        </li>
-                    {% endif %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page=1&date={{ selected_date }}">&laquo; First</a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ appointments.previous_page_number }}&date={{ selected_date }}">Previous</a>
+                            </li>
+                        {% endif %}
                         {% for num in appointments.paginator.page_range %}
                             {% if appointments.number == num %}
                                 <li class="page-item active" aria-current="page">
@@ -87,13 +122,13 @@
                             {% endif %}
                         {% endfor %}
                         {% if appointments.has_next %}
-                        <li class="page-item">
-                            <a class="page-link" href="?page={{ appointments.next_page_number }}&date={{ selected_date }}">Next</a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="?page={{ appointments.paginator.num_pages }}&date={{ selected_date }}">Last &raquo;</a>
-                        </li>
-                    {% endif %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ appointments.next_page_number }}&date={{ selected_date }}">Next</a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ appointments.paginator.num_pages }}&date={{ selected_date }}">Last &raquo;</a>
+                            </li>
+                        {% endif %}
                     </ul>
                 </div>
             {% else %}

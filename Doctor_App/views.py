@@ -338,7 +338,7 @@ def doctor_appointments(request):
     
     appointments_list = Appointment.objects.filter(doctor=request.user.doctor, appdate=selected_date)
     
-    paginator = Paginator(appointments_list, 2)  # Show 5 appointments per page
+    paginator = Paginator(appointments_list, 5)  # Show 5 appointments per page
     page_number = request.GET.get('page')
     appointments = paginator.get_page(page_number)
     
