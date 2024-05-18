@@ -85,16 +85,34 @@
                         <thead>
                             <tr>
                                 <th>Patient</th>
-                                <th>Time</th>
+                                {% comment %} <th>Time</th> {% endcomment %}
                                 <th>Status</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             {% for appointment in appointments %}
                                 <tr class="clickable-row" data-href="{% url 'patient_detail' appointment.patient.user.username %}" style="cursor: pointer">
                                     <td>{{ appointment.patient.user.get_full_name }}</td>
-                                    <td>{{ appointment.appdate|time:"g:i A" }}</td>
+                                    {% comment %} <td>{{ appointment.appdate|time:"g:i A" }}</td> {% endcomment %}
                                     <td>{{ appointment.status }}</td>
+                                     <td class="action">
+                                
+                                        {% if appointment.status == 'Cancelled' %}
+                                        {% else %}
+                                            {% if appointment.status != 'Cancelled' %}
+                                            <a class="btn btn-outline-danger btn-sm" href="{% url 'update_appointment_status' appointment_id=appointment.appid  status='Cancelled' %}">Cancel</a>
+                                            {% endif %}
+                                            {% if appointment.status != 'Confirmed' %}
+                                            <a class="btn btn-outline-warning btn-sm" href="{% url 'reschedule_appointment' appointment_id=appointment.appid %}">Reschedule</a>
+                                            {% endif %}
+                                            {% if appointment.status != 'Confirmed' %}
+                                            <a class="btn btn-outline-warning btn-sm" href="{% url 'update_appointment_status' appointment_id=appointment.appid  status='Confirmed' %}">Confirmed</a>
+                                            {% endif %}
+                                        {% endif %}
+                               
+                                {% comment %} <button class="btn btn-outline-success btn-sm">Print Slip</button> {% endcomment %}
+                            </td>
                                 </tr>
                             {% endfor %}
                         </tbody>

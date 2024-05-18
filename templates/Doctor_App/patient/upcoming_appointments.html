@@ -88,7 +88,7 @@
                         <tr>
                             <th>Doctor</th>
                             <th>Date</th>
-                            <th>Time</th>
+                            {% comment %} <th>Time</th> {% endcomment %}
                             <th>Status</th>
                             <th>Department</th>
                             <th>Action</th>
@@ -99,12 +99,14 @@
                         <tr onclick="window.location.href='#'{% comment "" %}{% url 'appointment_detail' appointment.id %}'"{% endcomment %} style="cursor: pointer">
                             <td>{{ appointment.doctor.user.get_full_name }}</td>
                             <td>{{ appointment.appdate|date:"D, d M Y" }}</td>
-                            <td>{{ appointment.appdate|time:"g:i A" }}</td>
+                            {% comment %} <td>{{ appointment.appdate|time:"g:i A" }}</td> {% endcomment %}
                             <td>{{ appointment.status }}</td>
                             <td>{{ appointment.doctor.departments.first.department_name }}</td>
                             <td class="action">
-                                <button class="btn btn-outline-danger btn-sm">Cancel</button>
-                                <button class="btn btn-outline-warning btn-sm">Reschedule</button>
+                                <a class="btn btn-outline-danger btn-sm" href="{% url 'update_appointment_status' appointment_id=appointment.appid  status='Cancelled' %}">Cancel</a>
+                                {% if appointment.status != 'Confirmed' %}
+                                <a class="btn btn-outline-warning btn-sm" href="{% url 'reschedule_appointment' appointment_id=appointment.appid %}">Reschedule</a>
+                                {% endif %}
                                 <button class="btn btn-outline-success btn-sm">Print Slip</button>
                             </td>
                         </tr>

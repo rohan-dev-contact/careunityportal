@@ -315,12 +315,40 @@ def appointment_success(request, appointment_id, doctor_id, department_id):
     appointment = get_object_or_404(Appointment, appid=appointment_id)
     return render(request, 'Doctor_App/patient/appointment_success.html', {'appointment': appointment, 'doctor_id': doctor_id, 'department_id': department_id})
 
+def update_appointment_status(request, appointment_id, status):
+    appointment = get_object_or_404(Appointment, appid=appointment_id)
+    appointment.status = status
+    appointment.save()
+    is_doctor = Doctor.objects.filter(user=request.user).exists()
+    is_patient = Patient.objects.filter(user=request.user).exists()
+    if is_doctor:
+        return redirect('doctor_appointments')  # Redirect to doctor dashboard
+    if is_patient:
+        return redirect('upcoming_appointments')  # Redirect to patient dashboard
+    return redirect('upcoming_appointments')
+
+
+@login_required
+def reschedule_appointment(request, appointment_id):
+    appointment = get_object_or_404(Appointment, appid=appointment_id)
+    doctor = appointment.doctor
+
+    if request.method == 'POST':
+        form = AppointmentForm(request.POST, doctor=doctor)
+        if form.is_valid():
+            appointment.appdate = form.cleaned_data['appdate']
+            appointment.save()
+            return redirect('upcoming_appointments')  # Replace with the name of your URL pattern
+    else:
+        form = AppointmentForm(initial={'appdate': appointment.appdate}, doctor=doctor)
+
+    return render(request, 'Doctor_App/patient/reschedule_appointment.html', {'form': form, 'appointment': appointment})
 
 
 @login_required
 def upcoming_appointments(request):
     patient = request.user.patient
-    appointments = Appointment.objects.filter(patient=patient).order_by('appdate')
+    appointments = Appointment.objects.filter(patient=patient).exclude(status='Cancelled').order_by('appdate')
 
     # Pagination
     paginator = Paginator(appointments, 10)
