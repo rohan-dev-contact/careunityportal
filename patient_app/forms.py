@@ -65,20 +65,9 @@ class CaptchaField(forms.CharField):
 class LoginForm(forms.Form):
     username = forms.CharField(label='Username', max_length=150, widget=forms.TextInput(attrs={'class': 'form-control'}))
     password = forms.CharField(label='Password', widget=forms.PasswordInput(attrs={'class': 'form-control'}))
-    captcha_answer = forms.IntegerField(label='', widget=forms.TextInput(attrs={'class': 'form-control'}))
 
     def __init__(self, *args, **kwargs):
         super(LoginForm, self).__init__(*args, **kwargs)
-        # The label for captcha_answer will be set in the view
-
-    def clean_captcha_answer(self):
-        request = self.request
-        answer = self.cleaned_data.get('captcha_answer')
-        correct_answer = request.session.get('captcha_answer')
-        if answer != correct_answer:
-            raise forms.ValidationError("Incorrect CAPTCHA answer.")
-        return answer
-
 
 
 class PlainTextPasswordUserCreationForm(UserCreationForm):

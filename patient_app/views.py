@@ -63,10 +63,11 @@ def signup(request):
         form = UserRegistrationForm()
     return render(request, 'patient_app/registration/signup.html', {'forms': form})
 
+
+
 def userLogin(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)
-        form.request = request  # Pass the request to the form for CAPTCHA validation
         if form.is_valid():
             username = form.cleaned_data['username']
             password = form.cleaned_data['password']
@@ -82,24 +83,12 @@ def userLogin(request):
                 else:
                     return redirect('home')
             else:
-                form.add_error('password', 'Invalid password.')
-        else:
-            # Regenerate CAPTCHA question
-            num1 = random.randint(1, 10)
-            num2 = random.randint(1, 10)
-            request.session['captcha_answer'] = num1 + num2
-            form.fields['captcha_answer'].label = f"What is {num1} + {num2}?"
-
-            # Display errors
-            return render(request, 'patient_app/registration/login.html', {'form': form})
+                if User.objects.filter(username=username).exists():
+                    form.add_error('password', 'Invalid password.')
+                else:
+                    form.add_error('username', 'Username does not exist.')
     else:
         form = LoginForm()
-
-        # Generate a new CAPTCHA question
-        num1 = random.randint(1, 10)
-        num2 = random.randint(1, 10)
-        request.session['captcha_answer'] = num1 + num2
-        form.fields['captcha_answer'].label = f"What is {num1} + {num2}?"
 
     return render(request, 'patient_app/registration/login.html', {'form': form})
 

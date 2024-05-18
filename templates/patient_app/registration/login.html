@@ -45,6 +45,26 @@
         color: #0056b3;
         text-decoration: underline;
     }
+
+    .error-summary {
+        border: 1px solid #dc3545;
+        background-color: #f8d7da;
+        color: #721c24;
+        border-radius: 5px;
+        padding: 10px;
+        margin-bottom: 20px;
+    }
+
+    .error-summary ul {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    .error-summary li {
+        margin: 0;
+        padding: 0;
+    }
 </style>
 
 <div class="">
@@ -55,20 +75,27 @@
                 <div class="card-body">
                     <form method="post">
                         {% csrf_token %}
+                        {% if form.errors %}
+                        <div class="error-summary">
+                            <ul>
+                                {% for field in form %}
+                                    {% for error in field.errors %}
+                                        <li>{{ error }}</li>
+                                    {% endfor %}
+                                {% endfor %}
+                                {% for error in form.non_field_errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        {% endif %}
                         <div class="mb-3">
                             {{ form.username.label_tag }}
                             {{ form.username }}
-                            <span class="text-danger">{{ form.username.errors }}</span>
                         </div>
                         <div class="mb-3">
                             {{ form.password.label_tag }}
                             {{ form.password }}
-                            <span class="text-danger">{{ form.password.errors }}</span>
-                        </div>
-                        <div class="mb-3 mt-3">
-                            {{ form.captcha_answer.label_tag }}
-                            {{ form.captcha_answer }}
-                            <span class="text-danger">{{ form.captcha_answer.errors }}</span>
                         </div>
                         <div class="d-grid gap-2">
                             <button type="submit" class="btn btn-primary">Login</button>
