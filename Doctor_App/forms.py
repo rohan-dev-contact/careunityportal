@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from patient_app.models import Appointment, Schedule, User,Patient,Department
-from Doctor_App.models import Prescription
+from Doctor_App.models import Document, Prescription
 from datetime import date
 
 class PatientRegistrationForm(UserCreationForm):
@@ -150,12 +150,6 @@ class PrescriptionForm(forms.ModelForm):
         fields = ['medication', 'instructions', 'diagnosis', 'general_info']
 
 
-
-
-
-# class DepartmentForm(forms.Form):
-#     department_choices = [(department.id, department.department_name) for department in Department.objects.all()]
-#     department = forms.ChoiceField(choices=department_choices, label='Select Department')
 class DepartmentForm(forms.Form):
     department_choices = [(department.id, department.department_name) for department in Department.objects.all()]
     DEFAULT_CHOICE = ('', 'Select Department')
@@ -165,3 +159,8 @@ class DepartmentForm(forms.Form):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['department'].initial = ''
+
+class DocumentForm(forms.ModelForm):
+    class Meta:
+        model = Document
+        fields = ['title', 'file']

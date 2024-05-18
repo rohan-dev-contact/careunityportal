@@ -2,8 +2,8 @@ from datetime import timedelta
 from django.utils import timezone
 import datetime
 from CareUnity_Portal import settings
-from Doctor_App.models import Prescription
-from Doctor_App.forms import PrescriptionForm
+from Doctor_App.models import Document, Prescription
+from Doctor_App.forms import DocumentForm, PrescriptionForm
 from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth.decorators import login_required
 from patient_app.forms import AppointmentForm
@@ -347,3 +347,23 @@ def doctor_appointments(request):
         'selected_date': selected_date,
     }
     return render(request, 'Doctor_App/doctor/appointments.html', context)
+
+
+
+@login_required
+def upload_document(request):
+    if request.method == 'POST':
+        form = DocumentForm(request.POST, request.FILES)
+        if form.is_valid():
+            document = form.save(commit=False)
+            document.patient = request.user
+            document.save()
+            return redirect('document_list')
+    else:
+        form = DocumentForm()
+    return render(request, 'Doctor_App/patient/upload_document.html', {'form': form})
+
+@login_required
+def document_list(request):
+    documents = Document.objects.filter(patient=request.user)
+    return render(request, 'Doctor_App/patient/document_list.html', {'documents': documents})

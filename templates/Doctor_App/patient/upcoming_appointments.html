@@ -73,7 +73,7 @@
 <div class="mt-4">
     <div class="row mb-4">
         <div class="col">
-            <a href="{% url 'patient_dashboard' %}" class="btn btn-secondary">Back to Dashboard</a>
+            <a href="{% url 'patient_dashboard' %}" class="btn btn-outline-secondary">Back to Dashboard</a>
         </div>
     </div>
     <div class="card">
@@ -103,9 +103,9 @@
                             <td>{{ appointment.status }}</td>
                             <td>{{ appointment.doctor.departments.first.department_name }}</td>
                             <td class="action">
-                                <button class="btn btn-danger btn-sm">Cancel</button>
-                                <button class="btn btn-warning btn-sm">Reschedule</button>
-                                <button class="btn btn-success btn-sm">Print Slip</button>
+                                <button class="btn btn-outline-danger btn-sm">Cancel</button>
+                                <button class="btn btn-outline-warning btn-sm">Reschedule</button>
+                                <button class="btn btn-outline-success btn-sm">Print Slip</button>
                             </td>
                         </tr>
                         {% endfor %}
