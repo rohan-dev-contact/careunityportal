@@ -1,0 +1,112 @@
+{% extends 'Doctor_App/base.html' %}
+
+{% block nav %}
+    {% include "./navbar.html" %}
+{% endblock nav %}
+
+
+{% block content %}
+<style>
+    .card {
+        border-radius: 15px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        margin-top: 20px;
+    }
+    .card-header {
+        background-color: #007bff;
+        color: #fff;
+        border-radius: 15px 15px 0 0;
+    }
+    .card-body {
+        padding: 20px;
+    }
+    .table {
+        margin-top: 20px;
+    }
+    .pagination {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+    }
+    .pagination .page-link {
+        border-radius: 5px;
+        margin: 0 5px;
+    }
+</style>
+
+<div class=" mt-4">
+    <h2 class="text-center mb-4">Doctor's Appointments</h2>
+    <div class="d-flex justify-content-center mb-4">
+        <input type="date" id="appointment-date" class="form-control" value="{{ selected_date }}">
+    </div>
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title mb-0">Appointments for {{ selected_date }}</h3>
+        </div>
+        <div class="card-body">
+            {% if appointments %}
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Patient</th>
+                                <th>Time</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for appointment in appointments %}
+                                <tr>
+                                    <td>{{ appointment.patient.user.get_full_name }}</td>
+                                    <td>{{ appointment.appdate|time:"g:i A" }}</td>
+                                    <td>{{ appointment.status }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="d-flex justify-content-center">
+                    <ul class="pagination">
+                        {% if appointments.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page=1&date={{ selected_date }}">&laquo; First</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ appointments.previous_page_number }}&date={{ selected_date }}">Previous</a>
+                        </li>
+                    {% endif %}
+                        {% for num in appointments.paginator.page_range %}
+                            {% if appointments.number == num %}
+                                <li class="page-item active" aria-current="page">
+                                    <span class="page-link">{{ num }}</span>
+                                </li>
+                            {% else %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ num }}&date={{ selected_date }}">{{ num }}</a>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+                        {% if appointments.has_next %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ appointments.next_page_number }}&date={{ selected_date }}">Next</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ appointments.paginator.num_pages }}&date={{ selected_date }}">Last &raquo;</a>
+                        </li>
+                    {% endif %}
+                    </ul>
+                </div>
+            {% else %}
+                <p class="text-center">No appointments for this date.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById('appointment-date').addEventListener('change', function() {
+        const selectedDate = this.value;
+        window.location.href = `{% url 'doctor_appointments' %}?date=${selectedDate}`;
+    });
+</script>
+{% endblock %}
