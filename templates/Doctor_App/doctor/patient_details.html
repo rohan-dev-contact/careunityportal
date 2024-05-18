@@ -102,5 +102,51 @@
         {% endif %}
     </div>
 </div>
+<div class="card mt-2">
+    <div class="card-body">
+        <h3 class="card-title mb-4">Documents</h3>
+        {% if documents %}
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead class="table-light">
+                    <tr>
+                        <th>Title</th>
+                        <th>Uploaded At</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for document in documents %}
+                    <tr>
+                        <td>{{ document.title }}</td>
+                        <td>{{ document.uploaded_at }}</td>
+                        <td>
+                            <a href="{{ document.file.url }}" class="btn btn-outline-primary" target="_blank">View</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="d-flex justify-content-center mt-4">
+            <ul class="pagination">
+                {% if documents.has_previous %}
+                <li class="page-item"><a class="page-link" href="?page=1">First</a></li>
+                <li class="page-item"><a class="page-link" href="?page={{ documents.previous_page_number }}">Previous</a></li>
+                {% endif %} {% for num in documents.paginator.page_range %} {% if documents.number == num %}
+                <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+                {% else %}
+                <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+                {% endif %} {% endfor %} {% if documents.has_next %}
+                <li class="page-item"><a class="page-link" href="?page={{ documents.next_page_number }}">Next</a></li>
+                <li class="page-item"><a class="page-link" href="?page={{ documents.paginator.num_pages }}">Last</a></li>
+                {% endif %}
+            </ul>
+        </div>
+        {% else %}
+        <p>No documents found.</p>
+        {% endif %}
+    </div>
+</div>
 
 {% endblock %}

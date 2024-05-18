@@ -83,8 +83,9 @@ def patient_detail(request, patient_id):
         if is_doctor: 
             patient = Patient.objects.get(user__username=patient_id)
             prescriptions = Prescription.objects.filter(patient=patient).order_by('-date')
-
+            documents = Document.objects.filter(patient=patient.user)
             paginator = Paginator(prescriptions, 5)
+            paginatorDocument = Paginator(documents, 5)
             page_number = request.GET.get('page')
             try:
                 prescriptions = paginator.page(page_number)
@@ -92,7 +93,16 @@ def patient_detail(request, patient_id):
                 prescriptions = paginator.page(1)
             except EmptyPage:
                 prescriptions = paginator.page(paginator.num_pages)
-            return render(request, 'Doctor_App/doctor/patient_details.html', {'patient': patient, 'prescriptions': prescriptions})
+                
+            try:
+                documents = paginatorDocument.page(page_number)
+            except PageNotAnInteger:
+                documents = paginatorDocument.page(1)
+            except EmptyPage:
+                documents = paginatorDocument.page(paginatorDocument.num_pages)
+
+
+            return render(request, 'Doctor_App/doctor/patient_details.html', {'patient': patient, 'prescriptions': prescriptions,'documents': documents})
         else: 
             return redirect('patient_dashboard')
     else:
