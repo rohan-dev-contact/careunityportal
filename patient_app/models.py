@@ -99,6 +99,7 @@ class Appointment(models.Model):
         ('Pending', 'Pending'),
         ('Confirmed', 'Confirmed'),
         ('Cancelled', 'Cancelled'),
+        ('Rescheduled', 'Rescheduled'),
     )
 
     appid = models.AutoField(primary_key=True)

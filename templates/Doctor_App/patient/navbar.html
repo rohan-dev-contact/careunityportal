@@ -1,15 +1,15 @@
 {% block nav %}
 {% with request.resolver_match.view_name as url_name %}
-<nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm p-3 mb-5 bg-white rounded">
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
     <div class="container-fluid">
-        <a class="navbar-brand text-primary" href="{% url 'patient_dashboard' %}">CareUnity Portal</a>
+        <a class="navbar-brand" href="{% url 'patient_dashboard' %}">CareUnity Portal</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav me-auto">
                 <li class="nav-item">
-                    <a class="nav-link {% if url_name == 'upcoming_appointments' %}active{% endif %}" href="{% url 'upcoming_appointments' %}">Your Appointments</a>
+                    <a class="nav-link {% if url_name == 'upcoming_appointments' %}active{% endif %}" aria-current="page" href="{% url 'upcoming_appointments' %}">Your Appointments</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link {% if url_name == 'find_doctor' or url_name == 'doctor_details' %}active{% endif %}" href="{% url 'find_doctor' %}">Find Doctor</a>
@@ -23,7 +23,7 @@
             </ul>
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link text-danger" href="{% url 'logout' %}"><i class="bi bi-box-arrow-right"></i> Logout</a>
+                    <a class="nav-link text-warning" href="{% url 'logout' %}"><i class="bi bi-box-arrow-right"></i> Logout</a>
                 </li>
             </ul>
         </div>

@@ -6,28 +6,72 @@
 
 {% block content %}
 <style>
-    .card {
-        border-radius: 12px;
-        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-        margin-top: 20px;
-        background-color: #ffffff;
-    }
-    .card-header {
-        background-color: #4a90e2;
+    .btn-custom {
+        background-color: #007bff;
+        border-color: #007bff;
         color: #fff;
-        border-radius: 12px 12px 0 0;
-        padding: 15px;
+        transition: background-color 0.3s, border-color 0.3s;
     }
-    .card-body {
-        padding: 25px;
+
+    .btn-custom:hover {
+        background-color: #0056b3;
+        border-color: #0056b3;
     }
-    .table {
-        margin-top: 20px;
+
+    .table-custom {
+        background-color: #ffffff;
+        border-collapse: separate;
+        border-spacing: 0;
+        width: 100%;
+        overflow: hidden;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
-    .table tbody tr:hover {
-        background-color: #f1f1f1;
-        transition: background-color 0.2s ease-in-out;
+
+    .table-custom thead {
+        background-color: #2967a833;
+        color: black;
     }
+
+    .table-custom tbody tr:nth-of-type(odd) {
+        background-color: #f8f9fa;
+    }
+
+    .table-custom tbody tr:hover {
+        background-color: #e9ecef;
+    }
+
+    .table-custom th, .table-custom td {
+        text-align: center;
+        padding: 12px 15px;
+    }
+
+    .table-custom th {
+        font-weight: 500;
+    }
+
+    .pagination-custom {
+        display: flex;
+        justify-content: center;
+        padding: 20px 0;
+    }
+
+    .pagination-custom .page-item .page-link {
+        color: #007bff;
+        border-color: #007bff;
+        transition: background-color 0.3s, border-color 0.3s;
+    }
+
+    .pagination-custom .page-item.active .page-link {
+        background-color: #007bff;
+        border-color: #007bff;
+        color: #fff;
+    }
+
+    .pagination-custom .page-link:hover {
+        background-color: #0056b3;
+        border-color: #0056b3;
+    }
+
 </style>
 
 <div class="mt-4">
@@ -38,13 +82,13 @@
         </div>
     </div>
     <div class="card">
-        <div class="card-header">
+        <div class="card-header bg-info">
             <h3 class="card-title mb-0">Uploaded Documents</h3>
         </div>
         <div class="card-body">
             {% if documents %}
                 <div class="table-responsive">
-                    <table class="table table-striped table-hover">
+                    <table class="table table-custom">
                         <thead>
                             <tr>
                                 <th>Title</th>

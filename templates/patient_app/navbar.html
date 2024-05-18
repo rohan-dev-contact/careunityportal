@@ -1,8 +1,9 @@
 {% block navbar %}
 {% with request.resolver_match.view_name as url_name %}
-<nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm p-3 mb-5 bg-white rounded">
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
     <div class="container-fluid">
-        <a class="navbar-brand text-primary" href="{% url 'home' %}">CareUnity Portal</a>
+        <!-- Update the href to point to 'home' and remove the text-primary class -->
+        <a class="navbar-brand" href="{% url 'home' %}">CareUnity Portal</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -13,9 +14,8 @@
                     <a class="nav-link {% if url_name == 'dashboard' %}active{% endif %}" href="{% url 'dashboard' %}"><i class="bi bi-box-arrow-right"></i> Dashboard</a>
                 </li>
                 {% endif %}
-                <li class="nav-item">
-                    <a class="nav-link {% if url_name == 'home' %}active{% endif %}" href="{% url 'home' %}">Home</a>
-                </li>
+
+                <!-- Remove the conditional statement for 'dashboard' and add new list items for 'About', 'Services', and 'Contact' -->
                 <li class="nav-item">
                     <a class="nav-link {% if url_name == 'about' %}active{% endif %}" href="{% url 'about' %}">About</a>
                 </li>
@@ -27,15 +27,10 @@
                 </li>
             </ul>
             <ul class="navbar-nav">
-                {% if user.is_authenticated %}
-                <li class="nav-item">
-                    <a class="nav-link text-danger" href="{% url 'logout' %}"><i class="bi bi-box-arrow-right"></i> Logout</a>
-                </li>
-                {% else %}
+                <!-- Update the class for the 'Sign In' link to 'text-success' -->
                 <li class="nav-item">
                     <a class="nav-link text-success" href="{% url 'login' %}"><i class="bi bi-box-arrow-in-right"></i> Sign In</a>
                 </li>
-                {% endif %}
             </ul>
         </div>
     </div>
