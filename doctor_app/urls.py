@@ -1,5 +1,5 @@
 from django.urls import path
-from doctor import views
+from doctor_app import views
 
 urlpatterns = [
     path('dash/', views.doctorDash, name='doctor_dashboard'),
