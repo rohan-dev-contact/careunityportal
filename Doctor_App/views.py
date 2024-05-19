@@ -2,13 +2,13 @@ from datetime import timedelta
 from django.utils import timezone
 import datetime
 from CareUnity_Portal import settings
-from Doctor_App.models import Document, Prescription
-from Doctor_App.forms import DocumentForm, PrescriptionForm
+from doctor_app.models import Document, Prescription
+from doctor_app.forms import DocumentForm, PrescriptionForm
 from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth.decorators import login_required
 from patient_app.forms import AppointmentForm
 from patient_app.models import Appointment, Patient, Schedule,User,Doctor,Department
-from Doctor_App.forms import PatientRegistrationForm ,PatientPatientUpdateForm,PatientUserUpdateForm,DepartmentForm
+from doctor_app.forms import PatientRegistrationForm ,PatientPatientUpdateForm,PatientUserUpdateForm,DepartmentForm
 import random
 import string
 from django.core.mail import send_mail
