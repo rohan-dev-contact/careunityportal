@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'patient_app',
-    'doctor_app'
+    'doctor'
 ]
 
 MIDDLEWARE = [

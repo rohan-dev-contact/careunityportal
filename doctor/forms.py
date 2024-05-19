@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from patient_app.models import Appointment, Schedule, User,Patient,Department
-from doctor_app.models import Document, Prescription
+from doctor.models import Document, Prescription
 from datetime import date
 
 class PatientRegistrationForm(UserCreationForm):
