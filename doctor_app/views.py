@@ -14,6 +14,8 @@ import string
 from django.core.mail import send_mail
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from datetime import datetime
+from django.db.models import F, Value
+from django.db.models.functions import Concat
 
 """Views Starts From Here"""
 @login_required
@@ -50,9 +52,21 @@ def patient_list(request):
             search_criteria = request.GET.get('search_criteria', 'name')
 
             if search_criteria == 'name' and search_query != '' :
-                users = User.objects.filter(first_name__icontains=search_query)
+                users = User.objects.annotate(full_name=Concat(F('first_name'), Value(' '), F('last_name'))).filter(full_name__icontains=search_query)
+                print("Users:")
+                for user in users:
+                    print(f"ID: {user.id}, Username: {user.username}, First Name: {user.first_name}, Last Name: {user.last_name}")
+
                 patient_ids = [user.id for user in users]
+                print("Patient IDs:")
+                print(patient_ids)
+
+
                 patients = Patient.objects.filter(user_id__in=patient_ids)
+
+                # print("Patients:")
+                # for patient in patients:
+                #     print(f"Patient ID: {patient.id}, User ID: {patient.user_id}, Other Patient Details: {patient.other_details}")
             elif search_criteria == 'username' and search_query != '':
                 try:
                     patient_id = search_query
